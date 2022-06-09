@@ -15,3 +15,7 @@ BugReports: https://github.com/dsu-effectiveness/utDataStoR/issues
 Imports: 
     fs,
     here
+Suggests: 
+    rmarkdown,
+    knitr
+VignetteBuilder: knitr
