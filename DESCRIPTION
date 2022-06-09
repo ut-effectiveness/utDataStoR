@@ -1,7 +1,7 @@
 Package: utDataStoR
 Title: SQL and data sets for the Office of Institutional Effectiveness
 Version: 0.0.0.9000
-Authors@R:c(
+Authors@R: c(
     person("Matt", "Nickodemus", email = "matt.nickodemus@utahtech.edu", role = c("aut", "cre")),
     person("Joy", "Baule", email = "joy.baule@utahtech.edu", role = c('aut'))
     )
@@ -10,3 +10,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+URL: https://github.com/dsu-effectiveness/utDataStoR
+BugReports: https://github.com/dsu-effectiveness/utDataStoR/issues
