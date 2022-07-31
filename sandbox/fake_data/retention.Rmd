@@ -1,0 +1,211 @@
+---
+title: "Fake Retention Data"
+output: html_document
+date: "2022-07-27"
+---
+
+```{r}
+library(here)
+library(stringr)
+library(tidyverse)
+library(rlang)
+library(utHelpR)
+```
+
+```{r}
+ipeds <- c(
+  "White",
+  "Hispanic",
+  "Multiracial",
+  "Black/African American",
+  "Unspecified",
+  "American Indian/Alaskan",
+  "Non-Resident Alien",
+  "Asian",
+  "Hawaiian/Pacific Islander"
+  )
+
+gpa_bands <- c(
+  'below 2.0',
+  '2.0 to 2.9',
+  '3.0 to 4.0'
+)
+
+retention_status <- c(
+  'spring returned',
+  'fall returned',
+  'third fall returned',
+  'fourth fall returned',
+  'fifth fall returned',
+  'sixth fall returned',
+  'stopped out',
+  'dropped out', 
+  'graduated'
+)
+```
+
+```{r}
+program_college_pull <- get_data_from_sql_file(
+  here::here('sandbox', 'fake_data', 'sql', 'program_college.sql'),
+  'edify',
+  'none') 
+
+program_college_missing_values <- program_college_pull 
+
+program_college_missing_values[16, 3] <- 'UCOL'
+program_college_missing_values[16, 4] <- 'University College'
+program_college_missing_values[26, 3] <- 'GCO'
+program_college_missing_values[26, 4] <- 'Global & Community Outreach'
+
+program_college <- program_college_missing_values %>% 
+  filter(!is.na(department_id)) %>% 
+  arrange(college_abbrv)
+
+college_list <- program_college$college_abbrv %>% unique()
+
+department_list <- program_college$department_id %>% unique()
+```
+
+
+```{r}
+fake_id <- function(id_length, col_length, unique) {
+  # id_length is the length of the id number
+  # col_length is how many id numbers you will need
+  # unique is if you want each id to be unique
+
+
+  # use in integer_list to generate list of integers to sample from
+  finish_num <- paste(rep(9, id_length), collapse = "")
+  # random selection of integers
+  integer_list <- sample(1:finish_num, col_length, replace = unique)
+  # format the integers
+  stringr::str_pad(integer_list, id_length, pad = '0')
+}
+
+# Create true false columns
+tf <- function(sample_size) {
+  sample(c(TRUE, FALSE), sample_size, replace = TRUE)
+}
+
+# put the columns in alphabetic order
+order_cols <- function(data_df) {
+  data_df %>%
+    select(order(colnames(data_df)))
+}
+```
+
+## Third and fourth tab
+
+The data frame for the third and fourth tabs consists of a population characteristics data frame combined with a collection of return metric data frames. Each metric data frame is combined with the population characteristics data frame by combining the columns. We form the total metric by combining all the rows of each of the resulting data frames. 
+
+
+```{r}
+cohort_years <- as.character(2017:2022)
+cohort_population <- c(8145, 8934, 9845, 10400, 12345, 13082)
+total_cohort_population <- sum(cohort_population)
+
+
+
+population_characteristics_df <- tibble(
+  student_id = fake_id(8, total_cohort_population, unique = TRUE),
+  cohort = c(
+    rep('2017', cohort_population[[1]]),
+    rep('2018', cohort_population[[2]]),
+    rep('2019', cohort_population[[3]]),
+    rep('2020', cohort_population[[4]]),
+    rep('2021', cohort_population[[5]]),
+    rep('2022', cohort_population[[6]])
+    ),
+  college = sample(college_list, total_cohort_population, replace = TRUE),
+  department = sample(department_list, total_cohort_population, replace = TRUE),
+  program = department,
+  ipeds_race_ethnicity = sample(ipeds, total_cohort_population, replace = TRUE),
+  gender = tf(total_cohort_population)
+)
+
+make_return_metrics <- function(metric) {
+  
+  metric_df <- tibble(
+    spring_returned = tf(total_cohort_population),
+    fall_returned = tf(total_cohort_population),
+    second_fall_returned = tf(total_cohort_population),
+    third_fall_returned = tf(total_cohort_population),
+    fourth_fall_returned = tf(total_cohort_population),
+    fifth_fall_returned = tf(total_cohort_population),
+    sixth_fall_returned = tf(total_cohort_population),
+    gpa_band = sample(gpa_bands, total_cohort_population, replace = TRUE),
+    metric = metric
+    )
+  
+  bind_cols(
+    population_characteristics_df,
+    metric_df
+  )
+}
+
+tabs_3_and_4_df <- bind_rows(
+  make_return_metrics('third week'),
+  make_return_metrics('USHE'),
+  make_return_metrics('end of term'),
+  make_return_metrics('ipdes')
+)
+```
+
+## First tab
+
+```{r}
+make_historical_rates <- function(start, slope) {
+  
+  start = 50
+  
+  slope = 6
+  
+  x <- 0:5
+  
+  noise <- rnorm(6, 0, 10)
+  
+  line <- start + x*slope  
+  
+  return_rate <- line + noise %>% 
+    round(digits = 1)
+  
+  return_rate
+}
+
+make_hist_rate_tibble <- function(metric, start, slope) {
+  tibble(
+    year = cohort_years,
+    metric = rep(metric, 6),
+    return_rate = make_historical_rates(start, slope)
+  )
+}
+
+tab_1_df <- bind_rows(
+  make_hist_rate_tibble('fall to fall', 50, 6),
+  make_hist_rate_tibble('fall to spring', 40, 3),
+  make_hist_rate_tibble('second year', 60, 3),
+  make_hist_rate_tibble('third year', 50, -5),
+)
+
+tab_1_goals <- tibble(
+  metric = c('fall to fall', 'fall to spring', 'second year', 'third year'),
+  goal = c(50, 60, 74, 89)
+) 
+
+```
+
+## Save
+```{r}
+save(
+  tab_1_df,
+  tab_1_goals,
+  tabs_3_and_4_df,
+  file = here('sandbox', 'fake_data', 'fake_data.rda')
+)
+```
+
+
+
+
+
+
