@@ -45,7 +45,7 @@ make_count_days <- function(term_start_date, term_id) {
 make_individual_enrollment_df <- function(day) {
   tibble(
     days_to_term_start = -120:100,
-    is_enrolled =  purrr::map(-120:100, function(x) ifelse(x < day, FALSE, TRUE))
+    is_enrolled =  purrr::map_lgl(-120:100, function(x) ifelse(x < day, FALSE, TRUE))
   )
 }
 
