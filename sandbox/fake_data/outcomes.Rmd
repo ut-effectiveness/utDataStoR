@@ -1,0 +1,162 @@
+---
+title: "Matt Nickodemus"
+output: html_document
+date: "2022-07-31"
+---
+
+## Outcomes
+
+```{r}
+library(here)
+library(stringr)
+library(tidyverse)
+library(rlang)
+library(utHelpR)
+library(lubridate)
+library(purrr)
+library(ggplot2)
+```
+
+```{r}
+source(here::here('sandbox', 'fake_data', 'functions.R'))
+```
+
+```{r}
+total_population <- 12000
+
+student_population <- tibble(
+  student_id = fake_id(8, total_population, unique = TRUE),
+  college = sample(college_list, total_population, replace = TRUE),
+  department = sample(department_list, total_population, replace = TRUE),
+  program = department,
+  race_ethnicity = sample(race_ethnicity, total_population, replace = TRUE),
+  gender = make_gender_col(total_population)
+)
+```
+
+```{r}
+make_indicators <- function(bs, num) {
+  tibble(
+  spring_returned = rep(bs[1], num),
+  fall_returned   = rep(bs[2], num),
+  fall_3_returned = rep(bs[3], num),
+  fall_4_returned = rep(bs[4], num),
+  fall_5_returned = rep(bs[5], num),
+  fall_6_returned = rep(bs[6], num),
+  grad_100        = rep(bs[7], num),
+  grad_150        = rep(bs[8], num),
+  grad_200        = rep(bs[9], num)
+  )
+  
+}
+
+grad_4yr_count <- round(.10*total_population)
+
+grad_6yr_fall_drop_count <- round(.15*total_population)
+
+grad_6yr_fall2_drop_count <- round(.15*total_population)
+
+grad_8yr_drop_count <- round(.10*total_population)
+
+drop_fall2_count <- round(.25*total_population)
+
+count_vec <- c( 
+  grad_4yr_count, grad_6yr_fall_drop_count, grad_6yr_fall2_drop_count, 
+  grad_8yr_drop_count, drop_fall2_count)
+
+drop_fall3_count <- total_population - sum(count_vec)
+
+
+
+grad_4yr_bs <- c(
+  TRUE,  # spring returned
+  TRUE,  # fall returned
+  TRUE,  # fall 3 returned
+  TRUE,  # fall 4 returned
+  FALSE, # fall 5 returned
+  FALSE, # fall 6 returned
+  TRUE,  # grad 100
+  TRUE,  # grad 150
+  TRUE   # grad 200
+)
+
+grad_6yr_fall_drop_bs <- c(
+  TRUE,  # spring returned
+  FALSE, # fall returned <================ Drop
+  TRUE,  # fall 3 returned
+  TRUE,  # fall 4 returned
+  TRUE, # fall 5 returned
+  TRUE, # fall 6 returned
+  FALSE,  # grad 100
+  TRUE,  # grad 150
+  TRUE   # grad 200
+)
+
+grad_6yr_fall2_drop_bs <- c(
+  TRUE,  # spring returned
+  TRUE, # fall returned
+  FALSE,  # fall 3 returned <================ Drop
+  TRUE,  # fall 4 returned
+  TRUE, # fall 5 returned
+  TRUE, # fall 6 returned
+  FALSE,  # grad 100
+  TRUE,  # grad 150
+  TRUE   # grad 200
+)
+
+grad_8yr_drop_bs <- c(
+  TRUE,  # spring returned
+  FALSE, # fall returned <=================== Drop
+  FALSE,  # fall 3 returned <================ Drop
+  TRUE,  # fall 4 returned
+  TRUE, # fall 5 returned
+  TRUE, # fall 6 returned
+  FALSE,  # grad 100
+  FALSE,  # grad 150
+  TRUE   # grad 200
+)
+
+drop_fall2_bs <- c(
+  TRUE,  # spring returned
+  TRUE, # fall returned 
+  FALSE,  # fall 3 returned 
+  FALSE,  # fall 4 returned
+  FALSE, # fall 5 returned
+  FALSE, # fall 6 returned
+  FALSE,  # grad 100
+  FALSE,  # grad 150
+  FALSE   # grad 200
+)
+
+drop_fall3_bs <- c(
+  TRUE,  # spring returned
+  TRUE, # fall returned 
+  FALSE,  # fall 3 returned 
+  FALSE,  # fall 4 returned
+  FALSE, # fall 5 returned
+  FALSE, # fall 6 returned
+  FALSE,  # grad 100
+  FALSE,  # grad 150
+  FALSE   # grad 200
+)
+
+
+outcome_indicators <- bind_rows(
+  make_indicators(grad_4yr_bs, grad_4yr_count),
+  make_indicators(grad_6yr_fall_drop_bs, grad_6yr_fall_drop_count),
+  make_indicators(grad_6yr_fall2_drop_bs, grad_6yr_fall2_drop_count),
+  make_indicators(grad_8yr_drop_bs, grad_8yr_drop_count),
+  make_indicators(drop_fall2_bs, drop_fall2_count),
+  make_indicators(drop_fall3_bs, drop_fall3_count)
+)
+
+outcomes <- bind_cols(student_population, outcome_indicators)
+
+save(
+  outcomes,
+  file = here('sandbox', 'fake_data', 'outcomes.rda')
+)
+
+```
+
+
