@@ -36,4 +36,3 @@ SELECT ( -- FTE - Undergraduate Level
                 ) AS FTE
         FROM    DUAL;
 
-
