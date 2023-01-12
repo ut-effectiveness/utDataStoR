@@ -26,18 +26,19 @@ create_sql_dir <- function(context) {
 #'
 #' @param context The context of your project.  "project", "shiny", and "sandbox"
 #' @param file The name of the sql file
+#' @param folder The name of the folder where the sql is stored
 #' @export
 #
 #write sql files to correct path
-write_sql_file <- function(file, name, context) {
+write_sql_file <- function(file, folder, name, context) {
   if(context == 'shiny') {
-    fs::file_copy(here::here('inst', 'sql', 'validations', file),
+    fs::file_copy(here::here('inst', 'sql', folder, file),
                   here::here('inst', 'sql', name), overwrite = TRUE)
   } else if(context == 'sandbox') {
-    fs::file_copy(here::here('inst', 'sql', 'validations', file),
+    fs::file_copy(here::here('inst', 'sql', folder, file),
                   here::here('sandbox', 'sql', name), overwrite = TRUE)
   } else {
-    fs::file_copy(here::here('inst', 'sql', 'validations', file),
+    fs::file_copy(here::here('inst', 'sql', folder, file),
                   here::here('sql', name), overwrite = TRUE)
   }
 
