@@ -22,10 +22,11 @@ create_sql_dir <- function(context) {
 
 #' Write SQL Files Functions
 #'
-#' `write_sql_files` will copy and move the sql file based on the context parameter.
+#' `write_sql_file` will copy and move the sql file based on the context parameter.
 #'
 #' @param context The context of your project.  "project", "shiny", and "sandbox"
-#' @param file The name of the sql file
+#' @param file The name of the sql file when copied from utDataStoR
+#' @param name The new name of the sql file when saved
 #' @param folder The name of the folder where the sql is stored
 #' @export
 #
