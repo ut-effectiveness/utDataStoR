@@ -5,7 +5,7 @@
 #'
 #' @param data_source The server you will be full from. Edify, REPT, DSCIR
 #' @param name The name you want the SQL file to have in your sql folder.
-#'
+#' @import readr
 #' @return A sql file in your SQL folder
 #' @export
 #'
