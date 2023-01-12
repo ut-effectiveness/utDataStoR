@@ -4,10 +4,12 @@
 \alias{write_sql_file}
 \title{Write SQL Files Functions}
 \usage{
-write_sql_file(file, name, context)
+write_sql_file(file, folder, name, context)
 }
 \arguments{
 \item{file}{The name of the sql file}
+
+\item{folder}{The name of the folder where the sql is stored}
 
 \item{context}{The context of your project.  "project", "shiny", and "sandbox"}
 }
