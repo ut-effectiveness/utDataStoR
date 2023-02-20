@@ -27,6 +27,7 @@ create_sql_dir <- function(context) {
 #' @param context The context of your project.  "project", "shiny", and "sandbox"
 #' @param file The name of the sql file
 #' @param folder The name of the folder where the sql is stored
+#' @param name The name for the sql file you want to create
 #' @export
 #
 #write sql files to correct path

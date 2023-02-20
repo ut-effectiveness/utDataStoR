@@ -11,6 +11,8 @@ write_sql_file(file, folder, name, context)
 
 \item{folder}{The name of the folder where the sql is stored}
 
+\item{name}{The name for the sql file you want to create}
+
 \item{context}{The context of your project.  "project", "shiny", and "sandbox"}
 }
 \description{
