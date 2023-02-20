@@ -21,10 +21,10 @@ make_retention_sql <- function(name, type = 'term_to_term') {
   } else if (type == 'cohort') {
     system_file <- 'cohort_retention.sql'
   } else {
-    message("It doesn't look like we have that type yet.",
-            "We currently support 'term_to_term' and 'cohort'.",
-            "If you would like to add another query for retention,",
-            "please bring this up at code review.")
+    stop("It doesn't look like we have that type yet. ",
+         "We currently support 'term_to_term' and 'cohort'. ",
+         "If you would like to add another query for retention, ",
+         "please bring this up at code review.")
   }
 
   base <- system.file('sql', package='utDataStoR')
