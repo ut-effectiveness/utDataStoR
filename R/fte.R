@@ -11,7 +11,7 @@
 #'
 
 sql_fte <- function(data_source, name) {
-  file <- 'fte_from_edify.sql'
+  file <- 'fte_off_edify.sql'
 
   fs::file_copy(here::here('inst', 'sql', file),
             here::here('sql', name))
