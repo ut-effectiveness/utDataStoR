@@ -27,6 +27,6 @@ make_retention_sql <- function(name, type = 'term_to_term') {
             "please bring this up at code review.")
   }
 
-  fs::file_copy(here::here('inst', 'sql', file),
+  fs::file_copy(here::here('inst', 'sql', 'retention', file),
                 here::here('sql', name))
 }
