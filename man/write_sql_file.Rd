@@ -7,14 +7,12 @@
 write_sql_file(file, folder, name, context)
 }
 \arguments{
-\item{file}{The name of the sql file when copied from utDataStoR}
+\item{file}{The name of the sql file}
 
 \item{folder}{The name of the folder where the sql is stored}
-
-\item{name}{The new name of the sql file when saved}
 
 \item{context}{The context of your project.  "project", "shiny", and "sandbox"}
 }
 \description{
-\code{write_sql_file} will copy and move the sql file based on the context parameter.
+\code{write_sql_files} will copy and move the sql file based on the context parameter.
 }

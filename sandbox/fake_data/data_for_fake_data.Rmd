@@ -1,0 +1,87 @@
+---
+title: "Data for fake data functions"
+output: html_document
+date: "2022-07-27"
+---
+
+# Introduction
+
+In this document we pull in the data used to create the fake data function.
+
+```{r}
+library(here)
+library(stringr)
+library(tidyverse)
+library(rlang)
+library(utHelpR)
+```
+
+# Non-database pulls data
+
+```{r}
+race_ethnicity <- c(
+  "White",
+  "Hispanic",
+  "Multiracial",
+  "Black/African American",
+  "Unspecified",
+  "American Indian/Alaskan",
+  "Non-Resident Alien",
+  "Asian",
+  "Hawaiian/Pacific Islander"
+  )
+
+gpa_bands <- c(
+  'below 2.0',
+  '2.0 to 2.9',
+  '3.0 to 4.0'
+)
+
+retention_status <- c(
+  'spring returned',
+  'fall returned',
+  'third fall returned',
+  'fourth fall returned',
+  'fifth fall returned',
+  'sixth fall returned',
+  'stopped out',
+  'dropped out', 
+  'graduated'
+)
+```
+
+# Program, Department, and College
+
+```{r}
+program_college_pull <- get_data_from_sql_file(
+  here::here('sandbox', 'fake_data', 'sql', 'program_college.sql'),
+  'edify',
+  'none') 
+
+program_college_missing_values <- program_college_pull 
+
+program_college_missing_values[16, 3] <- 'UCOL'
+program_college_missing_values[16, 4] <- 'University College'
+program_college_missing_values[26, 3] <- 'GCO'
+program_college_missing_values[26, 4] <- 'Global & Community Outreach'
+
+program_college <- program_college_missing_values %>% 
+  filter(!is.na(department_id)) %>% 
+  arrange(college_abbrv)
+
+college_list <- program_college$college_abbrv %>% unique()
+
+department_list <- program_college$department_id %>% unique()
+```
+
+```{r}
+save(
+  college_list,
+  department_list,
+  race_ethnicity,
+  retention_status,
+  gpa_bands,
+  file = here('sandbox', 'fake_data', 'fake_data_raw.rda')
+)
+```
+
