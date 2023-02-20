@@ -1,0 +1,94 @@
+---
+title: "Matt Nickodemus"
+output: html_document
+date: "2022-07-31"
+---
+
+## Admissions Funnel
+
+```{r}
+library(here)
+library(stringr)
+library(tidyverse)
+library(rlang)
+library(utHelpR)
+library(lubridate)
+library(purrr)
+library(ggplot2)
+```
+
+```{r}
+source(here::here('sandbox', 'fake_data', 'functions.R'))
+```
+
+```{r}
+stages <- list(
+  level1 = c('prospect', 'stealth inquiry'),
+  level2 = c('inquiry', 'lost prospect'),
+  level3 = c('started application', 'lost inquiry', 'lost'),
+  level4 = c('completed app', 'non finisher', 'lost'),
+  level5 = c('enrolled', 'melt', 'lost'),
+  level6 = c('census enrolled', 'census melt', 'lost'),
+  level7 = c('completed', 'dropped', 'lost')
+)
+
+total_population <- 100000 # 100K
+
+residency_options <- c(
+  rep('UT',  20),
+  rep('CA',  2),
+  rep('ID',  2),
+  rep('NV',  2),
+  rep('CO',  1),
+  rep('Out', 4),
+  rep('Int', 1)
+)
+
+student_population <- tibble(
+  residency = sample(residency_options, total_population, replace = TRUE),
+  race_ethnicity = sample(race_ethnicity, total_population, replace = TRUE),
+  gender = make_gender_col(total_population)
+)
+
+completer_count = .10*total_population
+lost_prospect_count = .50*total_population
+
+completer_bs <- c(
+  stages$level2[1],  # inquiry
+  stages$level3[1],  # started application
+  stages$level4[1],  # completed application
+  stages$level5[1],  # enrolled
+  stages$level6[1],  # census enrolled
+  stages$level7[1]   # completed
+)
+
+lost_prospect_bs <- 
+  c(
+  stages$level2[2],  # lost prospect
+  stages$level3[3],  # lost
+  stages$level4[3],  # lost
+  stages$level5[3],  # lost
+  stages$level6[3],  # lost
+  stages$level7[3]   # lost
+)
+
+make_indicators <- function(bs, num) {
+  
+  tibble(
+    stage1 = sample(stages$level1, num, replace = TRUE),
+    stage2 = rep(bs[1], num),
+    stage3 = rep(bs[2], num),
+    stage4 = rep(bs[3], num),
+    stage5 = rep(bs[4], num),
+    stage6 = rep(bs[5], num),
+    stage7 = rep(bs[6], num)
+  )
+  
+}
+
+admissions_indicators <- bind_rows(
+  make_indicators(completer_bs, completer_count),
+  make_indicators(lost_prospect_bs, lost_prospect_count)
+)
+```
+

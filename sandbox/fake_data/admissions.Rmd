@@ -1,0 +1,134 @@
+---
+title: "Matt Nickodemus"
+output: html_document
+date: "2022-07-31"
+---
+
+## Point in time headcount
+
+```{r}
+library(here)
+library(stringr)
+library(tidyverse)
+library(rlang)
+library(utHelpR)
+library(lubridate)
+library(purrr)
+library(ggplot2)
+```
+
+```{r}
+source(here::here('sandbox', 'fake_data', 'functions.R'))
+```
+
+
+```{r}
+terms_sql <- get_data_from_sql_file(
+  here::here('sandbox', 'fake_data', 'sql', 'terms.sql'),
+  'edify',
+  'none'
+)
+
+count_days <- purrr::map2_df(terms_sql$term_start_date, terms_sql$term_id, make_count_days) 
+```
+
+
+```{r}
+ids <- fake_id(8, 12000, unique = TRUE) %>% 
+  map(~rep(., 221)) %>% 
+  unlist()
+
+id_df <- tibble(
+  student_id = ids,
+  term_id = '201840'
+  )
+
+enrollment_jumps <- make_enrollment_jumps(12000)
+
+enrollment_info <- bind_rows(purrr::map(enrollment_jumps, make_individual_enrollment_df)) %>% 
+  bind_cols(id_df)
+```
+
+## Demographics
+
+Now we need to add demographics for each student number. What demographics do we want to add?
+
+- race/ethnicity
+- college
+- program
+- department
+- gender
+
+```{r}
+make_demographic_tibble <- function(total_population) {
+  tibble(
+    college = sample(college_list, total_population, replace = TRUE),
+    department = sample(department_list, total_population, replace = TRUE),
+    program = department,
+    race_ethnicity = sample(race_ethnicity, total_population, replace = TRUE),
+    gender = make_gender_col(total_population)
+  )
+}
+```
+
+# Tie all this together
+
+```{r}
+make_enrollment <- function(total_population, term) {
+  
+  
+  # Make the id list
+  id_list <- fake_id(8, total_population, unique = TRUE)
+  
+  # repeat the id for all 221 days in the enrollment window. this covers 120 days
+  # prior to first day of class (days 0), and 100 days after class starts
+  ids <- id_list %>% 
+  map(~rep(., 221)) %>% 
+  unlist()
+  
+  # attach a term
+  id_df <- tibble(
+    student_id = ids,
+    term_id = term
+    )
+  
+  # make the enrollment jumps and build the enrollment indicator
+  enrollment_jumps <- make_enrollment_jumps(total_population)
+
+  enrollment_info <- bind_rows(purrr::map(enrollment_jumps, make_individual_enrollment_df)) %>% 
+    bind_cols(id_df)
+  
+  # make demographic tibble to join to enrollment info
+  demographic_tibble <- make_demographic_tibble(total_population) %>% 
+    add_column(
+      tibble(student_id = id_list)
+    )
+  
+  # join demographic info to enrollment info
+  enrollment_info %>% left_join(demographic_tibble, by = 'student_id')
+}
+```
+
+```{r}
+daily_enrollment <- bind_rows( 
+make_enrollment(9000, '201740'),
+make_enrollment(9500, '201840'),
+make_enrollment(10000, '201940'),
+make_enrollment(10500, '202040'),
+make_enrollment(11000, '202140'),
+make_enrollment(12000, '202240'),
+make_enrollment(9800, '201820'),
+make_enrollment(10100, '201920'),
+make_enrollment(10750, '202020'),
+make_enrollment(11300, '202120')
+)
+
+save(
+  daily_enrollment,
+  file = here('sandbox', 'fake_data', 'admission.rda')
+)
+```
+
+
+
+
