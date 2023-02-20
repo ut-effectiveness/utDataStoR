@@ -7,7 +7,7 @@
 sql_fte(data_source, name)
 }
 \arguments{
-\item{data_source}{The server you will be full from. Edify, REPT, DSCIR}
+\item{data_source}{Bob. The server you will be full from. Edify, REPT, DSCIR}
 
 \item{name}{The name you want the SQL file to have in your sql folder.}
 }
