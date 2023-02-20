@@ -17,9 +17,9 @@
 make_retention_sql <- function(name, type = 'term_to_term') {
 
   if (type == 'term_to_term') {
-    file <- 'term_to_term_retention.sql'
+    system_file <- 'term_to_term_retention.sql'
   } else if (type == 'cohort') {
-    file <- 'cohort_retention.sql'
+    system_file <- 'cohort_retention.sql'
   } else {
     message("It doesn't look like we have that type yet.",
             "We currently support 'term_to_term' and 'cohort'.",
@@ -27,5 +27,19 @@ make_retention_sql <- function(name, type = 'term_to_term') {
             "please bring this up at code review.")
   }
 
-  write_sql_file(file, 'sql', name, 'project')
+  base <- system.file('sql', package='utDataStoR')
+
+  file <- paste(
+    base,
+    '/',
+    'fte',
+    '/',
+    system_file,
+    sep = ''
+  )
+
+  fs::file_copy(
+    file,
+    here::here('sql', name))
+
 }
