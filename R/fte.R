@@ -17,7 +17,7 @@ sql_fte <- function(data_source = 'Edify', name) {
   file <- paste(
     base,
     '/',
-    'retention',
+    'fte',
     '/',
     'fte_off_edify.sql',
     sep = ''
