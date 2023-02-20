@@ -24,11 +24,29 @@ You can install the development version of utDataStoR from
 devtools::install_github("dsu-effectiveness/utDataStoR")
 ```
 
-## Example
+## Retention
 
-This is a basic example which shows you how to solve a common problem:
+You can use this package to load our standard retention query, when you
+are in a project. If you run the code below, `{utDataStorR}` will add a
+new script titled `my_retention_query.sql` to the `sql` file in your
+project.
 
 ``` r
+library(utHelpR)
 library(utDataStoR)
-## basic example code
+
+# To create the standard folder structure
+utHelpR::make_standard_folders()
+
+# To load the term to term query
+utDataStoR::make_retention_sql(
+  name = 'my_retention_query.sql', 
+  type = 'term_to_term'
+  )
+
+# To load the cohort query
+utDataStoR::make_retention_sql(
+  name = 'my_retention_query.sql', 
+  type = 'cohort'
+  )
 ```
