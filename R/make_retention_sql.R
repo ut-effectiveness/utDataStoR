@@ -32,7 +32,7 @@ make_retention_sql <- function(name, type = 'term_to_term') {
   file <- paste(
     base,
     '/',
-    'fte',
+    'retention',
     '/',
     system_file,
     sep = ''
