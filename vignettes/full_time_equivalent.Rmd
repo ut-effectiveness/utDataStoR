@@ -1,5 +1,6 @@
 ---
-title: "full_time_equivalent"
+title: "FTE Enrollment"
+subtitle: "Full time equivalent enrollment"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{full_time_equivalent}
