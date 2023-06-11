@@ -11,8 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The goal of utDataStoR is to centralize and document standard SQL
-queries and data sets used by the Office of Institutional Effectiveness
-at Utah Tech University.
+queries and data sets used by analysts at Utah Tech University.
 
 ## Installation
 
@@ -20,15 +19,6 @@ You can install the development version of utDataStoR from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("dsu-effectiveness/utDataStoR")
-```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(utDataStoR)
-## basic example code
 ```
