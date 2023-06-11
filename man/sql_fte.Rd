@@ -4,7 +4,7 @@
 \alias{sql_fte}
 \title{Generate FTE SQL}
 \usage{
-sql_fte(data_source, name)
+sql_fte(data_source = "Edify", name)
 }
 \arguments{
 \item{data_source}{The server you will be full from. Edify, REPT, DSCIR}

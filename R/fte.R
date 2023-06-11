@@ -10,9 +10,20 @@
 #' @export
 #'
 
-sql_fte <- function(data_source, name) {
-  file <- 'fte_from_edify.sql'
+sql_fte <- function(data_source = 'Edify', name) {
 
-  fs::file_copy(here::here('inst', 'sql', file),
-            here::here('sql', name))
+  base <- system.file('sql', package='utDataStoR')
+
+  file <- paste(
+    base,
+    '/',
+    'fte',
+    '/',
+    'fte_off_edify.sql',
+    sep = ''
+  )
+
+  fs::file_copy(
+    file,
+    here::here('sql', name))
 }
