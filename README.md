@@ -11,8 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 <!-- badges: end -->
 
 The goal of utDataStoR is to centralize and document standard SQL
-queries and data sets used by the Office of Institutional Effectiveness
-at Utah Tech University.
+queries and data sets used by analysts at Utah Tech University.
 
 ## Installation
 
@@ -20,33 +19,6 @@ You can install the development version of utDataStoR from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("dsu-effectiveness/utDataStoR")
-```
-
-## Retention
-
-You can use this package to load our standard retention query, when you
-are in a project. If you run the code below, `{utDataStoR}` will add a
-new script titled `my_retention_query.sql` to the `sql` file in your
-project.
-
-``` r
-library(utHelpR)
-library(utDataStoR)
-
-# To create the standard folder structure
-utHelpR::make_standard_folders()
-
-# To load the term to term query
-utDataStoR::make_retention_sql(
-  name = 'my_retention_query.sql', 
-  type = 'term_to_term'
-  )
-
-# To load the cohort query
-utDataStoR::make_retention_sql(
-  name = 'my_retention_query.sql', 
-  type = 'cohort'
-  )
 ```

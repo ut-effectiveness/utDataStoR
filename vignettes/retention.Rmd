@@ -1,0 +1,44 @@
+---
+title: "Retention"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{retention}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Retention is a measure of how many students return to UT. By contrast, persistence is a measure of how many students continue their education at any university. The National Student Clearinghouse differentiates retention and persistence in the following way.
+
+*Persistence rate is measured by the percentage of students who return to college at any institution for their second year, while retention rate represents the percentage of students who return to the same institution.*
+
+This vignette will focus on the metrics involved in retention. The university's retention metrics can be broadly broken into two groups. Cohort retention and term-to-term retention.  
+
+## Cohort retention
+
+Degree seeking students are assigned a cohort when they enter the University. There are eight cohorts students are placed in 
+
+- Full-time, Bachelors degree seeking, freshman
+- Full-time, Bachelors degree seeking, transfer
+- Part-time, Bachelors degree seeking, freshman
+- Part-time, Bachelors degree seeking, transfer
+- Full-time, Associates degree seeking, freshman
+- Full-time, Associates degree seeking, transfer
+- Part-time, Associates degree seeking, freshman
+- Part-time, Associates degree seeking, transfer
+
+Cohort retention metrics track these cohorts as they progress toward graduation. UT has eight cohort retention metrics. The denominator for this metric is the number of student within the cohort. The numerator for the metric is the number of students from the cohort who were enrolled as of census for the term indicated.
+
+- Fall-to-spring cohort retention rate
+- Fall-to-fall2 cohort retention rate 
+- Fall-to-fall3 cohort retention rate 
+- Fall-to-fall4 cohort retention rate
+
+
+## Term-to-term
