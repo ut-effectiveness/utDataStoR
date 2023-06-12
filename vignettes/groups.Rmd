@@ -91,11 +91,11 @@ A student who is eligible to receive a Pell grant based on their FAFSA.
 # Location Groups
 Data in this grouping is collected from the students FIRST application for admission.
 
-Country of Origin
+## Country of Origin
 The country the student lived at the time fo first application.
 
-State of Origin
+## State of Origin
 The state the student lived at the time fo first application. Students who were not in the US get grouped into Outside the 50 states/territories and the District of Columbia.
 
-County of Origin
+## County of Origin
 The county the student lived at the time of first application. Students who were not from Utah get grouped into Out-of-State, in US; or Out-of-State, out of US.
