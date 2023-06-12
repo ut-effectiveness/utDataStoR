@@ -17,3 +17,25 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(utDataStoR)
 ```
+
+Groups defines all the ways you can group or categorize students. These groupings can be placed in several categories are demographic information but some will be about the types of courses the students are enrolled in.
+
+# Demopgraphic Groups
+Data in this grouping is collected from the student at the time of their application for admission.
+
+## Gender
+Data regarding the student's gender. The options are Male or Female.
+
+## IPEDS Race/Ethnicity
+Data regarding the student's race and ethnicity. There are nine options: Hispanic; American Indian or Alaska Native; Asian; Black or African American; Native Hawaiian or Other Pacific Islander; White; Multiracial; Nonresident (for those on visa's); Unspecified. 
+
+## Age
+Data based off of the student's birth date. This is reported in an age band typically: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
+
+## First Generation
+A student where neither parent completed a Bachelor's degree. Options are yes, no. Those who do not answer the question are listed as no.
+
+## Veteran
+?? Work on this.
+
+# Term Based Demographics
