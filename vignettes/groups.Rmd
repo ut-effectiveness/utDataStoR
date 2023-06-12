@@ -33,9 +33,28 @@ Data regarding the student's race and ethnicity. There are nine options: Hispani
 Data based off of the student's birth date. This is reported in an age band typically: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
 
 ## First Generation
-A student where neither parent completed a Bachelor's degree. Options are yes, no. Those who do not answer the question are listed as no.
+Students where neither parent completed a Bachelor's degree. The options are yes, no. Those who do not answer the question on the application are listed as no.
 
 ## Veteran
 ?? Work on this.
 
-# Term Based Demographics
+# Term Based Groups
+These are groups that can change each semester. They are based on data from the system such as program, credit hours attempted, etc.
+
+## College
+An organizational structure that houses departments, faculty, courses and programs. Data based off of the program the student has declared. There are nine options: College of Business; College of Education; College of Fine Arts; College of Global and Community Outreach; College of Health Sciences; College of Humanities and Social Sciences; College of Science, Engineering and Technology; and University College.
+
+## Department
+An organizational structure that is a sub-unit of a college and houses faculty, courses and programs. Data based off of the program the student has declared.
+
+## Degree Seeking
+Students who are eligible to receive financial aid and earn a degree. Data based off of the program the student has declared. The options are yes or no. Students who are not degree seeking are non-degree seeking.
+
+## Student Type
+A student's enrollment status or registration status for the term.
+
+## Student Level
+
+
+## Class Level
+Based off of how many credit hours a student has completed. The options are: Freshman <30 credit hours; Sophomore 30-59 credit hours; Junior 60-89 credit hours; Senior 90 or more credit hours; Graduate graduate masters.
