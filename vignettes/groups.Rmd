@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 #library(utDataStoR)
 ```
 
-Groups define all the ways you can categorize students. These groupings can be placed in several classifications.
+Groups define all the ways you can categorize students. These groups can be placed in several classifications.
 
 # Demopgraphic Groups
 Data in this grouping is collected from the student at the time of their application for admission.
@@ -30,24 +30,25 @@ The biological sex on a persons birth certificate. The options are Male or Femal
 Data regarding the student's race and ethnicity. There are nine options: Hispanic; American Indian or Alaska Native; Asian; Black or African American; Native Hawaiian or Other Pacific Islander; White; Multiracial; Nonresident (for those on visa's); Unspecified. 
 
 ## Citizenship
+The student's relationship to the United States. The options are: US Citizen; Non-Resident Alien; Resident Alien or Other Eligible Non-citizens; Non-immigrant Undocumented Students; US Non-citizen Nationals; Other.
 
-## International Students
-
+## International
+A student who is from a foreign country and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students.
 
 ## Age
-Data based off of the student's birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
+How old a student is based on their birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
 
 ## First Generation
 A student where neither parent nor guardian has received their bachelor's degree. The options are yes, no. Those who do not answer the question on the application are listed as no.
 
 ## Veteran
-
+A student who has served in the armed forces. This data may include anyone who is receiving veteran benefits (including family members).
 
 ## Athlete
-
+A student on the official team roster on or after the first scheduled contest or date of NCAA competition.
 
 ## High School
-
+A student is who is taking a course while still attending high school.
 
 
 # Term Based Groups
@@ -60,31 +61,31 @@ An organizational structure that houses departments, faculty, courses and progra
 An organizational structure that is a sub-unit of a college and houses faculty, courses and programs. Data based off of the program the student has declared.
 
 ## Degree Seeking
-Students who are eligible to receive financial aid and earn a degree. Data based off of the program the student has declared. The options are yes or no. Students who are not degree seeking are non-degree seeking.
+A students who is eligible to receive financial aid and earn a degree. Data based off of the program the student has declared. The options are yes or no. Students who are not degree seeking are non-degree seeking.
 
 ## Student Type
 A student's enrollment status or registration status for the term.
 
 ## Student Level
-
+The level of degree a student is pursing. The options are: Undergraduate or Graduate.
 
 ## Class Level
-Based off of how many credit hours a student has completed. The options are: Freshman <30 credit hours; Sophomore 30-59 credit hours; Junior 60-89 credit hours; Senior 90 or more credit hours; Graduate graduate masters.
+A student's hierarchical status which is classified on the basis of earned credit hours for undergraduate students. The options are: Freshman <30 credit hours; Sophomore 30-59 credit hours; Junior 60-89 credit hours; Senior 90 or more credit hours. All graduate students will be Graduate Masters.
 
 ## Full-time Part-time
-Based off of how many credit hours a student is attempting that semester. The options are: Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours; Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
+The status of a students time comittment based off of how many credit hours attempted and the students level for a given semester. The options are: Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours; Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
 
 ## Residency
-Based on the type of tuition the student is paying. The options are: Resident all those paying resident tuition; Non-Resident all those paying non-resident tuition; Good Neighbor paying good neighbor tuition. 
+A students tuition payment structure. The options are: Resident all those paying resident tuition; Non-Resident all those paying non-resident tuition; Good Neighbor paying good neighbor tuition. 
 
 ## High School Concurrent Enrollment
 A High School student enrolled in at least one approved and funded concurrent enrollment class. 
 
 ## GPA
-Data based off of the student's Overall Cumulative GPA. This is typically reported in a gpa band:
+A student's Overall Cumulative GPA. This is typically reported in a GPA band:
 
 ## Pell Elligible
-
+A student who is eligible to receive a Pell grant based on their FAFSA.
 
 
 # Location Groups
@@ -97,4 +98,4 @@ State of Origin
 The state the student lived at the time fo first application. Students who were not in the US get grouped into Outside the 50 states/territories and the District of Columbia.
 
 County of Origin
-The county the student lived at the time fo first application. Students who were not from Utah get grouped into Out-of-State, in US; or Out-of-State, out of US.
+The county the student lived at the time of first application. Students who were not from Utah get grouped into Out-of-State, in US; or Out-of-State, out of US.
