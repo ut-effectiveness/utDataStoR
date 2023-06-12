@@ -24,31 +24,74 @@ Groups define all the ways you can categorize students. These groups can be plac
 Data in this grouping is collected from the student at the time of their application for admission.
 
 ## Gender
-The biological sex on a persons birth certificate. The options are Male or Female.
+The biological sex on a persons birth certificate. The options are M (Male) or F (Female).
+
+```sql
+SELECT a.student_id,
+       a.gender_code
+  FROM export.student a
+```
 
 ## IPEDS Race/Ethnicity
-Data regarding the student's race and ethnicity. There are nine options: Hispanic; American Indian or Alaska Native; Asian; Black or African American; Native Hawaiian or Other Pacific Islander; White; Multiracial; Nonresident (for those on visa's); Unspecified. 
+Data regarding the student's race and ethnicity. There are nine options: Hispanic; American Indian/Alaskan; Asian; Black/African American; Hawaiian/Pacific Islander; White; Multiracial; Non-Resident Alien (for those on visa's); Unspecified.
+
+```sql
+SELECT a.student_id,
+       a.ipeds_race_ethnicity
+  FROM export.student a
+```
 
 ## Citizenship
-The student's relationship to the United States. The options are: US Citizen; Non-Resident Alien; Resident Alien or Other Eligible Non-citizens; Non-immigrant Undocumented Students; US Non-citizen Nationals; Other.
+The student's relationship to the United States. The options are: US Citizen; Non-Res Alien-Visa or temp bas; Res Alien-immigrant status; Non-Citizen National of US; Nonimmigrant Alien 53B-8-106; Deferred Action; Student curr defined as Other.
+
+```sql
+SELECT a.student_id,
+       a.us_citizenship_desc
+  FROM export.student a
+```
 
 ## International
-A student who is from a foreign country and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students.
+A student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students. If TRUE then the student is an international student.
+
+```sql
+SELECT a.student_id,
+       a.is_international
+  FROM export.student a
+```
 
 ## Age
 How old a student is based on their birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
 
+```sql
+
+```
+
 ## First Generation
-A student where neither parent nor guardian has received their bachelor's degree. The options are yes, no. Those who do not answer the question on the application are listed as no.
+A student where neither parent nor guardian has received their bachelor's degree. If TRUE then the student is a first generation student. Students who are unknown are FALSE along with those who are FALSE.
+
+```sql
+SELECT a.student_id,
+       a.is_first_generation
+  FROM export.student a
+```
 
 ## Veteran
-A student who has served in the armed forces. This data may include anyone who is receiving veteran benefits (including family members).
+A student who has served in the armed forces. This data may include anyone who is receiving veteran benefits (including family members). If TRUE then the student is a veteran.
+
+```sql
+SELECT a.student_id,
+       a.is_veteran
+  FROM export.student a
+```
 
 ## Athlete
-A student on the official team roster on or after the first scheduled contest or date of NCAA competition.
+A student who was ever on the official team roster on or after the first scheduled contest or date of NCAA competition.
 
-## High School
-A student is who is taking a course while still attending high school.
+```sql
+SELECT a.student_id,
+       a.is_athlete
+  FROM export.student a
+```
 
 
 # Term Based Groups
@@ -76,7 +119,14 @@ A student's hierarchical status which is classified on the basis of earned credi
 The status of a students time comittment based off of how many credit hours attempted and the students level for a given semester. The options are: Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours; Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
 
 ## Residency
-A students tuition payment structure. The options are: Resident all those paying resident tuition; Non-Resident all those paying non-resident tuition; Good Neighbor paying good neighbor tuition. 
+A students tuition payment structure. The options are: Resident all those paying resident tuition; Non-Resident all those paying non-resident tuition; Good Neighbor paying good neighbor tuition.
+
+## High School
+A student is who is taking a course while still attending high school.
+
+```sql
+
+```
 
 ## High School Concurrent Enrollment
 A High School student enrolled in at least one approved and funded concurrent enrollment class. 
