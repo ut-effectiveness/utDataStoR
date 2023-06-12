@@ -15,31 +15,43 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(utDataStoR)
+#library(utDataStoR)
 ```
 
-Groups defines all the ways you can group or categorize students. These groupings can be placed in several categories are demographic information but some will be about the types of courses the students are enrolled in.
+Groups define all the ways you can categorize students. These groupings can be placed in several classifications.
 
 # Demopgraphic Groups
 Data in this grouping is collected from the student at the time of their application for admission.
 
 ## Gender
-Data regarding the student's gender. The options are Male or Female.
+The biological sex on a persons birth certificate. The options are Male or Female.
 
 ## IPEDS Race/Ethnicity
 Data regarding the student's race and ethnicity. There are nine options: Hispanic; American Indian or Alaska Native; Asian; Black or African American; Native Hawaiian or Other Pacific Islander; White; Multiracial; Nonresident (for those on visa's); Unspecified. 
 
+## Citizenship
+
+## International Students
+
+
 ## Age
-Data based off of the student's birth date. This is reported in an age band typically: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
+Data based off of the student's birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
 
 ## First Generation
-Students where neither parent completed a Bachelor's degree. The options are yes, no. Those who do not answer the question on the application are listed as no.
+A student where neither parent nor guardian has received their bachelor's degree. The options are yes, no. Those who do not answer the question on the application are listed as no.
 
 ## Veteran
-?? Work on this.
+
+
+## Athlete
+
+
+## High School
+
+
 
 # Term Based Groups
-These are groups that can change each semester. They are based on data from the system such as program, credit hours attempted, etc.
+Data in this grouping can change each semester and is based on information from the system such as program, credit hours attempted, etc.
 
 ## College
 An organizational structure that houses departments, faculty, courses and programs. Data based off of the program the student has declared. There are nine options: College of Business; College of Education; College of Fine Arts; College of Global and Community Outreach; College of Health Sciences; College of Humanities and Social Sciences; College of Science, Engineering and Technology; and University College.
@@ -58,3 +70,31 @@ A student's enrollment status or registration status for the term.
 
 ## Class Level
 Based off of how many credit hours a student has completed. The options are: Freshman <30 credit hours; Sophomore 30-59 credit hours; Junior 60-89 credit hours; Senior 90 or more credit hours; Graduate graduate masters.
+
+## Full-time Part-time
+Based off of how many credit hours a student is attempting that semester. The options are: Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours; Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
+
+## Residency
+Based on the type of tuition the student is paying. The options are: Resident all those paying resident tuition; Non-Resident all those paying non-resident tuition; Good Neighbor paying good neighbor tuition. 
+
+## High School Concurrent Enrollment
+A High School student enrolled in at least one approved and funded concurrent enrollment class. 
+
+## GPA
+Data based off of the student's Overall Cumulative GPA. This is typically reported in a gpa band:
+
+## Pell Elligible
+
+
+
+# Location Groups
+Data in this grouping is collected from the students FIRST application for admission.
+
+Country of Origin
+The country the student lived at the time fo first application.
+
+State of Origin
+The state the student lived at the time fo first application. Students who were not in the US get grouped into Outside the 50 states/territories and the District of Columbia.
+
+County of Origin
+The county the student lived at the time fo first application. Students who were not from Utah get grouped into Out-of-State, in US; or Out-of-State, out of US.
