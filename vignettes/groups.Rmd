@@ -37,7 +37,7 @@ The student's relationship to the United States. The options are: US Citizen; No
 A student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students. If TRUE then the student is an international student.
 
 ## Age
-How old a student is based on their birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
+How old a student is today based on their birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
 
 ## First Generation
 A student where neither parent nor guardian has received their bachelor's degree. If TRUE then the student is a first generation student. Students who are unknown are FALSE along with those who are FALSE.
@@ -52,7 +52,7 @@ A student who was EVER on the official team roster on or after the first schedul
 The country the student lived at the time of first application.
 
 ## First Admit State
-The state the student lived at the time fo first application. Students who were not in the US get grouped into Foreign State.
+The state the student lived at the time of first application. Students who were not in the US get grouped into Foreign State.
 
 ## First Admit County
 The county the student lived at the time of first application. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
@@ -76,7 +76,10 @@ SELECT a.student_id,
           END AS age_band,
        a.is_first_generation,
        a.is_athlete,
-       a.is_veteran
+       a.is_veteran,
+       a.first_admit_country_desc,
+       a.first_admit_state_desc,
+       a.first_admit_county_desc
   FROM export.student a
 ```
 
