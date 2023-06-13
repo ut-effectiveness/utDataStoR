@@ -48,6 +48,15 @@ A student who has served in the armed forces. This data includes anyone who is r
 ## Athlete
 A student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If TRUE then the student is an athlete.
 
+## First Admit Country
+The country the student lived at the time of first application.
+
+## First Admit State
+The state the student lived at the time fo first application. Students who were not in the US get grouped into Foreign State.
+
+## First Admit County
+The county the student lived at the time of first application. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
+
 ## SQL for Demographic Groups
 
 ```sql
@@ -141,16 +150,16 @@ SELECT a.student_id,
 ```
 
 # Location Groups
-Data in this grouping is collected from the students FIRST application for admission.
+Data in this classification is collected from the students FIRST application for admission. This data is stored at the student term level, in the student_term_level table.
 
-## Country of Origin
-The country the student lived at the time fo first application.
+## First Admit Country
+The country the student lived at the time of first application.
 
-## State of Origin
+## First Admit State
 The state the student lived at the time fo first application. Students who were not in the US get grouped into Outside the 50 states/territories and the District of Columbia.
 
-## County of Origin
+## First Admit County
 The county the student lived at the time of first application. Students who were not from Utah get grouped into Out-of-State, in US; or Out-of-State, out of US.
 
 # Course Based Groups
-Data in this grouping can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table.
+Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table.
