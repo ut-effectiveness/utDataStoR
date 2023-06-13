@@ -153,8 +153,69 @@ SELECT a.student_id,
 # Course Based Groups
 Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table.
 
-## High School Concurrent Enrollment
+## High School Concurrent Enrollment Student
 A High School student enrolled in at least one funded concurrent enrollment class. 
+
+## SQL for High School Concurrent Enrolment Student
+```sql
+WITH cte AS
+           (
+               SELECT a.budget_code,
+                      b.student_type_code,
+                      c.is_concurrent_course,
+                      a.student_id,
+                      a.course_id,
+                      a.term_id
+                 FROM export.student_section a
+                          LEFT JOIN export.student_term_level b
+                                    ON b.student_id = a.student_id
+                                        AND b.term_id = a.term_id
+                                        AND b.is_primary_level IS TRUE
+                          LEFT JOIN export.course c
+                                    ON c.course_id = a.course_id
+                WHERE a.is_enrolled IS TRUE
+                  AND a.is_current_term IS TRUE
+                ORDER BY a.student_id
+           ),
+       proto AS (
+           SELECT a.student_id,
+                  CASE
+                      WHEN student_type_code = 'H' AND (budget_code IN ('BC', 'SF'))
+                          THEN TRUE
+                      ELSE FALSE
+                      END AS proto_concurrent_enrollment
+             FROM cte a
+       )
+SELECT a.student_id,
+       bool_or(proto_concurrent_enrollment) AS is_concurrent_enrollment
+  FROM proto a
+ GROUP BY a.student_id
+```
 
 ## High School Student Other
 A high school student who is not enrolled in any approved and funded concurrent enrollment class.
+
+## Distance Education Student
+A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
+
+## Online Student
+A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. 
+
+## SQL for Distance Education Student and Online Student
+
+```sql
+SELECT a.student_id,
+       a.course_id,
+       CASE
+           WHEN b.is_distance_ed_some OR b.is_distance_ed_all IS TRUE THEN 'TRUE'
+           ELSE FALSE
+        END AS is_distance_ed,
+       CASE
+           WHEN a.instruction_method_desc = 'I' THEN 'TRUE'
+           ELSE FALSE
+        END AS is_online
+  FROM export.student_section a
+LEFT JOIN export.student_term_level b ON b.student_id = a.student_id AND b.term_id = a.term_id AND b.is_primary_level IS TRUE
+ WHERE a.is_enrolled IS TRUE
+   AND a.is_current_term IS TRUE
+   ```
