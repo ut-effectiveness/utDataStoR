@@ -18,10 +18,10 @@ knitr::opts_chunk$set(
 #library(utDataStoR)
 ```
 
-Groups define the ways you can categorize students. These groups can be placed in several classifications.
+Groups define the ways students are categorized. These groups can be placed in several classifications.
 
 # Demopgraphic Groups
-Data in this grouping is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table.
+Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table.
 
 ## Gender
 The biological sex on a persons birth certificate. The options are M (Male) or F (Female).
@@ -73,7 +73,7 @@ SELECT a.student_id,
 
 
 # Term Based Groups
-Data in this grouping can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table.
+Data in this classification can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table.
 
 ## College
 An organizational structure that houses departments, faculty, courses and programs. Data based off of the program the student has declared. There are nine options: College of Business; College of Education; College of Fine Arts; College of Global and Community Outreach; College of Health Sciences; College of Humanities and Social Sciences; College of Science, Engineering and Technology; and University College.
@@ -117,7 +117,27 @@ A student who was on the official team roster on or after the first scheduled co
 ## SQL for Term Based Groups
 
 ```sql
-
+SELECT a.student_id,
+       b.college_desc,
+       b.department_desc,
+       a.is_degree_seeking,
+       a.student_type_desc,
+       a.level_desc,
+       a.primary_level_class_desc,
+       a.full_time_part_time_code,
+       a.residency_code_desc,
+       CASE
+           WHEN a.student_type_code = 'H' THEN TRUE
+           ELSE FALSE
+        END AS is_high_school,
+       a.overall_cumulative_gpa,
+       a.is_pell_eligible,
+       a.is_athlete
+  FROM export.student_term_level a
+  LEFT JOIN export.academic_programs b ON b.program_id = a.primary_program_id
+ WHERE a.is_enrolled IS TRUE
+   AND a.is_primary_level IS TRUE
+   AND a.is_current_term IS TRUE
 ```
 
 # Location Groups
