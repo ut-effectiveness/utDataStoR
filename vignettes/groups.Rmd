@@ -18,84 +18,62 @@ knitr::opts_chunk$set(
 #library(utDataStoR)
 ```
 
-Groups define all the ways you can categorize students. These groups can be placed in several classifications.
+Groups define the ways you can categorize students. These groups can be placed in several classifications.
 
 # Demopgraphic Groups
-Data in this grouping is collected from the student at the time of their application for admission.
+Data in this grouping is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table.
 
 ## Gender
 The biological sex on a persons birth certificate. The options are M (Male) or F (Female).
 
-```sql
-SELECT a.student_id,
-       a.gender_code
-  FROM export.student a
-```
 
 ## IPEDS Race/Ethnicity
 Data regarding the student's race and ethnicity. There are nine options: Hispanic; American Indian/Alaskan; Asian; Black/African American; Hawaiian/Pacific Islander; White; Multiracial; Non-Resident Alien (for those on visa's); Unspecified.
 
-```sql
-SELECT a.student_id,
-       a.ipeds_race_ethnicity
-  FROM export.student a
-```
-
 ## Citizenship
 The student's relationship to the United States. The options are: US Citizen; Non-Res Alien-Visa or temp bas; Res Alien-immigrant status; Non-Citizen National of US; Nonimmigrant Alien 53B-8-106; Deferred Action; Student curr defined as Other.
-
-```sql
-SELECT a.student_id,
-       a.us_citizenship_desc
-  FROM export.student a
-```
 
 ## International
 A student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students. If TRUE then the student is an international student.
 
-```sql
-SELECT a.student_id,
-       a.is_international
-  FROM export.student a
-```
-
 ## Age
 How old a student is based on their birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
-
-```sql
-
-```
 
 ## First Generation
 A student where neither parent nor guardian has received their bachelor's degree. If TRUE then the student is a first generation student. Students who are unknown are FALSE along with those who are FALSE.
 
-```sql
-SELECT a.student_id,
-       a.is_first_generation
-  FROM export.student a
-```
-
 ## Veteran
-A student who has served in the armed forces. This data may include anyone who is receiving veteran benefits (including family members). If TRUE then the student is a veteran.
-
-```sql
-SELECT a.student_id,
-       a.is_veteran
-  FROM export.student a
-```
+A student who has served in the armed forces. This data includes anyone who is receiving veteran benefits (including family members). If TRUE then the student is a veteran.
 
 ## Athlete
-A student who was ever on the official team roster on or after the first scheduled contest or date of NCAA competition.
+A student who was ever on the official team roster on or after the first scheduled contest or date of NCAA competition. If TRUE then the student is an athlete.
+
+## SQL for Demographic Groups
 
 ```sql
 SELECT a.student_id,
-       a.is_athlete
+       a.gender_code,
+       a.ipeds_race_ethnicity,
+       a.us_citizenship_desc,
+       a.is_international,
+       CASE
+              WHEN EXTRACT(YEAR from AGE(current_date, a.birth_date)) < 18 THEN 'less than 18'
+              WHEN EXTRACT(YEAR from AGE(current_date, a.birth_date)) BETWEEN 18 and 24 THEN '18 to 24'
+              WHEN EXTRACT(YEAR from AGE(current_date, a.birth_date)) BETWEEN 25 and 34 THEN '25 to 34'
+              WHEN EXTRACT(YEAR from AGE(current_date, a.birth_date)) BETWEEN 35 and 44 THEN '35 to 44'
+              WHEN EXTRACT(YEAR from AGE(current_date, a.birth_date)) BETWEEN 45 and 59 THEN '45 to 59'
+              WHEN EXTRACT(YEAR from AGE(current_date, a.birth_date)) > 59 THEN '60 plus'
+              ELSE 'error'
+          END AS age_band,
+       a.is_first_generation,
+       a.is_athlete,
+       a.is_veteran
   FROM export.student a
 ```
 
 
 # Term Based Groups
-Data in this grouping can change each semester and is based on information from the system such as program, credit hours attempted, etc.
+Data in this grouping can change each semester and is based on information from the system such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table.
 
 ## College
 An organizational structure that houses departments, faculty, courses and programs. Data based off of the program the student has declared. There are nine options: College of Business; College of Education; College of Fine Arts; College of Global and Community Outreach; College of Health Sciences; College of Humanities and Social Sciences; College of Science, Engineering and Technology; and University College.
