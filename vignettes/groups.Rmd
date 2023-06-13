@@ -46,7 +46,7 @@ A student where neither parent nor guardian has received their bachelor's degree
 A student who has served in the armed forces. This data includes anyone who is receiving veteran benefits (including family members). If TRUE then the student is a veteran.
 
 ## Athlete
-A student who was ever on the official team roster on or after the first scheduled contest or date of NCAA competition. If TRUE then the student is an athlete.
+A student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If TRUE then the student is an athlete.
 
 ## SQL for Demographic Groups
 
@@ -73,7 +73,7 @@ SELECT a.student_id,
 
 
 # Term Based Groups
-Data in this grouping can change each semester and is based on information from the system such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table.
+Data in this grouping can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table.
 
 ## College
 An organizational structure that houses departments, faculty, courses and programs. Data based off of the program the student has declared. There are nine options: College of Business; College of Education; College of Fine Arts; College of Global and Community Outreach; College of Health Sciences; College of Humanities and Social Sciences; College of Science, Engineering and Technology; and University College.
@@ -102,10 +102,6 @@ A students tuition payment structure. The options are: Resident all those paying
 ## High School
 A student is who is taking a course while still attending high school.
 
-```sql
-
-```
-
 ## High School Concurrent Enrollment
 A High School student enrolled in at least one approved and funded concurrent enrollment class. 
 
@@ -115,6 +111,14 @@ A student's Overall Cumulative GPA. This is typically reported in a GPA band:
 ## Pell Elligible
 A student who is eligible to receive a Pell grant based on their FAFSA.
 
+## Athlete
+A student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
+
+## SQL for Term Based Groups
+
+```sql
+
+```
 
 # Location Groups
 Data in this grouping is collected from the students FIRST application for admission.
@@ -127,3 +131,6 @@ The state the student lived at the time fo first application. Students who were 
 
 ## County of Origin
 The county the student lived at the time of first application. Students who were not from Utah get grouped into Out-of-State, in US; or Out-of-State, out of US.
+
+# Course Based Groups
+Data in this grouping can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table.
