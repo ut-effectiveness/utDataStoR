@@ -206,7 +206,6 @@ WITH cte AS
          (SELECT a.student_id,
                  a.term_id,
                  a.course_reference_number,
-                 a.instruction_method_desc,
                  b.is_distance_ed_all,
                  b.is_distance_ed_some,
                  b.is_distance_ed_none
@@ -230,21 +229,25 @@ SELECT a.student_id,
 ## Online Student
 A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. If TRUE then the student is an online student.
 
-## SQL for Distance Education Student and Online Student
+## SQL for Online Student
 
 ```sql
+WITH cte AS
+         (SELECT a.student_id,
+                 a.term_id,
+                 a.course_reference_number,
+                 a.instruction_method_code
+          FROM export.student_section a
+          WHERE a.is_enrolled IS TRUE
+            AND a.is_current_term IS TRUE),
+     proto AS (SELECT a.student_id,
+                       CASE
+                            WHEN a.instruction_method_code = 'I' THEN 'TRUE'
+                            ELSE FALSE
+                            END AS proto_online
+                FROM cte a)
 SELECT a.student_id,
-       a.course_id,
-       CASE
-           WHEN b.is_distance_ed_some OR b.is_distance_ed_all IS TRUE THEN 'TRUE'
-           ELSE FALSE
-        END AS is_distance_ed,
-       CASE
-           WHEN a.instruction_method_desc = 'I' THEN 'TRUE'
-           ELSE FALSE
-        END AS is_online
-  FROM export.student_section a
-LEFT JOIN export.student_term_level b ON b.student_id = a.student_id AND b.term_id = a.term_id AND b.is_primary_level IS TRUE
- WHERE a.is_enrolled IS TRUE
-   AND a.is_current_term IS TRUE
+       bool_or(proto_online) AS is_online
+  FROM proto a
+ GROUP BY a.student_id
    ```
