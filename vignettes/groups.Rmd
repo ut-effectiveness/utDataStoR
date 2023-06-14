@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-#library(utDataStoR)
+library(utDataStoR)
 ```
 
 Groups define the ways students are categorized. These groups can be placed in several classifications.
@@ -115,7 +115,7 @@ A students tuition rate. The options are: Resident all those paying resident tui
 A student is who is taking a course while still attending high school.
 
 ## GPA
-A student's Overall Cumulative GPA. This is typically reported in a GPA band:
+A student's Overall Cumulative GPA. This is typically reported in a GPA band: new (null - no GPA yet); 0-1.999; 2-2.499; 2.5-2.999; 3-4.0.
 
 ## Pell Elligible
 A student who is eligible to receive a Pell grant based on their FAFSA.
@@ -139,6 +139,13 @@ SELECT a.student_id,
            WHEN a.student_type_code = 'H' THEN TRUE
            ELSE FALSE
         END AS is_high_school,
+       CASE
+           WHEN a.overall_cumulative_gpa < 2.0 THEN '0_to_1.999'
+           WHEN a.overall_cumulative_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
+           WHEN a.overall_cumulative_gpa BETWEEN 2.5 AND 2.999 THEN '2.5_to_2.999'
+           WHEN a.overall_cumulative_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
+           ELSE 'new'
+        END AS gpa_band,
        a.overall_cumulative_gpa,
        a.is_pell_eligible,
        a.is_athlete
@@ -146,7 +153,7 @@ SELECT a.student_id,
   LEFT JOIN export.academic_programs b ON b.program_id = a.primary_program_id
  WHERE a.is_enrolled IS TRUE
    AND a.is_primary_level IS TRUE
-   AND a.is_current_term IS TRUE
+   AND a.is_current_term IS TRUE;
 ```
 
 
@@ -196,10 +203,10 @@ SELECT a.student_id,
 A high school student who is not enrolled in any approved and funded concurrent enrollment class.
 
 ## Distance Education Student
-A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
+A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. If TRUE then the student is a distance education student.
 
 ## Online Student
-A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. 
+A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. If TRUE then the student is an online student.
 
 ## SQL for Distance Education Student and Online Student
 
