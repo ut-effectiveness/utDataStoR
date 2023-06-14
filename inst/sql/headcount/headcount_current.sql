@@ -1,5 +1,5 @@
 /*
-End of Term headcount from Edify
+Current headcount from Edify.
 */
 
 SELECT a.term_desc,
