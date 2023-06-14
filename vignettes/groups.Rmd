@@ -160,7 +160,7 @@ SELECT a.student_id,
 Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table.
 
 ## High School Concurrent Enrollment Student
-A High School student enrolled in at least one funded concurrent enrollment class. 
+A High School student enrolled in at least one funded concurrent enrollment class. If TRUE then the student is a High School Concurrent Enrollment Student. If FALSE then the studen is a High School Student Other.
 
 ## SQL for High School Concurrent Enrolment Student
 ```sql
@@ -195,11 +195,37 @@ SELECT a.student_id,
  GROUP BY a.student_id
 ```
 
-## High School Student Other
-A high school student who is not enrolled in any approved and funded concurrent enrollment class.
+
 
 ## Distance Education Student
 A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. If TRUE then the student is a distance education student.
+
+## SQL for Distance Education Student
+```sql
+WITH cte AS
+         (SELECT a.student_id,
+                 a.term_id,
+                 a.course_reference_number,
+                 a.instruction_method_desc,
+                 b.is_distance_ed_all,
+                 b.is_distance_ed_some,
+                 b.is_distance_ed_none
+          FROM export.student_section a
+                   LEFT JOIN export.student_term_level b
+                             ON b.student_id = a.student_id AND b.term_id = a.term_id AND b.is_primary_level IS TRUE
+          WHERE a.is_enrolled IS TRUE
+            AND a.is_current_term IS TRUE),
+     proto AS (SELECT a.student_id,
+                      CASE
+                          WHEN a.is_distance_ed_some OR a.is_distance_ed_all IS TRUE THEN 'TRUE'
+                          ELSE FALSE
+                          END AS proto_distance_ed
+               FROM cte a)
+SELECT a.student_id,
+       bool_or(proto_distance_ed) AS is_distance_ed
+  FROM proto a
+ GROUP BY a.student_id
+ ```
 
 ## Online Student
 A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. If TRUE then the student is an online student.
