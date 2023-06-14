@@ -33,19 +33,19 @@ Data regarding the student's race and ethnicity. There are nine options: Hispani
 ## Citizenship
 The student's relationship to the United States. The options are: US Citizen; Non-Res Alien-Visa or temp bas; Res Alien-immigrant status; Non-Citizen National of US; Nonimmigrant Alien 53B-8-106; Deferred Action; Student curr defined as Other.
 
-## International
+## International Student
 A student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students. If TRUE then the student is an international student.
 
-## Age
+## Age Band
 How old a student is today based on their birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
 
-## First Generation
+## First Generation Student
 A student where neither parent nor guardian has received their bachelor's degree. If TRUE then the student is a first generation student. Students who are unknown are FALSE along with those who are FALSE.
 
 ## Veteran
 A student who has served in the armed forces. This data includes anyone who is receiving veteran benefits (including family members). If TRUE then the student is a veteran.
 
-## Athlete
+## Student Athlete
 A student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If TRUE then the student is an athlete.
 
 ## First Admit Country
@@ -93,7 +93,7 @@ An organizational structure that houses departments, faculty, courses and progra
 ## Department
 An organizational structure that is a sub-unit of a college and houses faculty, courses and programs. Data based off of the program the student has declared.
 
-## Degree Seeking
+## Degree Seeking Student
 A students who is eligible to receive financial aid and earn a degree. Data based off of the program the student has declared. If TRUE the student is degree seeking. If FALSE then students are non-degree seeking.
 
 ## Student Type
@@ -111,16 +111,16 @@ The status of a students time commitment based off of how many credit hours atte
 ## Residency
 A students tuition rate. The options are: Resident all those paying resident tuition; Non-Resident all those paying non-resident tuition; Good Neighbor paying good neighbor tuition.
 
-## High School
+## High School Student
 A student is who is taking a course while still attending high school.
 
-## GPA
+## GPA Band
 A student's Overall Cumulative GPA. This is typically reported in a GPA band: new (null - no GPA yet); 0-1.999; 2-2.499; 2.5-2.999; 3-4.0.
 
 ## Pell Elligible
-A student who is eligible to receive a Pell grant based on their FAFSA.
+A student who is eligible to receive a Pell grant based on their FAFSA. If TRUE then the student is Pell Eligible.
 
-## Athlete
+## Student Athlete
 A student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
 
 ## SQL for Term Based Groups
@@ -146,7 +146,6 @@ SELECT a.student_id,
            WHEN a.overall_cumulative_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
            ELSE 'new'
         END AS gpa_band,
-       a.overall_cumulative_gpa,
        a.is_pell_eligible,
        a.is_athlete
   FROM export.student_term_level a
@@ -169,7 +168,6 @@ WITH cte AS
            (
                SELECT a.budget_code,
                       b.student_type_code,
-                      c.is_concurrent_course,
                       a.student_id,
                       a.course_id,
                       a.term_id
@@ -178,8 +176,6 @@ WITH cte AS
                                     ON b.student_id = a.student_id
                                         AND b.term_id = a.term_id
                                         AND b.is_primary_level IS TRUE
-                          LEFT JOIN export.course c
-                                    ON c.course_id = a.course_id
                 WHERE a.is_enrolled IS TRUE
                   AND a.is_current_term IS TRUE
                 ORDER BY a.student_id
@@ -187,7 +183,7 @@ WITH cte AS
        proto AS (
            SELECT a.student_id,
                   CASE
-                      WHEN student_type_code = 'H' AND (budget_code IN ('BC', 'SF'))
+                      WHEN b.student_type_code = 'H' AND (a.budget_code IN ('BC', 'SF'))
                           THEN TRUE
                       ELSE FALSE
                       END AS proto_concurrent_enrollment
