@@ -159,10 +159,10 @@ SELECT a.student_id,
 # Course Based Groups
 Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table.
 
-## High School Concurrent Enrollment Student
-A High School student enrolled in at least one funded concurrent enrollment class. If TRUE then the student is a High School Concurrent Enrollment Student. If FALSE then the studen is a High School Student Other.
+## High School Student Coding
+A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. If TRUE then the student is a High School Concurrent Enrollment Student. If FALSE then the student is a High School Student Other.
 
-## SQL for High School Concurrent Enrolment Student
+## SQL for High School Student Coding
 ```sql
 WITH cte AS
            (
@@ -194,8 +194,6 @@ SELECT a.student_id,
   FROM proto a
  GROUP BY a.student_id
 ```
-
-
 
 ## Distance Education Student
 A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. If TRUE then the student is a distance education student.
