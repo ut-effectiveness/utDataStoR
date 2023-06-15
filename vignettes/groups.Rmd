@@ -25,37 +25,48 @@ Data in this classification is collected from the student at the time of their a
 
 ## Gender
 The biological sex on a persons birth certificate. The options are M (Male) or F (Female).
+--Add an unknown, check with Tasha and the action team
 
 
 ## IPEDS Race/Ethnicity
 Data regarding the student's race and ethnicity. There are nine options: Hispanic; American Indian/Alaskan; Asian; Black/African American; Hawaiian/Pacific Islander; White; Multiracial; Non-Resident Alien (for those on visa's); Unspecified.
+--bullet the list
+
 
 ## Citizenship
 The student's relationship to the United States. The options are: US Citizen; Non-Res Alien-Visa or temp bas; Res Alien-immigrant status; Non-Citizen National of US; Nonimmigrant Alien 53B-8-106; Deferred Action; Student curr defined as Other.
+-- bullet the list
+
 
 ## International Student
-A student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students. If TRUE then the student is an international student.
+A student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students. 
 
 ## Age Band
-How old a student is today based on their birth date. This is typically reported in an age band: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
+How old a student is today based on their birth date. Reported as: <18; 18-24; 25-34; 35-44; 44-59; >= 60.
 
 ## First Generation Student
-A student where neither parent nor guardian has received their bachelor's degree. If TRUE then the student is a first generation student. Students who are unknown are FALSE along with those who are FALSE.
+A first generation student is student where neither parent nor guardian has received their bachelor's degree. 
+--On the ... if they don't respond ...
+
 
 ## Veteran
-A student who has served in the armed forces. This data includes anyone who is receiving veteran benefits (including family members). If TRUE then the student is a veteran.
+A veteran is a student who has served in the armed forces. This data includes anyone who is receiving veteran benefits (including family members). If TRUE then the student is a veteran.
+--double check with veteran office (is it an or)
 
 ## Student Athlete
-A student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If TRUE then the student is an athlete.
+A student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. 
 
 ## First Admit Country
 The country the student lived at the time of first application.
+--country listed on the first admitted application
 
 ## First Admit State
 The state the student lived at the time of first application. Students who were not in the US get grouped into Foreign State.
+--above
 
 ## First Admit County
 The county the student lived at the time of first application. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
+--above
 
 ## SQL for Demographic Groups
 
@@ -88,28 +99,35 @@ SELECT a.student_id,
 Data in this classification can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table.
 
 ## College
-An organizational structure that houses departments, faculty, courses and programs. Data based off of the program the student has declared. There are nine options: College of Business; College of Education; College of Fine Arts; College of Global and Community Outreach; College of Health Sciences; College of Humanities and Social Sciences; College of Science, Engineering and Technology; and University College.
+Students are placed in colleges based off of the primary program the student has declared. There are nine options: College of Business; College of Education; College of Fine Arts; College of Global and Community Outreach; College of Health Sciences; College of Humanities and Social Sciences; College of Science, Engineering and Technology; and University College.
+-- bullet - abbr
 
 ## Department
-An organizational structure that is a sub-unit of a college and houses faculty, courses and programs. Data based off of the program the student has declared.
+An organizational structure that is a sub-unit of a college and houses faculty, courses and programs. Data is based off of the primary program the student has declared.
+-- Programs are assigned to a department and deptarments are assigned to colleges.
 
 ## Degree Seeking Student
-A students who is eligible to receive financial aid and earn a degree. Data based off of the program the student has declared. If TRUE the student is degree seeking. If FALSE then students are non-degree seeking.
+A students who is eligible to receive financial aid and earn a degree. Data based off of the primary program the student has declared. 
+-- if a student is in primary program that leads to a credential.
 
 ## Student Type
 A student's enrollment status or registration status for the term.
+-- bullet points and define
+
 
 ## Student Level
 The level of degree a student is pursing. The options are: Undergraduate or Graduate.
 
 ## Class Level
-A student's hierarchical status which is classified on the basis of earned credit hours for undergraduate students. The options are: Freshman <30 credit hours; Sophomore 30-59 credit hours; Junior 60-89 credit hours; Senior 90 or more credit hours. All graduate students are reported as Graduate.
+A student's hierarchical status which is classified on the basis of overall cumulative earned credit hours for undergraduate students. The options are: Freshman <30 credit hours; Sophomore 30-59 credit hours; Junior 60-89 credit hours; Senior 90 or more credit hours. All graduate students are reported as Graduate.
+We have 1st year sophomores and we have 3rd year freshman. The class level is not the same as year in school - it is based on credits.
+--bullets
 
 ## Full-time Part-time
 The status of a students time commitment based off of how many credit hours attempted and the students level for a given semester. The options are: Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours; Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
 
 ## Residency
-A students tuition rate. The options are: Resident all those paying resident tuition; Non-Resident all those paying non-resident tuition; Good Neighbor paying good neighbor tuition.
+Classification of which state the student is a resident of as listed in the system of record. The options are: Resident; Non-Resident; Good Neighbor.
 
 ## High School Student
 A student is who is taking a course while still attending high school.
