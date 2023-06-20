@@ -227,10 +227,10 @@ SELECT a.student_id,
 # Course Based Groups
 Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table.
 
-## High School Student Coding
-A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. If TRUE then the student is a High School Concurrent Enrollment Student. If FALSE then the student is a High School Student Other.
+## High School Concurrent Enrollment Student
+A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. High School Concurrent Enrollment students are a subset of High School Students. If a high school student isn't a concurrent enrollment student then the student is a High School Student, Other.
 
-## SQL for High School Student Coding
+## SQL for High School Concurrent Enrollment Student
 ```sql
 WITH cte AS
            (
@@ -264,7 +264,7 @@ SELECT a.student_id,
 ```
 
 ## Distance Education Student
-A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. If TRUE then the student is a distance education student.
+A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
 
 ## SQL for Distance Education Student
 ```sql
@@ -293,7 +293,7 @@ SELECT a.student_id,
  ```
 
 ## Online Student
-A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. If TRUE then the student is an online student.
+A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. 
 
 ## SQL for Online Student
 
@@ -317,3 +317,20 @@ SELECT a.student_id,
   FROM proto a
  GROUP BY a.student_id
    ```
+
+## Online Tuition Student
+An Online Tuition Student is a student who is paying online tuition because they are in an online only programn (the program can only be completed online). 
+
+## SQL for Online Tution Student
+
+```sql
+SELECT DISTINCT tbraccd_pidm,
+                tbraccd_term_code,
+                SUM(tbraccd_amount :: numeric),
+                TRUE AS is_online_tuition
+FROM banner.tbraccd a
+WHERE tbraccd_detail_code IN ('1450', '1451', '1452', '1460', '1461', '1462') -- Online Tuition Codes
+GROUP BY tbraccd_pidm,
+         tbraccd_term_code
+HAVING SUM(tbraccd_amount :: numeric) > 0 -- excludes reverse tuition charges
+```
