@@ -70,10 +70,7 @@ Age is how old a student is today based on their birth date. Reported as:
 A first generation student is student where neither parent nor guardian has received their bachelor's degree. On the application the student is asked if either of their parent(s) or guardian(s) has received their bachelor degree, if they respond no then the student is a first generation student. If they respond yes or if they don't answer then the student is not a first generation student.
 
 ## Veteran
-A veteran is a student who has served in the armed forces. This data includes anyone who is receiving veteran benefits (including family members).
-
---double check with veteran office (is it an or)
-
+A veteran is a student who has served in the armed forces or is receiving veteran benefits (including family members).
 
 ## Student Athlete
 A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. 
@@ -138,43 +135,55 @@ A student is a degree seeking student if the students primary program leads to a
 ## Student Type
 A student's enrollment status or registration status for the term.
 
-C	Continuing Registration
-S	Special
-5	Continuing Graduate
-T	Transfer
-P	Personal Interest, Non-Degree
-F	Freshman
-H	High School
-1	New Graduate
-N	New Freshman from HS
-3	Readmit Graduate
-0	Undeclared
-R	Readmit
-2	Transfer Graduate
-
-
+- H -	High School
+- F	- Freshman
+- C -	Continuing Registration
+- R	- Readmit
+- T -	Transfer
+- P	- Personal Interest, Non-Degree
+- 1	- New Graduate
+- 2	- Transfer Graduate
+- 3	- Readmit Graduate
+- 5	- Continuing Graduate
 
 ## Student Level
 The level of degree a student is pursing. The options are: Undergraduate or Graduate.
 
 ## Class Level
-A student's class level is based on their overall cumulative earned credit hours. For undergraduate students, he options are: Freshman <30 credit hours; Sophomore 30-59 credit hours; Junior 60-89 credit hours; Senior 90 or more credit hours. All graduate students are reported as Graduate.
-A student's class level is not the same as their year in school, it is based on credit. There can be sophomores in their first semester, as well as freshmen in their third year.
---bullets
+A student's class level is based on their overall cumulative earned credit hours. A student's class level is not the same as their year in school, it is based on credit hours. There can be sophomores in their first semester, as well as freshmen in their third year.
+
+All graduate students are reported as Graduate.
+For undergraduate students, he options are: 
+
+- Freshman <30 credit hours
+- Sophomore 30-59 credit hours 
+- Junior 60-89 credit hours
+- Senior 90 or more credit hours 
 
 ## Full-time Part-time
-The status of a students time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours; Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
+The status of a students time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: 
+
+- Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours
+- Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
 
 ## Residency
-Residency is the state the student is a resident of as listed in the system of record. The options are: Resident; Non-Resident; Good Neighbor.
---bullet
+Residency is the state the student is a resident of as listed in the system of record. The options are:
+
+- Resident
+- Non-Resident
+- Good Neighbor
 
 ## High School Student
 A student is who is taking a course at Utah Tech University while still attending high school.
 
 ## GPA Band
-A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: new (null - no GPA yet); 0-1.999; 2-2.499; 2.5-2.999; 3-4.0.
---bullet
+A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: 
+
+- new (null - no GPA yet)
+- 0-1.999
+- 2-2.49
+- 2.5-2.999
+- 3-4.0
 
 ## Pell Eligible
 A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. 
