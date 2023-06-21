@@ -326,11 +326,10 @@ An Online Tuition Student is a student who is paying online tuition because they
 ```sql
 SELECT DISTINCT tbraccd_pidm,
                 tbraccd_term_code,
-                SUM(tbraccd_amount :: numeric),
-                TRUE AS is_online_tuition
+                CASE
+                    WHEN tbraccd_detail_code IN ('1450', '1451', '1452', '1850')
+                        OR tbraccd_detail_code BETWEEN '1460' AND '1474' THEN 'TRUE'
+                    ELSE 'FALSE'
+                    END AS is_online_tuition -- Online Tuition Codes
 FROM banner.tbraccd a
-WHERE tbraccd_detail_code IN ('1450', '1451', '1452', '1460', '1461', '1462') -- Online Tuition Codes
-GROUP BY tbraccd_pidm,
-         tbraccd_term_code
-HAVING SUM(tbraccd_amount :: numeric) > 0 -- excludes reverse tuition charges
 ```
