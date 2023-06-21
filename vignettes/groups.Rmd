@@ -24,13 +24,13 @@ Groups define the ways students are categorized. These groups can be placed in s
 Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table.
 
 ## Gender
-Gender is the biological sex on a persons birth certificate. The options are M (Male) or F (Female).
+Gender is the biological sex on a student's birth certificate. The options are M (Male) or F (Female).
 
 --Add an unknown, check with Tasha and the action team
 
 
 ## IPEDS Race/Ethnicity
-Data regarding the student's race and ethnicity. There are nine options:
+IPEDS Race/Ethnicity is data reporting the student's race and ethnicity. There are nine options:
 
 - Hispanic
 - American Indian/Alaskan
@@ -67,7 +67,7 @@ Age is how old a student is today based on their birth date. Reported as:
 - 60 plus
 
 ## First Generation Student
-A first generation student is student where neither parent nor guardian has received their bachelor's degree. On the application the student is asked if either of their parent(s) or guardian(s) has received their bachelor degree, if they respond no then the student is a first generation student. If they respond yes or if they don't answer then the student is not a first generation student.
+A first generation student is a student where neither parent nor guardian has received their bachelor's degree. On the application the student is asked if either of their parent(s) or guardian(s) has received a bachelor degree, if they respond no then the student is a first generation student. If they respond yes or if they don't answer then the student is not a first generation student.
 
 ## Veteran
 A veteran is a student who has served in the armed forces or is receiving veteran benefits (including family members).
@@ -133,7 +133,7 @@ Students are placed in departments based off of the primary program the student 
 A student is a degree seeking student if the students primary program leads to a credential. 
 
 ## Student Type
-A student's enrollment status or registration status for the term.
+Student Type is a student's enrollment status or registration status for the term. The options are:
 
 - H -	High School
 - F	- Freshman
@@ -147,13 +147,13 @@ A student's enrollment status or registration status for the term.
 - 5	- Continuing Graduate
 
 ## Student Level
-The level of degree a student is pursing. The options are: Undergraduate or Graduate.
+A student's level is the level of degree a student is pursing. The options are: Undergraduate or Graduate.
 
 ## Class Level
 A student's class level is based on their overall cumulative earned credit hours. A student's class level is not the same as their year in school, it is based on credit hours. There can be sophomores in their first semester, as well as freshmen in their third year.
 
 All graduate students are reported as Graduate.
-For undergraduate students, he options are: 
+For undergraduate students, the options are: 
 
 - Freshman <30 credit hours
 - Sophomore 30-59 credit hours 
@@ -161,7 +161,7 @@ For undergraduate students, he options are:
 - Senior 90 or more credit hours 
 
 ## Full-time Part-time
-The status of a students time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: 
+Full-time Part-Time is the status of a student's time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: 
 
 - Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours
 - Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
@@ -174,7 +174,7 @@ Residency is the state the student is a resident of as listed in the system of r
 - Good Neighbor
 
 ## High School Student
-A student is who is taking a course at Utah Tech University while still attending high school.
+A High School Student is a student is who is taking a course at Utah Tech University while still attending high school.
 
 ## GPA Band
 A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: 
@@ -189,7 +189,7 @@ A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band:
 A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. 
 
 ## Student Athlete
-A student athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
+A Student Athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
 
 ## SQL for Term Based Groups
 
@@ -319,7 +319,7 @@ SELECT a.student_id,
    ```
 
 ## Online Tuition Student
-An Online Tuition Student is a student who is paying online tuition because they are in an online only programn (the program can only be completed online). 
+An Online Tuition Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
 
 ## SQL for Online Tution Student
 
