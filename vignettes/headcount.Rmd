@@ -31,12 +31,12 @@ The headcount based on the snapshot of the data on that day. --clean this up and
 
 The current net unduplicated headcount is the number of students enrolled. 
 
-- Example: The current headcount for Fall 2021 is 12,266 students who are enrolled at UT. This headcount can vary by day during an academic term as it is active data.
+This headcount can vary by day during an academic term as it is active data.
 
---The current headcount can change after the semester ends. Add reasons why.
+The current headcount may also change after the semester ends if official changes are made to a student's withdrawal status.
 
 ```sql
-SELECT a.term_desc,
+   SELECT a.term_desc,
           COUNT(a.sis_system_id) AS current_headcount
      FROM export.student_term_level_version a
 LEFT JOIN export.term b
@@ -44,46 +44,40 @@ LEFT JOIN export.term b
     WHERE a.is_enrolled IS TRUE
       AND a.is_primary_level IS TRUE
       AND a.version_desc = 'Current'
-      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
-      AND b.season IN ('Fall', 'Spring') -- Fall and Spring only == Add summer
+      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current term plus last 5 Years.
  GROUP BY a.term_desc
  ORDER BY a.term_desc;
 ``` 
 
 ## Census Headcount
 
-The census headcount is the net unduplicated number of students who were enrolled as of the 15th day of instruction of an academic term. This headcount is set as a static number that will not change as it is based on snapshot data and used as an official reporting metric.
-
-- Example: The census headcount for Fall 2021 is 12,266.
+The census headcount is the net unduplicated number of students who were enrolled as of the 15th day of instruction of an academic term. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
 
 ```sql
 ...
-AND a.version_desc = 'Census' --add note here about changing the version desc
+AND a.version_desc = 'Census' --Version description of snapshot status.
 ...
 ```
 
 ## End of Term Headcount
 
-The end of term headcount is the net unduplicated number of students who were enrolled at the end of the semester and after the HS Concurrent Enrollment grades are entered. This headcount is set as a static number that will not change as it is based on snapshot data and used as an official reporting metric.
-
-- Example: The end of term headcount for Fall 2021 is 12,277.
+The end of term headcount is the net unduplicated number of students who were enrolled at the end of the semester and after the HS Concurrent Enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
 
 ```sql
 ...
-AND a.version_desc = 'End of Term' --add note about changing end of term.
+AND a.version_desc = 'End of Term' --Version description of snapshot status.
 ...
 ```
 
 ## IPEDS Headcount
 
-The Fall Enrollment survey is based on a snapshot of Utah Tech's unduplicated Fall census enrollment headcount. The IPEDS headcount matches the Fall Census Enrollment.
-
+The Fall Enrollment survey is based on a snapshot of Utah Tech's unduplicated Fall census enrollment headcount. 
 
 ## USHE Headcount
 
 The USHE headcount is census headcount
 
-The USHE headount reports net headcount by extract five times per fiscal year:
+The USHE headcount reports net headcount by extract five times per fiscal year:
 
 - Summer End of Term
 - Fall Census 
