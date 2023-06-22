@@ -194,6 +194,9 @@ A Pell Eligible student is a student who is eligible to receive a Pell grant bas
 ## Student Athlete
 A Student Athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
 
+## Student Classification
+-- this should be something similar to student type but it will break down degree-seeking and non-degree seeking sub groups
+
 ## SQL for Term Based Groups
 
 ```sql
