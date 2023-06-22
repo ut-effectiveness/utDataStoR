@@ -129,6 +129,9 @@ Students are placed in colleges based off of the primary program the student has
 ## Department
 Students are placed in departments based off of the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges.
 
+## Program
+Students declare a program of study at point of application. Programs are a prescribed set of courses leading to a degree or certification if the student is degree-seeking, if the student is not degree seeking the program indicates the type of non-degree program they are in.
+
 ## Degree Seeking Student
 A student is a degree seeking student if the students primary program leads to a credential. 
 
@@ -197,6 +200,7 @@ A Student Athlete is a student who was on the official team roster on or after t
 SELECT a.student_id,
        b.college_id,
        b.department_desc,
+       a.primary_program_id,
        a.is_degree_seeking,
        a.student_type_desc,
        a.level_desc,
