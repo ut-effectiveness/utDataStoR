@@ -84,6 +84,9 @@ First admit state is the the state listed on the students first application wher
 ## First Admit County
 First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
 
+## Program at time of Application
+-- RNL pull
+
 ## SQL for Demographic Groups
 
 ```sql
@@ -255,7 +258,7 @@ WITH cte AS
                   AND a.is_current_term IS TRUE
                 ORDER BY a.student_id
            ),
-       proto AS (
+       proto AS ( --add an explaination for what this code does
            SELECT a.student_id,
                   CASE
                       WHEN b.student_type_code = 'H' AND (a.budget_code IN ('BC', 'SF'))
@@ -274,6 +277,7 @@ SELECT a.student_id,
 A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
 
 ## SQL for Distance Education Student
+-- get rid of second cte
 ```sql
 WITH cte AS
          (SELECT a.student_id,
@@ -299,11 +303,11 @@ SELECT a.student_id,
  GROUP BY a.student_id
  ```
 
-## Online Student
+## Online Status
 A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. Interactions between students and instructor primarily occur through applications like email, chat, or video chat. 
 
 ## SQL for Online Student
-
+-- do some, none, all
 ```sql
 WITH cte AS
          (SELECT a.student_id,
@@ -325,11 +329,11 @@ SELECT a.student_id,
  GROUP BY a.student_id
    ```
 
-## Online Tuition Student
-An Online Tuition Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
+## Online Program Student
+An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
 
-## SQL for Online Tution Student
-
+## SQL for Online Program Student
+-- want to add this to the student_term_level table (work with Candi)
 ```sql
 SELECT DISTINCT tbraccd_pidm,
                 tbraccd_term_code,
