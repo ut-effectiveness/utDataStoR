@@ -20,12 +20,9 @@ library(utDataStoR)
 
 Headcount is a measure of the net unduplicated number of students enrolled at Utah Tech for a specific period of time and how it is used for official reporting and inquiry.
 
-This vignette will focus on defining headcount.
-
 ## Point In Time Headcount
 
-The headcount based on the snapshot of the data on that day. --clean this up and define what it means.
-
+The point in time headcount is a snapshot of current unduplicated enrollment data for each calendar day during an academic term.
 
 ## Current Headcount
 
@@ -61,7 +58,7 @@ AND a.version_desc = 'Census' --Version description of snapshot status.
 
 ## End of Term Headcount
 
-The end of term headcount is the net unduplicated number of students who were enrolled at the end of the semester and after the HS Concurrent Enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
+The end of term headcount is the net unduplicated number of students who were enrolled at the end of the semester and after the High School Concurrent Enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
 
 ```sql
 ...
@@ -73,11 +70,12 @@ AND a.version_desc = 'End of Term' --Version description of snapshot status.
 
 The Fall Enrollment survey is based on a snapshot of Utah Tech's unduplicated Fall census enrollment headcount. 
 
+## IPEDS 12 Month Enrollment Headcount
+
+
 ## USHE Headcount
 
-The USHE headcount is census headcount
-
-The USHE headcount reports net headcount by extract five times per fiscal year:
+The USHE headcount reports net headcount five times per fiscal year:
 
 - Summer End of Term
 - Fall Census 
@@ -90,10 +88,6 @@ The USHE headcount reports net headcount by extract five times per fiscal year:
 USHE's headcount is based on Census Headcount and modified to meet USHE criteria.
 
 This definition is not the same as IPEDS Headcount.
-
-
-
-Reporting for the Spring Census Students Data Submission file is based on the static net enrollment headcount for the 3rd week or 15th day of instruction for a Spring academic term.
 
 **End of Term**: USHE Students Data Submission File
 
