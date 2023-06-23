@@ -85,8 +85,6 @@ First admit state is the the state listed on the students first application wher
 ## First Admit County
 First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
 
-## Program at time of Application
--- RNL pull
 
 ## SQL for Demographic Groups
 
@@ -203,6 +201,7 @@ A Pell Eligible student is a student who is eligible to receive a Pell grant bas
 A Student Athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
 
 ## Student Category
+-- Need SQL
 A students category is based off of their degree seeking status. The options are:
 
 - Degree Seeking
