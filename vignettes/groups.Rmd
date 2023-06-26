@@ -284,73 +284,61 @@ SELECT a.student_id,
  GROUP BY a.student_id
 ```
 
-## Distance Education Student
-A student who is enrolled in at least one distance education course. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
+## Distance Education Status
+Distance Education Status determines if a students courses are Distance Education All, Distance Education Some, or Distance Education None. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
 
 ## SQL for Distance Education Student
--- get rid of second cte
+
 ```sql
-WITH cte AS
-         (SELECT a.student_id,
-                 a.term_id,
-                 a.course_reference_number,
-                 b.is_distance_ed_all,
-                 b.is_distance_ed_some,
-                 b.is_distance_ed_none
-          FROM export.student_section a
-                   LEFT JOIN export.student_term_level b
-                             ON b.student_id = a.student_id AND b.term_id = a.term_id AND b.is_primary_level IS TRUE
-          WHERE a.is_enrolled IS TRUE
-            AND a.is_current_term IS TRUE),
-     proto AS (SELECT a.student_id,
-                      CASE
-                          WHEN a.is_distance_ed_some OR a.is_distance_ed_all IS TRUE THEN 'TRUE'
-                          ELSE FALSE
-                          END AS proto_distance_ed
-               FROM cte a)
 SELECT a.student_id,
-       bool_or(proto_distance_ed) AS is_distance_ed
-  FROM proto a
- GROUP BY a.student_id
+       a.is_distance_ed_all,
+       a.is_distance_ed_some,
+       a.is_distance_ed_none
+  FROM export.student_term_level a
+ WHERE a.is_enrolled IS TRUE
+   AND a.is_primary_level IS TRUE
+   AND a.is_current_term IS TRUE
  ```
 
 ## Online Status
-A student who is enrolled in at least one online course. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. 
+Online Status determines if a students courses are Online All, Online Some, or Online None. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. 
 
 ## SQL for Online Student
--- do some, none, all
+
 ```sql
-WITH cte AS
-         (SELECT a.student_id,
-                 a.term_id,
-                 a.course_reference_number,
-                 a.instruction_method_code
-          FROM export.student_section a
-          WHERE a.is_enrolled IS TRUE
-            AND a.is_current_term IS TRUE),
-     proto AS (SELECT a.student_id,
-                       CASE
-                            WHEN a.instruction_method_code = 'I' THEN 'TRUE'
-                            ELSE FALSE
-                            END AS proto_online
-                FROM cte a)
-SELECT a.student_id,
-       bool_or(proto_online) AS is_online
-  FROM proto a
- GROUP BY a.student_id
+SELECT student_id,
+       instruction_method_code_aggregated,
+       instruction_method_code_aggregated !~ '[I]'  AS online_none,
+       instruction_method_code_aggregated !~ '[^I]' AS online_all,
+       CASE
+           WHEN instruction_method_code_aggregated !~ '[^I]' THEN FALSE
+           WHEN instruction_method_code_aggregated ~ '[I]+' THEN TRUE
+           ELSE FALSE
+           END                                      AS online_some,
+       academic_year_code
+FROM (SELECT a.student_id,
+             STRING_AGG(instruction_method_code :: VARCHAR, ''
+                        ORDER BY instruction_method_code) AS instruction_method_code_aggregated,
+             b.academic_year_code
+      FROM export.student_section a
+               LEFT JOIN export.term b ON b.term_id = a.term_id
+      WHERE is_enrolled
+        AND season != 'Summer'
+      GROUP BY a.student_id,
+               b.academic_year_code) x
    ```
 
 ## Online Program Student
 An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
 
 ## SQL for Online Program Student
+
 ```sql
-SELECT DISTINCT tbraccd_pidm,
-                tbraccd_term_code,
-                CASE
-                    WHEN tbraccd_detail_code IN ('1450', '1451', '1452', '1850')
-                        OR tbraccd_detail_code BETWEEN '1460' AND '1474' THEN 'TRUE'
-                    ELSE 'FALSE'
-                    END AS is_online_tuition -- Online Tuition Codes
-FROM banner.tbraccd a
+SELECT a.student_id,
+       a.primary_major_campus_id
+FROM export.student_term_level a
+WHERE a.primary_major_campus_id = 'O01'
+  AND a.is_enrolled
+  AND a.is_primary_level
+  AND a.is_current_term
 ```
