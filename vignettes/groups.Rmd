@@ -183,7 +183,10 @@ Residency is the state the student is a resident of as listed in the system of r
 - Good Neighbor
 
 ## High School Student
-A High School Student is a student is who is taking a course at Utah Tech University while still attending high school.
+A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking.
+
+## Non-Matriculated
+A non-degree-seeking student who is enrolled to per sue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking.
 
 ## GPA Band
 A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: 
@@ -228,6 +231,10 @@ SELECT a.student_id,
            WHEN a.student_type_code = 'H' THEN TRUE
            ELSE FALSE
         END AS is_high_school,
+       CASE
+           WHEN a.student_type_code = 'P' THEN TRUE
+           ELSE FALSE
+        END AS is_non_matriculated,
        CASE
            WHEN a.overall_cumulative_gpa < 2.0 THEN '0_to_1.999'
            WHEN a.overall_cumulative_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
@@ -341,4 +348,63 @@ WHERE a.primary_major_campus_id = 'O01'
   AND a.is_enrolled
   AND a.is_primary_level
   AND a.is_current_term
+```
+
+--holding spot
+## SQL for Student Categories
+```sql
+WITH cte_degree_seeking AS
+           (
+               SELECT a.student_id,
+                      a.term_id,
+                      a.is_degree_seeking
+                 FROM export.student_term_level a
+                WHERE a.is_enrolled IS TRUE
+                  AND a.is_primary_level IS TRUE
+                  AND a.is_current_term IS TRUE
+                ORDER BY a.student_id
+           ),
+cte_non_matriculated AS
+           (
+               SELECT a.student_id,
+                      a.term_id,
+                      CASE
+                          WHEN a.student_type_code = 'P' THEN 'TRUE'
+                          ELSE 'FALSE'
+                          END AS is_non_matriculated
+                 FROM export.student_term_level a
+                WHERE a.is_enrolled IS TRUE
+                  AND a.is_primary_level IS TRUE
+                  AND a.is_current_term IS TRUE
+                ORDER BY a.student_id
+           ),
+cte_high_school AS
+           (
+               SELECT a.student_id,
+                      a.term_id,
+                      CASE
+                          WHEN a.student_type_code = 'H' THEN 'TRUE'
+                          ELSE 'FALSE'
+                          END AS is_high_school
+                 FROM export.student_term_level a
+                WHERE a.is_enrolled IS TRUE
+                  AND a.is_primary_level IS TRUE
+                  AND a.is_current_term IS TRUE
+                ORDER BY a.student_id
+           )
+SELECT a.student_id,
+       a.term_id,
+       b.is_degree_seeking,
+       c.is_non_matriculated,
+       d.is_high_school
+  FROM export.student_term_level a
+LEFT JOIN cte_degree_seeking b
+            ON b.student_id = a.student_id AND b.term_id = a.term_id
+ LEFT JOIN cte_non_matriculated c
+            ON c.student_id = a.student_id AND c.term_id = a.term_id
+ LEFT JOIN cte_high_school d
+            ON d.student_id = a.student_id AND d.term_id = a.term_id
+ WHERE a.is_enrolled IS TRUE
+   AND a.is_primary_level IS TRUE
+   AND a.is_current_term IS TRUE
 ```
