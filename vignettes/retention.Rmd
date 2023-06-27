@@ -40,7 +40,17 @@ Cohort retention metrics track these cohorts as they progress toward graduation.
 - Fall-to-fall3 cohort retention rate 
 - Fall-to-fall4 cohort retention rate
 
-
 ## Term-to-term
 
-Define this.
+Term-to-term retention tracks all students (degree seeking and non-degree seeking) from academic term to term, regardless of their assigned cohort. The denominator for this metric is the number of students enrolled in an academic term. The numerator for this metric is the number of students still enrolled in a subsequent term. 
+
+Term-to-term retention can be calculated on a fall-to-fall basis or a fall-to-spring basis with outcomes that indicate the status of a student.
+
+Term-to-term outcomes include:
+
+  - Associates: Student completed an associates credential.
+  - Masters: Student completed a masters credential.
+  - Dropped Out: Student did not enroll for subsequent term.
+  - Stopped Out: Student temporarily withdraws from enrolling in subsequent terms.
+  - Enrolled: Student is enrolled in the subsequent term.
+
