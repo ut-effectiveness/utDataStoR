@@ -188,6 +188,24 @@ A High School Student is a student is who is taking a course at Utah Tech Univer
 ## Non-Matriculated
 A non-degree-seeking student who is enrolled to per sue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking.
 
+## Online Program Student
+An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
+
+## SQL for Online Program Student
+
+```sql
+SELECT a.student_id,
+       a.primary_major_campus_id,
+       CASE
+           WHEN a.primary_major_campus_id = 'O01' THEN 'TRUE'
+            ELSE 'FALSE'
+            END AS online_program_student
+FROM export.student_term_level a
+WHERE a.is_enrolled
+  AND a.is_primary_level
+  AND a.is_current_term
+```
+
 ## GPA Band
 A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: 
 
@@ -203,16 +221,6 @@ A Pell Eligible student is a student who is eligible to receive a Pell grant bas
 ## Student Athlete
 A Student Athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
 
-## Student Category
--- Need SQL
-A students category is based off of their degree seeking status. The options are:
-
-- Degree Seeking
-- Non-Degree Seeking
-  - Non-Matriculated
-  - High School Students
-    - High School Concurrent Enrollment Students
-    - High School Students, Other
 
 ## SQL for Term Based Groups
 
@@ -276,25 +284,27 @@ WITH cte AS
                   AND a.is_current_term IS TRUE
                 ORDER BY a.student_id
            ),
-       proto AS ( --this query flags student courses that are eligible for concurrent enrollment funds
+       concurrent_cte AS ( --this query flags student courses that are eligible for concurrent enrollment funds
            SELECT a.student_id,
+                  a.term_id,
                   CASE
                       WHEN a.student_type_code = 'H' AND (a.budget_code IN ('BC', 'SF'))
                           THEN TRUE
                       ELSE FALSE
-                      END AS proto_concurrent_enrollment
+                      END AS cte_concurrent_enrollment
              FROM cte a
        )
 SELECT a.student_id,
-       bool_or(proto_concurrent_enrollment) AS is_concurrent_enrollment
-  FROM proto a
- GROUP BY a.student_id
+       a.term_id,
+       bool_or(cte_concurrent_enrollment) AS is_concurrent_enrollment
+  FROM concurrent_cte a
+ GROUP BY a.student_id, a.term_id
 ```
 
 ## Distance Education Status
 Distance Education Status determines if a students courses are Distance Education All, Distance Education Some, or Distance Education None. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
 
-## SQL for Distance Education Student
+## SQL for Distance Education Status
 
 ```sql
 SELECT a.student_id,
@@ -310,7 +320,7 @@ SELECT a.student_id,
 ## Online Status
 Online Status determines if a students courses are Online All, Online Some, or Online None. An online course is a subset of distance education courses. Online courses are primarily delivered asynchronously; students work at their own pace within the timelines established by the instructor. 
 
-## SQL for Online Student
+## SQL for Online Status
 
 ```sql
 SELECT student_id,
@@ -335,23 +345,17 @@ FROM (SELECT a.student_id,
                b.academic_year_code) x
    ```
 
-## Online Program Student
-An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
 
-## SQL for Online Program Student
+## Student Category
+A students category is based off of their degree seeking status. The options are:
 
-```sql
-SELECT a.student_id,
-       a.primary_major_campus_id
-FROM export.student_term_level a
-WHERE a.primary_major_campus_id = 'O01'
-  AND a.is_enrolled
-  AND a.is_primary_level
-  AND a.is_current_term
-```
+- Degree Seeking
+- Non-Matriculated
+- High School Concurrent Enrollment Students
+- High School Students, Other
 
---holding spot
-## SQL for Student Categories
+
+## SQL for Student Category
 ```sql
 WITH cte_degree_seeking AS
          (SELECT a.student_id,
@@ -420,7 +424,13 @@ SELECT a.student_id,
        b.is_degree_seeking,
        c.is_non_matriculated,
        d.is_high_school,
-       e.is_concurrent_enrollment
+       e.is_concurrent_enrollment,
+       CASE WHEN b.is_degree_seeking = 'TRUE' THEN 'degree-seeking'
+            WHEN c.is_non_matriculated = 'TRUE' THEN 'non-matriculated'
+            WHEN d.is_high_school = 'TRUE' AND e.is_concurrent_enrollment = 'TRUE' THEN 'high_school_concurrent'
+            WHEN d.is_high_school = 'TRUE' AND e.is_concurrent_enrollment = 'FALSE' THEN 'high_school_other'
+            ELSE 'error'
+            END AS student_categories
 FROM export.student_term_level a
          LEFT JOIN cte_degree_seeking b
                    ON b.student_id = a.student_id AND b.term_id = a.term_id
