@@ -42,3 +42,5 @@ Cohort retention metrics track these cohorts as they progress toward graduation.
 
 
 ## Term-to-term
+
+Define this.
