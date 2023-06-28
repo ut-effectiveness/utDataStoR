@@ -345,15 +345,13 @@ FROM (SELECT a.student_id,
                b.academic_year_code) x
    ```
 
-
 ## Student Category
-A students category is based off of their degree seeking status. The options are:
+A student's category is based off of their degree seeking status. The options are:
 
 - Degree Seeking
 - Non-Matriculated
 - High School Concurrent Enrollment Students
 - High School Students, Other
-
 
 ## SQL for Student Category
 ```sql
