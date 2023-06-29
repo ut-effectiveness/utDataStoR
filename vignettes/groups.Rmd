@@ -191,21 +191,6 @@ A non-degree-seeking student who is enrolled to per sue personal interests, not 
 ## Online Program Student
 An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
 
-## SQL for Online Program Student
-
-```sql
-SELECT a.student_id,
-       a.primary_major_campus_id,
-       CASE
-           WHEN a.primary_major_campus_id = 'O01' THEN 'TRUE'
-            ELSE 'FALSE'
-            END AS online_program_student
-FROM export.student_term_level a
-WHERE a.is_enrolled
-  AND a.is_primary_level
-  AND a.is_current_term
-```
-
 ## GPA Band
 A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: 
 
@@ -243,6 +228,10 @@ SELECT a.student_id,
            WHEN a.student_type_code = 'P' THEN TRUE
            ELSE FALSE
         END AS is_non_matriculated,
+        CASE
+           WHEN a.primary_major_campus_id = 'O01' THEN 'TRUE'
+            ELSE 'FALSE'
+            END AS online_program_student,
        CASE
            WHEN a.overall_cumulative_gpa < 2.0 THEN '0_to_1.999'
            WHEN a.overall_cumulative_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
