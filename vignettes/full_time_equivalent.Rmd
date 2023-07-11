@@ -20,17 +20,37 @@ library(utDataStoR)
 library(readr)
 ```
 
-# How to produce SQL code
+/* FTE Undergraduate by Credit Hour Type - Census
+*/
 
-`{utDataStor}` has three queries for FTE. All three queries pull the same data, they only differ in where they pull from: Edify, REPT, or DSCIR. The following function will produce the file `my_new_name.sql` in your file called `sql`. 
+FTE: Full-time Equivalent Enrollment
 
-```{r eval = FALSE}
-sql_fte('edify', 'my_new_name.sql')
-```
+IPEDS calculates FTE twice a year. The Fall Enrollment survey and the 12 Month Enrollment survey.
 
-It will produce the following file.
+USHE calculates FTE:
+
+- Summer End of Term
+- Fall 3rd Week Census
+- Fall End of Term
+- Spring 3rd Week Census
+- Spring End of Term
+
+
 ```sql
-`r read_file(here::here('inst', 'sql', 'fte', 'fte_off_edify.sql'))`
+SELECT b.term_desc,
+       b.season,
+          SUM(a.attempted_credits) as attmp_cred,
+          ROUND(SUM(a.attempted_credits)/15, 2) as attmp_cred_fte,
+          a.course_level_id,
+          a.version_desc
+     FROM export.student_section_version a
+LEFT JOIN export.term b
+       ON a.term_id = b.term_id
+    WHERE a.is_enrolled = TRUE
+      AND a.version_desc = 'Census'
+      AND a.course_level_id = 'UG'
+      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5
+GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
 ```
 
 
