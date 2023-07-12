@@ -20,21 +20,9 @@ library(utDataStoR)
 library(readr)
 ```
 
-/* FTE Undergraduate by Credit Hour Type - Census
-*/
+Full-Time Equivalent (FTE) is a measure calculated on student credit hours and student level. 
 
-FTE: Full-time Equivalent Enrollment
-
-IPEDS calculates FTE twice a year. The Fall Enrollment survey and the 12 Month Enrollment survey.
-
-USHE calculates FTE:
-
-- Summer End of Term
-- Fall 3rd Week Census
-- Fall End of Term
-- Spring 3rd Week Census
-- Spring End of Term
-
+FTE for undergraduate students is based on 15 credit hours. 
 
 ```sql
 SELECT b.term_desc,
@@ -47,10 +35,44 @@ SELECT b.term_desc,
 LEFT JOIN export.term b
        ON a.term_id = b.term_id
     WHERE a.is_enrolled = TRUE
-      AND a.version_desc = 'Census'
+      AND a.version_desc = 'Census' --Version description of snapshot status
       AND a.course_level_id = 'UG'
       AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5
 GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
 ```
+
+FTE for graduate students is based on 10 credit hours.
+
+```sql
+SELECT b.term_desc,
+       b.season,
+          SUM(a.attempted_credits) as attmp_cred,
+          ROUND(SUM(a.attempted_credits)/10, 2) as attmp_cred_fte,
+          a.course_level_id,
+          a.version_desc
+     FROM export.student_section_version a
+LEFT JOIN export.term b
+       ON a.term_id = b.term_id
+    WHERE a.is_enrolled = TRUE
+      AND a.version_desc = 'Census' --Version description of snapshot status
+      AND a.course_level_id = 'GR'
+      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5
+GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
+```
+
+FTE is reported to USHE five times per fiscal year:
+
+- Summer End of Term
+- Fall 3rd Week Census
+- Fall End of Term
+- Spring 3rd Week Census
+- Spring End of Term
+
+USHE summarizes FTE by credit hour type, residency, gender, and budget.
+
+IPEDS calculates FTE in the 12 Month Enrollment survey based on a reporting calendar from July 1, 20XX - June 20YY.
+
+
+
 
 
