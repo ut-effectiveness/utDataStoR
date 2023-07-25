@@ -70,7 +70,7 @@ FTE is reported to USHE five times per fiscal year:
 
 USHE summarizes FTE by credit hour type, residency, gender, and budget.
 
-IPEDS calculates FTE in the 12 Month Enrollment survey based on a reporting calendar from July 1, 20XX - June 20YY.
+IPEDS calculates FTE in the 12 Month Enrollment survey based on a reporting calendar from July 1, 20XX - June 20YY. Utah Tech excludes Summer academic terms and reports Spring and Fall term census data.
 
 
 
