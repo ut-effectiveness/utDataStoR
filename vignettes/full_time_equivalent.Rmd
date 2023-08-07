@@ -20,17 +20,59 @@ library(utDataStoR)
 library(readr)
 ```
 
-# How to produce SQL code
+Full-Time Equivalent (FTE) is a measure calculated on student credit hours and student level. 
 
-`{utDataStor}` has three queries for FTE. All three queries pull the same data, they only differ in where they pull from: Edify, REPT, or DSCIR. The following function will produce the file `my_new_name.sql` in your file called `sql`. 
+FTE for undergraduate students is based on 15 credit hours. 
 
-```{r eval = FALSE}
-sql_fte('edify', 'my_new_name.sql')
-```
-
-It will produce the following file.
 ```sql
-`r read_file(here::here('inst', 'sql', 'fte', 'fte_off_edify.sql'))`
+SELECT b.term_desc,
+       b.season,
+          SUM(a.attempted_credits) as attmp_cred,
+          ROUND(SUM(a.attempted_credits)/15, 2) as attmp_cred_fte,
+          a.course_level_id,
+          a.version_desc
+     FROM export.student_section_version a
+LEFT JOIN export.term b
+       ON a.term_id = b.term_id
+    WHERE a.is_enrolled = TRUE
+      AND a.version_desc = 'Census' --Version description of snapshot status
+      AND a.course_level_id = 'UG'
+      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5
+GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
 ```
+
+FTE for graduate students is based on 10 credit hours.
+
+```sql
+SELECT b.term_desc,
+       b.season,
+          SUM(a.attempted_credits) as attmp_cred,
+          ROUND(SUM(a.attempted_credits)/10, 2) as attmp_cred_fte,
+          a.course_level_id,
+          a.version_desc
+     FROM export.student_section_version a
+LEFT JOIN export.term b
+       ON a.term_id = b.term_id
+    WHERE a.is_enrolled = TRUE
+      AND a.version_desc = 'Census' --Version description of snapshot status
+      AND a.course_level_id = 'GR'
+      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5
+GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
+```
+
+FTE is reported to USHE five times per fiscal year:
+
+- Summer End of Term
+- Fall 3rd Week Census
+- Fall End of Term
+- Spring 3rd Week Census
+- Spring End of Term
+
+USHE summarizes FTE by credit hour type, residency, gender, and budget.
+
+IPEDS calculates FTE in the 12 Month Enrollment survey based on a reporting calendar from July 1, 20XX - June 20YY. Utah Tech excludes Summer academic terms and reports Spring and Fall term census data.
+
+
+
 
 
