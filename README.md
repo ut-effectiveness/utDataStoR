@@ -20,5 +20,5 @@ You can install the development version of utDataStoR from
 
 ``` r
 install.packages("devtools")
-devtools::install_github("dsu-effectiveness/utDataStoR")
+devtools::install_github("dsu-effectiveness/utDataStoR", build_vignettes = TRUE)
 ```
