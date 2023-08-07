@@ -1,5 +1,5 @@
 ---
-title: "groups"
+title: "Groups"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{groups}
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, echo = FALSE}
 library(utDataStoR)
 ```
 
@@ -50,7 +50,7 @@ Citizenship is the student's relationship to the United States. The options are:
 - Non-Res Alien-Visa or temp bas
 - Res Alien-immigrant status
 - Non-Citizen National of US
-- Nonimmigrant Alien 53B-8-106
+- Non-immigrant Alien 53B-8-106
 - Deferred Action
 - Student curr defined as Other
 
