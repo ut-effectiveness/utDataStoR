@@ -40,7 +40,7 @@ Cohort retention metrics track these cohorts as they progress toward graduation.
 - Fall-to-fall3 cohort retention rate 
 - Fall-to-fall4 cohort retention rate
 
-```{rsql}
+```sql
     SELECT a.student_id,
            a.cohort_start_term_id,
            a.is_exclusion,
@@ -102,7 +102,7 @@ Term-to-term outcomes include:
   - Stopped Out: Student temporarily withdraws from enrolling in subsequent terms.
   - Enrolled: Student is enrolled in the subsequent term.
   
-```{sql}
+```sql
    SELECT a.student_id,
           a.term_id,
           a.is_returned_next_spring,
