@@ -30,6 +30,28 @@ Gender is the biological sex on a student's birth certificate. The options are:
 - Female
 - Unspecified
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       CASE
+           WHEN b.gender_code = 'M' THEN 'Male'
+           WHEN b.gender_code = 'F' THEN 'Female'
+           ELSE 'Unspecified'
+           END AS gender_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student b
+                   ON a.sis_system_id = b.sis_system_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.gender_code, a.version_desc
+ORDER BY a.term_desc;
+
+```
+
 ## IPEDS Race/Ethnicity
 IPEDS Race/Ethnicity is data reporting the student's race and ethnicity. There are nine options:
 
@@ -43,6 +65,23 @@ IPEDS Race/Ethnicity is data reporting the student's race and ethnicity. There a
 - Non-Resident Alien (for those with visa's)
 - Unspecified
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.ipeds_race_ethnicity,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.ipeds_race_ethnicity, a.version_desc;
+```
+
 ## Citizenship
 Citizenship is the student's relationship to the United States. The options are: 
 
@@ -55,7 +94,29 @@ Citizenship is the student's relationship to the United States. The options are:
 - Student curr defined as Other
 
 ## International Student
-An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity). 
+An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity).
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       CASE
+           WHEN b.primary_visa_type_code = 'F1' AND b.us_citizenship_code = '2' THEN 'international'
+           ELSE a.residency_code
+           END AS residency,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND b.primary_visa_type_code = 'F1'
+  AND b.us_citizenship_code = '2'
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, residency, a.version_desc;
+```
 
 ## Age Band
 Age is how old a student is today based on their birth date. Reported as: 
@@ -67,14 +128,101 @@ Age is how old a student is today based on their birth date. Reported as:
 - 44-59
 - 60 plus
 
+```sql
+
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       CASE
+           WHEN EXTRACT(YEAR from AGE(current_date, b.birth_date)) < 18 THEN 'less than 18'
+           WHEN EXTRACT(YEAR from AGE(current_date, b.birth_date)) BETWEEN 18 and 24 THEN '18 to 24'
+           WHEN EXTRACT(YEAR from AGE(current_date, b.birth_date)) BETWEEN 25 and 34 THEN '25 to 34'
+           WHEN EXTRACT(YEAR from AGE(current_date, b.birth_date)) BETWEEN 35 and 44 THEN '35 to 44'
+           WHEN EXTRACT(YEAR from AGE(current_date, b.birth_date)) BETWEEN 45 and 59 THEN '45 to 59'
+           WHEN EXTRACT(YEAR from AGE(current_date, b.birth_date)) > 59 THEN '60 plus'
+           ELSE 'error'
+           END AS age_band,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, age_band, a.version_desc;
+```
+
 ## First Generation Student
 A first generation student is a student where neither parent nor guardian has received their bachelor's degree. On the application the student is asked if either of their parent(s) or guardian(s) has received a bachelor degree, if they respond no then the student is a first generation student. If they respond yes or if they don't answer then the student is not a first generation student.
+
+
+```sql
+
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.is_first_generation,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.is_first_generation, a.version_desc
+ORDER BY a.term_desc;
+
+```
 
 ## Veteran
 A veteran is a student who has served in the armed forces or is receiving veteran benefits (including family members).
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.is_veteran,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND b.is_veteran IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.is_veteran, a.version_desc
+ORDER BY a.term_desc;
+
+```
+
 ## Student Athlete
 A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. 
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.is_athlete,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND b.is_athlete IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.is_athlete, a.version_desc
+ORDER BY a.term_desc;
+
+```
 
 ## First Admit Country
 First admit country is the the country listed on the students first application where they were admitted.
