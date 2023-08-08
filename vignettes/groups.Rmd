@@ -20,7 +20,7 @@ library(utDataStoR)
 
 Groups define the ways students are categorized. These groups can be placed in several classifications.
 
-# Demopgraphic Groups
+# Demographic Groups
 Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table. This data is doesn't change often, but can be pulled at Current, End of Term or Census.
 
 ## Gender
