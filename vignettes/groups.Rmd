@@ -227,12 +227,68 @@ ORDER BY a.term_desc;
 ## First Admit Country
 First admit country is the the country listed on the students first application where they were admitted.
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.first_admit_country_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.first_admit_country_desc, a.version_desc
+ORDER BY a.term_desc;
+
+```
+
 ## First Admit State
 First admit state is the the state listed on the students first application where they were admitted. Students who were not in the US get grouped into Foreign State.
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.first_admit_state_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.first_admit_state_desc, a.version_desc
+ORDER BY a.term_desc;
+
+```
 
 ## First Admit County
 First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.first_admit_county_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.first_admit_county_desc, a.version_desc
+ORDER BY a.term_desc;
+
+```
 
 ## SQL for Demographic Groups
 
