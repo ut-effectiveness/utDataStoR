@@ -93,6 +93,24 @@ Citizenship is the student's relationship to the United States. The options are:
 - Deferred Action
 - Student curr defined as Other
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.us_citizenship_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.us_citizenship_desc, a.version_desc
+ORDER BY a.term_desc;
+```
+
 ## International Student
 An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity).
 
@@ -336,14 +354,83 @@ Students are placed in colleges based off of the primary program the student has
 - SC - College of Science, Engineering and Technology
 - UC - University College
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id) AS census_headcount,
+       b.college_desc,
+       b.college_abbrv
+  FROM export.student_term_level_version a
+  LEFT JOIN export.academic_programs b
+         ON a.primary_program_id = b.program_id
+  LEFT JOIN export.term c
+         ON a.term_id = c.term_id
+      WHERE a.is_enrolled IS TRUE
+        AND a.is_primary_level IS TRUE
+        AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+   GROUP BY a.term_desc, b.college_desc, b.college_abbrv
+   ORDER BY a.term_desc;
+```
+
 ## Department
 Students are placed in departments based off of the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges.
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       b.department_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.academic_programs b
+                   ON b.program_id = a.primary_program_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.department_desc, a.version_desc;
+```
 
 ## Program
 Students declare a program of study at point of application. Programs are assigned to a department and departments are assigned to colleges.
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       a.primary_major_desc,
+       a.primary_program_desc,
+       a.primary_program_id,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.academic_programs b
+                   ON b.program_id = a.primary_program_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, a.primary_major_desc, a.primary_program_desc, a.primary_program_id, a.version_desc;
+```
+
 ## Degree Seeking Student
 A student is a degree seeking student if the students primary program leads to a credential. 
+
+```sql
+
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       a.is_degree_seeking,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.academic_programs b
+                   ON b.program_id = a.primary_program_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND a.is_degree_seeking IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, a.is_degree_seeking, a.version_desc;
+```
 
 ## Student Type
 Student Type is a student's enrollment status or registration status for the term. The options are:
@@ -359,8 +446,39 @@ Student Type is a student's enrollment status or registration status for the ter
 - 3	- Readmit Graduate
 - 5	- Continuing Graduate
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       a.student_type_desc,
+       a.student_type_code,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, a.student_type_desc, a.student_type_code, a.version_desc;
+```
+
 ## Student Level
 A student's level is the level of the primary degree a student is pursing. The options are: Undergraduate or Graduate.
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       a.level_desc,
+       a.level_id,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND a.is_degree_seeking IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, a.level_desc, a.level_id, a.version_desc;
+```
 
 ## Class Level
 A student's class level is based on their overall cumulative earned credit hours. A student's class level is not the same as their year in school, it is based on credit hours. There can be sophomores in their first semester, as well as freshmen in their third year.
@@ -373,11 +491,40 @@ For undergraduate students, the options are:
 - Junior 60-89 credit hours
 - Senior 90 or more credit hours 
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       a.primary_level_class_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND a.is_degree_seeking IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, a.primary_level_class_desc, a.version_desc;
+```
+
 ## Full-time Part-time
 Full-time Part-Time is the status of a student's time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: 
 
 - Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours
 - Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       a.full_time_part_time_code,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, a.full_time_part_time_code, a.version_desc;
+```
 
 ## Residency
 Residency is the state the student is a resident of as listed in the system of record. The options are:
@@ -386,14 +533,82 @@ Residency is the state the student is a resident of as listed in the system of r
 - Non-Resident
 - Good Neighbor
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       a.residency_desc,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, a.residency_desc, a.version_desc;
+```
+
 ## High School Student
 A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking.
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+        CASE
+           WHEN a.student_type_code = 'H' THEN TRUE
+           ELSE FALSE
+        END AS is_high_school,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, is_high_school, a.version_desc;
+
+```
 ## Non-Matriculated
-A non-degree-seeking student who is enrolled to per sue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking.
+A non-degree-seeking student who is enrolled to persue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking.
+
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       CASE
+           WHEN a.student_type_code = 'P' THEN TRUE
+           ELSE FALSE
+           END AS is_non_matriculated,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, is_high_school, a.version_desc;
+```
 
 ## Online Program Student
 An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+       CASE
+           WHEN a.primary_major_campus_id = 'O01' THEN 'TRUE'
+            ELSE 'FALSE'
+            END AS online_program_student,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND a.primary_major_campus_id = 'O01'
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, online_program_student, a.version_desc;
+
+```
 
 ## GPA Band
 A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: 
@@ -404,12 +619,68 @@ A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band:
 - 2.5-2.999
 - 3-4.0
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.student_id),
+        CASE
+           WHEN a.overall_cumulative_gpa < 2.0 THEN '0_to_1.999'
+           WHEN a.overall_cumulative_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
+           WHEN a.overall_cumulative_gpa BETWEEN 2.5 AND 2.999 THEN '2.5_to_2.999'
+           WHEN a.overall_cumulative_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
+           ELSE 'new'
+        END AS gpa_band,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, gpa_band, a.version_desc;
+
+```
+
 ## Pell Eligible
 A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. 
+
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+             a.is_pell_eligible,
+             a.version_desc
+        FROM export.student_term_level_version a
+   LEFT JOIN export.term c
+          ON a.term_id = c.term_id
+       WHERE a.is_enrolled IS TRUE
+         AND a.is_primary_level IS TRUE
+         AND a.is_pell_eligible IS TRUE
+         AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+    GROUP BY a.term_desc, a.is_pell_eligible, a.version_desc;
+
+```
 
 ## Student Athlete
 A Student Athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
 
+```sql
+SELECT a.term_desc,
+       COUNT(a.sis_system_id),
+       b.is_athlete,
+       a.version_desc
+FROM export.student_term_level_version a
+         LEFT JOIN export.student_version b
+                   ON a.sis_system_id = b.sis_system_id
+                       AND a.version_snapshot_id = b.version_snapshot_id
+         LEFT JOIN export.term c
+                   ON a.term_id = c.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND b.is_athlete IS TRUE
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Last 5 Years
+GROUP BY a.term_desc, b.is_athlete, a.version_desc
+ORDER BY a.term_desc;
+
+```
 
 ## SQL for Term Based Groups
 
