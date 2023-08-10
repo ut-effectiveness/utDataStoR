@@ -25,20 +25,7 @@ Full-Time Equivalent (FTE) is a measure calculated on student credit hours and s
 FTE for undergraduate students is based on 15 credit hours. 
 
 ```sql
-SELECT b.term_desc,
-       b.season,
-          SUM(a.attempted_credits) as attmp_cred,
-          ROUND(SUM(a.attempted_credits)/15, 2) as attmp_cred_fte,
-          a.course_level_id,
-          a.version_desc
-     FROM export.student_section_version a
-LEFT JOIN export.term b
-       ON a.term_id = b.term_id
-    WHERE a.is_enrolled = TRUE
-      AND a.version_desc = 'Census' --Version description of snapshot status
-      AND a.course_level_id = 'UG'
-      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5
-GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
+`r display_sql_with_comments('fte', 'fte_ug_cred_hour_census.sql')`
 ```
 
 FTE for graduate students is based on 10 credit hours.
