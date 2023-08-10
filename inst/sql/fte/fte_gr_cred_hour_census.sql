@@ -1,4 +1,5 @@
-/* FTE Graduate by Credit Hour Type - Census
+/*
+FTE Graduate by Credit Hour Type - Census
 */
 
 SELECT b.term_desc,
