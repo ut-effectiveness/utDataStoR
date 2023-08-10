@@ -1,8 +1,8 @@
-/* FTE Undergraduate by Credit Hour Type - Census
+/*
+FTE Undergraduate by Credit Hour Type - Census
 */
-
-SELECT b.term_desc,
-       b.season,
+   SELECT b.term_desc,
+          b.season,
           SUM(a.attempted_credits) as attmp_cred,
           ROUND(SUM(a.attempted_credits)/15, 2) as attmp_cred_fte,
           a.course_level_id,
@@ -11,7 +11,7 @@ SELECT b.term_desc,
 LEFT JOIN export.term b
        ON a.term_id = b.term_id
     WHERE a.is_enrolled = TRUE
-      AND a.version_desc = 'Census'
+      AND a.version_desc = 'Census' --Version description of snapshot status
       AND a.course_level_id = 'UG'
       AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5
-GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
+ GROUP BY a.course_level_id, b.season, b.term_desc, a.version_desc;
