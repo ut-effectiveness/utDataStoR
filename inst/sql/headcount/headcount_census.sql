@@ -9,7 +9,7 @@ LEFT JOIN export.term b
        ON a.term_id = b.term_id
     WHERE a.is_enrolled IS TRUE
       AND a.is_primary_level IS TRUE
-      AND a.version_desc = 'Current'
+      AND a.version_desc = 'Census'
       AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current term plus last 5 Years.
  GROUP BY a.term_desc
  ORDER BY a.term_desc;

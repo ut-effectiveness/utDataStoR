@@ -9,7 +9,7 @@ LEFT JOIN export.term b
        ON a.term_id = b.term_id
     WHERE a.is_enrolled IS TRUE
       AND a.is_primary_level IS TRUE
-      AND a.version_desc = 'Current'
+      AND a.version_desc = 'End of Term'
       AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Last 5 Years
       AND b.season IN ('Fall', 'Spring') -- Fall and Spring only
  GROUP BY a.term_desc
