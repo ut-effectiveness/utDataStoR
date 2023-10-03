@@ -178,9 +178,8 @@ Full-time Part-Time is the status of a student's time commitment based off of ho
 ## Residency
 Residency is the state the student is a resident of as listed in the system of record. The options are:
 
-- Resident
-- Non-Resident
-- Good Neighbor
+- In-state residency
+- Out-of-state residency
 
 ## High School Student
 A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking.
@@ -219,7 +218,7 @@ SELECT a.student_id,
        a.level_desc,
        a.primary_level_class_desc,
        a.full_time_part_time_code,
-       a.residency_code_desc,
+       a.residency_in_state_desc,
        CASE
            WHEN a.student_type_code = 'H' THEN TRUE
            ELSE FALSE
@@ -228,10 +227,7 @@ SELECT a.student_id,
            WHEN a.student_type_code = 'P' THEN TRUE
            ELSE FALSE
         END AS is_non_matriculated,
-        CASE
-           WHEN a.primary_major_campus_id = 'O01' THEN 'TRUE'
-            ELSE 'FALSE'
-            END AS online_program_student,
+       a.is_online_program_student,
        CASE
            WHEN a.overall_cumulative_gpa < 2.0 THEN '0_to_1.999'
            WHEN a.overall_cumulative_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
