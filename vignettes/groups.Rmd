@@ -55,10 +55,10 @@ Citizenship is the student's relationship to the United States. The options are:
 - Student curr defined as Other
 
 ## International Student
-An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity). 
+An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity). If the sql output is TRUE then the student is an international student.
 
 ## Age Band
-Age is how old a student is today based on their birth date. Reported as: 
+Age is how old a student is today based on their birth date. Reported as a grouping: 
 
 - Less than 18
 - 18-24
@@ -68,13 +68,13 @@ Age is how old a student is today based on their birth date. Reported as:
 - 60 plus
 
 ## First Generation Student
-A first generation student is a student where neither parent nor guardian has received their bachelor's degree. On the application the student is asked if either of their parent(s) or guardian(s) has received a bachelor degree, if they respond no then the student is a first generation student. If they respond yes or if they don't answer then the student is not a first generation student.
+A first generation student is a student where neither parent nor guardian has received their bachelor's degree. On the application the student is asked if either of their parent(s) or guardian(s) has received a bachelor degree, if they respond no then the student is a first generation student. If they respond yes or if they don't answer then the student is not a first generation student. If the sql output is TRUE then the student is a first generation student.
 
 ## Veteran
-A veteran is a student who has served in the armed forces or is receiving veteran benefits (including family members).
+A veteran is a student who has served in the armed forces or is receiving veteran benefits (including family members). If the sql output is TRUE then the student is a veteran.
 
 ## Student Athlete
-A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. 
+A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If the sql output is TRUE then the student is an athlete.
 
 ## First Admit Country
 First admit country is the the country listed on the students first application where they were admitted.
@@ -121,7 +121,7 @@ SELECT a.student_id,
 Data in this classification can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table. This data changes often, and can be pulled at Current, End of Term or Census.
 
 ## College
-Students are placed in colleges based off of the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges. There are eight options: 
+College is an organizational structure that houses departments. Based where off of the primary program the student has declared, students will be assigned to departments that are assigned to colleges. There are eight options: 
 
 - BU - College of Business
 - ED - College of Education
@@ -133,13 +133,16 @@ Students are placed in colleges based off of the primary program the student has
 - UC - University College
 
 ## Department
-Students are placed in departments based off of the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges.
+Department is an organizational structure that houses faculty, courses, and programs. Based off of the primary program the student has declared, students will be assigned to departments based on their program.
 
 ## Program
-Students declare a program of study at point of application. Programs are assigned to a department and departments are assigned to colleges.
+Program is a area of study that includes the degree, major, and concentration (when applicable) a student declares at the point of application. Programs are assigned to a department and departments are assigned to colleges.
+
+## Degree Desc
+Degree description is the description of the degree id/code that is tied to a students program.
 
 ## Degree Seeking Student
-A student is a degree seeking student if the students primary program leads to a credential. 
+A student is a degree seeking student if the students primary program leads to a credential. If the sql output is TRUE then the student is a degree seeking student.
 
 ## Student Type
 Student Type is a student's enrollment status or registration status for the term. The options are:
@@ -169,29 +172,29 @@ For undergraduate students, the options are:
 - Junior 60-89 credit hours
 - Senior 90 or more credit hours 
 
-## Full-time Part-time
-Full-time Part-Time is the status of a student's time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: 
+## Credit Load
+Credit load is the status of a student's time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: 
 
 - Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours
 - Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
 
 ## Residency
-Residency is the state the student is a resident of as listed in the system of record. The options are:
+Residency is the denotes the residency of a student as listed in the system of record. The options are:
 
 - In-state residency
 - Out-of-state residency
 
 ## High School Student
-A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking.
+A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a high school student.
 
 ## Non-Matriculated
-A non-degree-seeking student who is enrolled to per sue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking.
+A Non-Matriculated student is a non-degree-seeking student who is enrolled to persue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a non-matriculated student.
 
 ## Online Program Student
-An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). 
+An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). If the sql output is TRUE then the student is an online program student.
 
 ## GPA Band
-A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band: 
+GPA Band displays a student's Overall Cumulative GPA. Reported as a grouping: 
 
 - new (null - no GPA yet)
 - 0-1.999
@@ -200,10 +203,10 @@ A student's GPA is their Overall Cumulative GPA. This is reported in a GPA band:
 - 3-4.0
 
 ## Pell Eligible
-A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. 
+A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. If the sql output is TRUE then the student is a Pell eligible.
 
-## Student Athlete
-A Student Athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If TRUE then the student is an athlete.
+## Student Athlete Term
+A Student Athlete Term is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester/term. If the sql output is TRUE then the student is an athlete.
 
 
 ## SQL for Term Based Groups
@@ -213,11 +216,12 @@ SELECT a.student_id,
        b.college_id,
        b.department_desc,
        a.primary_program_id,
+       a.primary_degree_desc AS degree_desc,
        a.is_degree_seeking,
        a.student_type_desc,
        a.level_desc,
        a.primary_level_class_desc,
-       a.full_time_part_time_code,
+       a.full_time_part_time_code AS credit_load,
        a.residency_in_state_desc,
        CASE
            WHEN a.student_type_code = 'H' THEN TRUE
@@ -236,7 +240,7 @@ SELECT a.student_id,
            ELSE 'new'
         END AS gpa_band,
        a.is_pell_eligible,
-       a.is_athlete
+       a.is_athlete AS student_athlete_term
   FROM export.student_term_level a
   LEFT JOIN export.academic_programs b ON b.program_id = a.primary_program_id
  WHERE a.is_enrolled IS TRUE
@@ -249,7 +253,7 @@ SELECT a.student_id,
 Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table. This data is changes often, and can be pulled at Current, End of Term or Census.
 
 ## High School Concurrent Enrollment Student
-A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. High School Concurrent Enrollment students are a subset of High School Students. If a high school student isn't a concurrent enrollment student then the student is a High School Student, Other.
+A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. High School Concurrent Enrollment students are a subset of High School Students. If a high school student isn't a concurrent enrollment student then the student is a High School Student, Other. If the sql output is TRUE then the student is a high school concurrent enrollment student.
 
 ## SQL for High School Concurrent Enrollment Student
 ```sql
