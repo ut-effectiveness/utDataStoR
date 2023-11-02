@@ -43,7 +43,7 @@ make_headcount_sql <- function(name, type = 'current') {
   file <- paste(
     base,
     '/',
-    'retention',
+    'headcount',
     '/',
     system_file,
     sep = ''
