@@ -9,17 +9,26 @@ make_headcount_sql(name, type = "current")
 \arguments{
 \item{name}{The name you want the SQL file to have in your sql folder.}
 
-\item{type}{The type of head count file you want. Defaults to 'current' headcount data.
-Other options:
-'census' data collected at 3rd week,
-'eot' end of term data,
-'ipeds' data sent to IPEDS,
-and 'pit' point in time data,}
+\item{type}{The type of headcount file you want. Defaults to 'current' headcount data.
+Other options are
+\itemize{
+\item 'census' -- data as of the census snapshot
+\item 'census_demographic' -- headcount data with demographic data, as of census snapshot
+\item 'eot' -- data as of the end of term snapshot
+\item 'ipeds' -- data as it was reported to IPEDS
+\item 'pit' -- point in time data
+}}
 }
 \value{
 A sql file in your SQL folder
 }
 \description{
-\code{make_headcount_sql} will generate the standard sql query for pulling headcount
-data from Edify
+\code{make_headcount_sql} will generate a standard sql query for pulling headcount
+data from Edify. This function is often used with the function \link[utHelpR:uth_make_outcome_count]{utHelpR::uth_make_outcome_count} to
+produce pivot tables with headcount numbers. There are several types of headcounts
+to choose from. To specify the type of headcount you would like, use the type parameter.
+If you have questions about which version you should use in your report, please
+contact Joy Lindsay. For more details see the headcount vignette. You can bring this
+up by running the following code in your console.
+\code{vignette("headcount", package = "utDataStoR")}
 }

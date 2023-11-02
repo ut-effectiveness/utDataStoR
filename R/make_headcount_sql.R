@@ -1,15 +1,23 @@
 #' Generate headcount Sql
 #'
-#' `make_headcount_sql` will generate the standard sql query for pulling headcount
-#' data from Edify
+#' `make_headcount_sql` will generate a standard sql query for pulling headcount
+#' data from Edify. This function is often used with the function [utHelpR::uth_make_outcome_count] to
+#' produce pivot tables with headcount numbers. There are several types of headcounts
+#' to choose from. To specify the type of headcount you would like, use the type parameter.
+#' If you have questions about which version you should use in your report, please
+#' contact Joy Lindsay. For more details see the headcount vignette. You can bring this
+#' up by running the following code in your console.
+#' \code{vignette("headcount", package = "utDataStoR")}
+#'
 #'
 #' @param name The name you want the SQL file to have in your sql folder.
-#' @param type The type of head count file you want. Defaults to 'current' headcount data.
-#' Other options:
-#' 'census' data collected at 3rd week,
-#' 'eot' end of term data,
-#' 'ipeds' data sent to IPEDS,
-#' and 'pit' point in time data,
+#' @param type The type of headcount file you want. Defaults to 'current' headcount data.
+#' Other options are
+#' * 'census' -- data as of the census snapshot
+#' * 'census_demographic' -- headcount data with demographic data, as of census snapshot
+#' * 'eot' -- data as of the end of term snapshot
+#' * 'ipeds' -- data as it was reported to IPEDS
+#' * 'pit' -- point in time data
 #'
 #' @return A sql file in your SQL folder
 #' @export
@@ -35,7 +43,7 @@ make_headcount_sql <- function(name, type = 'current') {
     stop("It doesn't look like we have that type yet. ",
       "We currently support headcount for the following: 'census', 'current', 'end-of-term', 'ipeds', and 'point-in-time'.",
       "If you would like to add another query for headcount, ",
-      "please bring this up at code review. Bob")
+      "please bring this up at code review.")
   }
 
   base <- system.file('sql', package='utDataStoR')
