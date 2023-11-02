@@ -35,7 +35,7 @@ make_headcount_sql <- function(name, type = 'current') {
     stop("It doesn't look like we have that type yet. ",
       "We currently support headcount for the following: 'census', 'current', 'end-of-term', 'ipeds', and 'point-in-time'.",
       "If you would like to add another query for headcount, ",
-      "please bring this up at code review.")
+      "please bring this up at code review. Bob")
   }
 
   base <- system.file('sql', package='utDataStoR')
