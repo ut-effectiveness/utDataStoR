@@ -23,6 +23,8 @@ make_headcount_sql <- function(name, type = 'current') {
     system_file <- 'headcount_current.sql'
   } else if (type == 'census') {
     system_file <- 'headcount_census.sql'
+  } else if (type == 'census_demographic') {
+    system_file <- 'headcount_census_groups.sql'
   } else if (type == 'eot') {
     system_file <- 'headcount_end_of_term.sql'
   } else if (type == 'ipeds') {
