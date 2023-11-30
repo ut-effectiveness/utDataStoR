@@ -43,6 +43,16 @@ IPEDS Race/Ethnicity is data reporting the student's race and ethnicity. There a
 - Non-Resident Alien (for those with visa's)
 - Unspecified
 
+## Underrepresented Minority
+Underrepresented Minority students are those students who are ...
+HELP
+
+## BIPOC
+BIPOC students are those whose race/ethnicity is black, indigenous, or other people of color (Hispanic, Asian and multi-racial). The options are:
+
+- BIPOC
+- non-BIPOC
+
 ## Citizenship
 Citizenship is the student's relationship to the United States. The options are: 
 
@@ -85,6 +95,9 @@ First admit state is the the state listed on the students first application wher
 ## First Admit County
 First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
 
+## ACT Composite Score
+ACT Composite Score is the students highest ACT composite score.
+
 
 ## SQL for Demographic Groups
 
@@ -96,6 +109,16 @@ SELECT a.student_id,
            ELSE 'Unspecified'
            END AS gender_desc,
        a.ipeds_race_ethnicity,
+       a.is_underrepresented_minority,
+       CASE
+           WHEN a.is_american_indian_alaskan = 'TRUE' THEN 'BIPOC'
+           WHEN a.is_asian = 'TRUE' THEN 'BIPOC'
+           WHEN a.is_black = 'TRUE' THEN 'BIPOC'
+           WHEN a.is_hawaiian_pacific_islander = 'TRUE' THEN 'BIPOC'
+           WHEN a.is_hispanic_latino_ethnicity = 'TRUE' THEN 'BIPOC'
+           WHEN a.is_multi_racial = 'TRUE' THEN 'BIPOC'
+           ELSE 'non-BIPOC'
+           END AS BIPOC_student,
        a.us_citizenship_desc,
        a.is_international,
        CASE
@@ -112,7 +135,8 @@ SELECT a.student_id,
        a.is_veteran,
        a.first_admit_country_desc,
        a.first_admit_state_desc,
-       a.first_admit_county_desc
+       a.first_admit_county_desc,
+       a.act_composite_score
   FROM export.student a
 ```
 
@@ -140,6 +164,9 @@ Program is a area of study that includes the degree, major, and concentration (w
 
 ## Degree Desc
 Degree description is the description of the degree id/code that is tied to a students program.
+
+## Major Desc
+Major description is the description of the major code that is tied to a students program.
 
 ## Degree Seeking Student
 A student is a degree seeking student if the students primary program leads to a credential. If the sql output is TRUE then the student is a degree seeking student.
@@ -184,6 +211,8 @@ Residency is the denotes the residency of a student as listed in the system of r
 - In-state residency
 - Out-of-state residency
 
+HELP
+
 ## High School Student
 A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a high school student.
 
@@ -203,7 +232,13 @@ GPA Band displays a student's Overall Cumulative GPA. Reported as a grouping:
 - 3-4.0
 
 ## Pell Eligible
-A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. If the sql output is TRUE then the student is a Pell eligible.
+A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. If the sql output is TRUE then the student is Pell eligible.
+
+## Pell Awarded
+A Pell Awarded student is a student who has been awarded a Pell grant. If the sql output is TRUE then the student is Pell Awarded.
+
+## Subsidized Loan Awarded
+A Subsidized Loan Awarded student is a student who has been awarded a Subsidized Loan. If the sql output is TRUE then the student is Subsidized Loan Awarded.
 
 ## Student Athlete Term
 A Student Athlete Term is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester/term. If the sql output is TRUE then the student is an athlete.
@@ -217,6 +252,7 @@ SELECT a.student_id,
        b.department_desc,
        a.primary_program_id,
        a.primary_degree_desc AS degree_desc,
+       b.major_desc,
        a.is_degree_seeking,
        a.student_type_desc,
        a.level_desc,
@@ -240,6 +276,8 @@ SELECT a.student_id,
            ELSE 'new'
         END AS gpa_band,
        a.is_pell_eligible,
+       a.is_pell_awarded,
+       a.is_subsidized_loan_awarded,
        a.is_athlete AS student_athlete_term
   FROM export.student_term_level a
   LEFT JOIN export.academic_programs b ON b.program_id = a.primary_program_id
