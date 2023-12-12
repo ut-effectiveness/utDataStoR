@@ -119,6 +119,7 @@ SELECT a.student_id,
            WHEN a.is_multi_racial = 'TRUE' THEN 'BIPOC'
            ELSE 'non-BIPOC'
            END AS BIPOC_student,
+       a.us_citizenship_code,
        a.us_citizenship_desc,
        a.is_international,
        CASE
@@ -147,20 +148,23 @@ Data in this classification can change each semester and is based on information
 ## College
 College is an organizational structure that houses departments. Based where off of the primary program the student has declared, students will be assigned to departments that are assigned to colleges. There are eight options: 
 
-- BU - College of Business
-- ED - College of Education
-- FA - College of Fine Arts
-- CE - College of Global and Community Outreach
-- HO - College of Health Sciences
-- HU - College of Humanities and Social Sciences
-- SC - College of Science, Engineering and Technology
-- UC - University College
+- COB - College of Business
+- COE - College of Education
+- COA - College of the Arts
+- GCO - College of Global and Community Outreach
+- COHS - College of Health Sciences
+- CHASS - College of Humanities and Social Sciences
+- CSET - College of Science, Engineering and Technology
+- UCOL - University College
 
 ## Department
 Department is an organizational structure that houses faculty, courses, and programs. Based off of the primary program the student has declared, students will be assigned to departments based on their program.
 
 ## Program
-Program is a area of study that includes the degree, major, and concentration (when applicable) a student declares at the point of application. Programs are assigned to a department and departments are assigned to colleges.
+Program is a area of study that includes the degree, major, and concentration (when applicable) choosen by a student. Programs are assigned to a department and departments are assigned to colleges.
+
+## Concentration
+Concentration is a specific area of emphasis or specialization in a major chosen by a student. Not all majors have a concentration option.
 
 ## Degree Desc
 Degree description is the description of the degree id/code that is tied to a students program.
@@ -205,13 +209,32 @@ Credit load is the status of a student's time commitment based off of how many c
 - Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours
 - Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
 
-## Residency
-Residency is the denotes the residency of a student as listed in the system of record. The options are:
+## Tuition Residency
+Tuition Residency is the official status of student's residence for tuition purposes. The options are:
 
-- In-state residency
-- Out-of-state residency
+- 0 - Undeclared
+- A - American Indian Tribal Resident
+- B - Housebill 102 - 2023
+- C - Changed from Non-Resident
+- G - Good Neighbor Tuition
+- H - Housebill 118/144 Waivers
+- M - Military, Out-of-State
+- N - Non-Resident of UT
+- R - UT Resident
+- S - Surcharge for excessive credits
 
-HELP
+## State Residency
+State Residency summarizes tuition residency into two categories, in-state or out-of-state. The options are:
+
+- In-state Residency
+- Out-of-state Residency
+
+## Global Residency
+Global Residency first looks at international status, then looks at state residency. The options are:
+
+- International
+- In-State Residency
+- Out-of-State Residency
 
 ## High School Student
 A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a high school student.
@@ -222,8 +245,17 @@ A Non-Matriculated student is a non-degree-seeking student who is enrolled to pe
 ## Online Program Student
 An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). If the sql output is TRUE then the student is an online program student.
 
-## GPA Band
-GPA Band displays a student's Overall Cumulative GPA. Reported as a grouping: 
+## Overall Cumulative GPA Band
+Overall Cumulative GPA Band displays a student's Overall (both institutional and transfer) Cumulative (across all semesters) GPA. Reported as a grouping: 
+
+- new (null - no GPA yet)
+- 0-1.999
+- 2-2.49
+- 2.5-2.999
+- 3-4.0
+
+## Institutional Cumulative GPA Band
+Institutional Cumulative GPA Band displays a student's Institutional Cumulative (across all semesters) GPA. Reported as a grouping: 
 
 - new (null - no GPA yet)
 - 0-1.999
@@ -248,16 +280,24 @@ A Student Athlete Term is a student who was on the official team roster on or af
 
 ```sql
 SELECT a.student_id,
-       b.college_id,
+       b.college_abbrv,
+       b.college_desc,
+       b.department_id,
        b.department_desc,
        a.primary_program_id,
        a.primary_degree_desc AS degree_desc,
+       b.major_id,
        b.major_desc,
        a.is_degree_seeking,
+       a.student_type_code,
        a.student_type_desc,
+       a.level_id,
        a.level_desc,
+       a.primary_level_class_id,
        a.primary_level_class_desc,
        a.full_time_part_time_code AS credit_load,
+       a.residency_code, 
+       a.residency_code_desc,
        a.residency_in_state_desc,
        CASE
            WHEN a.student_type_code = 'H' THEN TRUE
@@ -273,6 +313,13 @@ SELECT a.student_id,
            WHEN a.overall_cumulative_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
            WHEN a.overall_cumulative_gpa BETWEEN 2.5 AND 2.999 THEN '2.5_to_2.999'
            WHEN a.overall_cumulative_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
+           ELSE 'new'
+        END AS overall_cumulative_gpa_band,
+        CASE
+           WHEN a.overall_institutional_gpa < 2.0 THEN '0_to_1.999'
+           WHEN a.overall_institutional_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
+           WHEN a.overall_institutional_gpa BETWEEN 2.5 AND 2.999 THEN '2.5_to_2.999'
+           WHEN a.overall_institutional_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
            ELSE 'new'
         END AS gpa_band,
        a.is_pell_eligible,
