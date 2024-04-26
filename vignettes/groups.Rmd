@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup, echo = FALSE}
-library(utDataStoR)
+library(utDataStoR) 
 ```
 
 Groups define the ways students are categorized. These groups can be placed in several classifications.
@@ -103,6 +103,7 @@ ACT Composite Score is the students highest ACT composite score.
 
 ```sql
 SELECT a.student_id,
+       a.gender_code,
        CASE
            WHEN a.gender_code = 'M' THEN 'Male'
            WHEN a.gender_code = 'F' THEN 'Female'
