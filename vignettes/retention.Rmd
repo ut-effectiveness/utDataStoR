@@ -30,7 +30,7 @@ This vignette will focus on retention rate metrics. The university's retention m
 
 ## Cohort retention
 
-Degree seeking students are assigned a cohort when they enter the University. There are eight cohorts students are placed in 
+A cohort is a group of students with shared characteristics that are tracked for reporting purposes. New, degree seeking students are assigned a cohort when they enter the University. They are placed in a cohort based on data in the census enrollment snapshot. There are eight cohorts students are placed in:  
 
 - Full-time, Bachelors degree seeking, freshman
 - Full-time, Bachelors degree seeking, transfer
@@ -41,7 +41,7 @@ Degree seeking students are assigned a cohort when they enter the University. Th
 - Part-time, Associates degree seeking, freshman
 - Part-time, Associates degree seeking, transfer
 
-Cohort retention metrics track the following cohorts as they progress toward graduation. UT has eight cohort retention metrics. #todo understand this statement# Cohort retention starts with a cohort of students (a group of students) and tracks if the student was enrolled (retained) as of census for the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were enrolled as of census for the return term indicated.
+Cohort retention metrics track cohorts as they progress toward graduation. Cohort retention starts with a cohort of students (a group of students) and tracks if the student was enrolled (retained) as of census for the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were enrolled as of census for the return term indicated.
 
 - Fall-to-spring cohort retention rate
 - Fall-to-fall2 cohort retention rate 

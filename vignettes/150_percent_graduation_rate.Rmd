@@ -1,0 +1,45 @@
+---
+title: "150 Percent Graduation Rate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{cohort}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+150 Percent Graduation Rate measures the percentage of a cohort of students who graduate within 150% of time for their awarded degree. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
+
+## Cohorts #todo (reference utDataStoR cohort vignette)
+A cohort is a group of students with shared characteristics that are tracked for reporting purposes. New, degree seeking students are assigned a cohort when they enter the University. They are placed in a cohort based on data in the census enrollment snapshot. There are eight cohorts students are placed in:
+
+- Full-time, Bachelors degree seeking, freshman
+- Full-time, Bachelors degree seeking, transfer
+- Part-time, Bachelors degree seeking, freshman
+- Part-time, Bachelors degree seeking, transfer
+- Full-time, Associates degree seeking, freshman
+- Full-time, Associates degree seeking, transfer
+- Part-time, Associates degree seeking, freshman
+- Part-time, Associates degree seeking, transfer
+
+150 percent graduation rate metrics track cohorts to graduation. 150 percent graduation rate tracks two of the eight cohorts (Full-time, Bachelors degree seeking, freshman; and Full-time, Associates degree seeking, freshman) and only looks at the Fall cohort. 150 percent graduation rate starts with a cohort of students and tracks if the student graduated with a degree in 150% of time to the degree from the cohort start date; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 150% of time for the awarded degree. This metric has a 6 year lag since 150 percent of time for a bachelors degree is 6 years. Students in the Fall 2016 cohort have until August 31, 2022 to earn a bachelor's degree.
+
+Students must earn:
+
+- Certificate <= 29 credit hours within 1 year
+- Certificate 30 < 60 credig hours with 1 1/2 years
+
+
+
+- Graduation rate tracks a cohort of students, with exclusions removed, for 6 years to see if the student earns a credential within 150% of the degree time (150% for a bachelor degree is 6 years).
+- Is looking only at full-time students (part-time students aren't expected to graduate in 150% of time)
+- See Cohort Creation above for some additional information.
+- All cohort students are degree seeking students (but not all degree seeking students are in a cohort).
+- There are a few students who had conflicts between their program and their student type at census. The students who are in GCO had a student type of F, but a program of ND-CONC (HS Concurrent Enrollment). It's using the same cohorts so the data errors still exist.
+- I have provided 150 Percent Graduation Rate by Cohort. #todo (Probably need a 150 percent graduation by cohort alone as the college by cohort is too difficult to read.)
