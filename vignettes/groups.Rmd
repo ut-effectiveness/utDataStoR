@@ -139,7 +139,7 @@ Students are placed in departments based off of the primary program the student 
 Students declare a program of study at point of application. Programs are assigned to a department and departments are assigned to colleges.
 
 ## Degree Seeking Student
-A student is a degree seeking student if the students primary program leads to a credential. 
+A student is a degree seeking student if the students primary program leads to a credential. This includes Associate, Bachelor, and Master's students.
 
 ## Student Type
 Student Type is a student's enrollment status or registration status for the term. The options are:
