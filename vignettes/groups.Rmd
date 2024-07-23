@@ -21,7 +21,7 @@ library(utDataStoR)
 Groups define the ways students are categorized. These groups can be placed in several classifications.
 
 # Demographic Groups
-Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table. This data is doesn't change often, but can be pulled at Current, End of Term or Census.
+Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table. This data is doesn't change often, if ever. This data can be pulled as of Current, End of Term or Census.
 
 ## Gender
 Gender is the biological sex on a student's birth certificate. The options are:
@@ -56,7 +56,8 @@ BIPOC students are those whose race/ethnicity is black, indigenous, or other peo
 - non-BIPOC
 
 ## Citizenship
-Citizenship is the student's relationship to the United States. The options are: 
+Citizenship is the student's relationship to the United States. The options are:
+#todo - add the citizenship code
 
 - US Citizen
 - Non-Res Alien-Visa or temp bas
@@ -67,7 +68,7 @@ Citizenship is the student's relationship to the United States. The options are:
 - Student curr defined as Other
 
 ## International Student
-An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity).  If the sql output is TRUE then the student is an international student. 
+An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity). If the sql output is TRUE then the student is an international student. 
 
 ## Age Band
 Age is how old a student is today (or on the day of the snapshot) based on their birth date. Reported as a grouping: 
@@ -83,7 +84,7 @@ Age is how old a student is today (or on the day of the snapshot) based on their
 A first generation student is a student where neither parent nor guardian has received their bachelor's degree. On the application the student is asked if either of their parent(s) or guardian(s) has received a bachelor degree, if they respond no then the student is a first generation student. If they respond yes or if they don't answer then the student is not a first generation student. If the sql output is TRUE then the student is a first generation student.
 
 ## Veteran
-A veteran is a student who has served in the armed forces or is receiving veteran benefits (includes family members receiving benefits).  If the sql output is TRUE then the student is a veteran.
+A veteran is a student who has served in the armed forces or is receiving veteran benefits (includes family members receiving benefits). If the sql output is TRUE then the student is a veteran.
 
 ## Student Athlete
 A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If the sql output is TRUE then the student is an athlete.
@@ -98,7 +99,17 @@ First admit state is the the state listed on the students first application wher
 First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
 
 ## ACT Composite Score
-ACT Composite Score is the students highest ACT composite score. The Composite score is the average of your four ACT test scores (Math, English, Reading, Science), rounded to the nearest whole number.
+ACT Composite Score is the students highest ACT composite score. The Composite score is the average of the four ACT test scores (Math, English, Reading, Science), rounded to the nearest whole number.
+
+#todo
+high_school_code
+high_school_desc
+high_school_graduation_date
+latest_high_school_gpa
+marital_status_code
+marital_status_desc
+religion_code
+religion_desc
 
 
 ## SQL for Demographic Groups
@@ -152,7 +163,7 @@ SELECT a.student_id,
 
 
 # Term Based Groups
-Data in this classification can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table. This data changes often, and can be pulled at Current, End of Term or Census.
+Data in this classification can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table. This data changes often. This data can be pulled as of Current, End of Term or Census.
 
 ## College
 Students are placed in colleges based off of the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges. There are eight options: 
@@ -197,7 +208,6 @@ Student Type is a student's enrollment status or registration status for the ter
 - 2	- Transfer Graduate - A student entering the reporting institution at the graduate level for the first time but known to have previously attended another post secondary institution at the graduate level. The student may transfer in with or without credit. A student will be coded as a transfer graduate only once.
 - 3	- Readmit Graduate -  A student who has re-enrolled at the institution after stopping out for at least one term of graduate coursework (excluding  summer term).
 - 5	- Continuing Graduate - A graduate student who is re-enrolling at the institution after having attended a previous term as a graduate student.
-
 
 ## Student Level
 A student's level is the level of the primary degree a student is pursing. The options are: Undergraduate or Graduate.
@@ -357,7 +367,7 @@ SELECT a.student_id,
 
 
 # Course Based Groups
-Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table. This data is changes often, and can be pulled at Current, End of Term or Census.
+Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table. This data is changes often. This data can be pulled as of Current, End of Term or Census.
 
 ## High School Concurrent Enrollment Student
 A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. High School Concurrent Enrollment students are a subset of High School Students. If a high school student isn't a concurrent enrollment student then the student is a High School Student, Other. If the sql output is TRUE then the student is a high school concurrent enrollment student.
