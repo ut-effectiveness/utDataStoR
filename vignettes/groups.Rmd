@@ -115,19 +115,19 @@ religion_desc
 ## SQL for Demographic Groups
 
 ```sql
---This query will pull current data from the current term (use student_version to pull snapshot data)
+--This query will pull current data from the current term (use student_version to pull snapshot data and version_desc equals 'Census' or 'End of Term')
 SELECT a.student_id,
+       a.gender_code,
        CASE
            WHEN a.gender_code = 'M' THEN 'Male'
            WHEN a.gender_code = 'F' THEN 'Female'
            ELSE 'Unspecified'
            END AS gender_desc,
        a.ipeds_race_ethnicity,
-       a.is_minority
        CASE
           WHEN a.ipeds_race_ethnicity = 'White' THEN 'Non-Minority'
           WHEN a.ipeds_race_ethnicity = 'Unspecified' THEN 'Non-Minoirity'
-          WHEN a.ipeds_race_ethnicity = 'Non-resident alien' THEN 'Non-Minority'
+          WHEN a.ipeds_race_ethnicity = 'Non-resident Alien' THEN 'Non-Minority'
           ELSE 'Minority'
        END AS minority,
        CASE
@@ -158,12 +158,14 @@ SELECT a.student_id,
        a.first_admit_state_desc,
        a.first_admit_county_desc,
        a.act_composite_score
-  FROM export.student a
+  FROM export.student a --comment out this row and uncomment out the two rows below if you want snapshot data
+  --FROM export.student_version a
+  --WHERE a.version_desc = 'Census'
 ```
 
 
 # Term Based Groups
-Data in this classification can change each semester and is based on information from the system for this current term such as program, credit hours attempted, etc. This data is stored at the student term level, in the student_term_level table. This data changes often. This data can be pulled as of Current, End of Term or Census.
+Data in this classification can change each semester and is based on information from the system for this current term such as program, student type, etc. This data is stored at the student term level, in the student_term_level table. This data changes often. This data can be pulled as of Current, End of Term or Census.
 
 ## College
 Students are placed in colleges based off of the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges. There are eight options: 
@@ -180,20 +182,20 @@ Students are placed in colleges based off of the primary program the student has
 ## Department
 Students are placed in departments based off of the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges.
 
-## Program
-Students declare a program of study at point of application. Programs are assigned to a department and departments are assigned to colleges.
+## Program Code/Desc
+Program description is the students declared program of study (code or id/desc) at point of application. Programs are assigned to a department and departments are assigned to colleges. A program code is made up of a degree id, and major id and if applicable a concentration id.
 
-## Concentration
-Concentration is a specific area of emphasis or specialization in a major chosen by a student. Not all majors have a concentration option.
+## Concentration Desc
+Concentration description is a specific area of emphasis or specialization (id/code) in a major chosen by a student. Not all majors have a concentration option.
 
 ## Degree Desc
 Degree description is the description of the degree id/code that is tied to a students program.
 
 ## Major Desc
-Major description is the description of the major code that is tied to a students program.
+Major description is the description of the major id/code that is tied to a students program.
 
 ## Degree Seeking Student
-A student is a degree seeking student if the students primary program leads to a credential. This includes Associate, Bachelor, and Master's students. If the sql output is TRUE then the student is a degree seeking student.
+A student is a degree seeking student if the students' primary program leads to a credential. This includes Associate, Bachelor, and Master's students. If the sql output is TRUE then the student is a degree seeking student.
 
 ## Student Type
 Student Type is a student's enrollment status or registration status for the term. The options are:
@@ -216,7 +218,7 @@ A student's level is the level of the primary degree a student is pursing. The o
 A student's class level is based on their overall cumulative earned credit hours. A student's class level is not the same as their year in school, it is based on credit hours. There can be sophomores in their first semester, as well as freshmen in their third year.
 
 All graduate students are reported as Graduate.
-For undergraduate students, the options are: 
+Undergraduate students have four options, the options are: 
 
 - Freshman <30 credit hours
 - Sophomore 30-59 credit hours 
@@ -224,10 +226,10 @@ For undergraduate students, the options are:
 - Senior 90 or more credit hours 
 
 ## Course Load
-Course load is the status of a student's time commitment based off of how many credit hours attempted and the student's level for a given semester. The options are: 
+Course load is the status of a student's time commitment based on how many credit hours attempted and the student's level for a given semester. The options are: 
 
-- Full-time for Undergraduate students 12 or more credit hours, for Graduate students 9 or more credit hours
-- Part-time for Undergraduate students less than 12 credit hours, for Graduate students less than 9 credit hours.
+- Full-time for Undergraduate students, 12 or more credit hours; for Graduate students 9 or more credit hours
+- Part-time for Undergraduate students, less than 12 credit hours; for Graduate students less than 9 credit hours.
 
 ## Tuition Residency
 Tuition Residency is the official status of student's residence for tuition purposes. The options are:
@@ -249,21 +251,14 @@ State Residency summarizes tuition residency into two categories, in-state or ou
 - In-state residency
 - Out-of-state residency
 
-## Global Residency
-Global Residency first looks at international status, then looks at state residency. The options are:
-
-- International
-- In-State Residency
-- Out-of-State Residency
-
 ## High School Student
 A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a high school student.
 
 ## Non-Matriculated
-A non-degree-seeking student who is enrolled to per sue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking.
+A non-degree-seeking student who is enrolled to per sue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a non-matriculated student.
 
 ## Online Program Student
-A Non-Matriculated student is a non-degree-seeking student who is enrolled to pursue personal interests, not a credential. A Non-matriculated is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a non-matriculated student. 
+An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). If the sql output is TRUE then the student is an online program student. 
 
 ## Overall Cumulative GPA Band
 Overall Cumulative GPA Band displays a student's Overall (both institutional and transfer) Cumulative (across all semesters) GPA. Best used at End of Term. Reported as a grouping: 
@@ -290,7 +285,7 @@ Institutional Term GPA Band displays a student's Institutional Term GPA. Best us
 - 2-2.49
 - 2.5-2.999
 - 3-4.0
-- missing (does not have an end of term record or is in a year long High School course)
+- missing (does not have an end of term record or is in a year long High School course or was not enrolled at end of term)
 
 ## Pell Eligible
 A Pell Eligible student is a student who is eligible to receive a Pell grant based on their FAFSA. If the sql output is TRUE then the student is Pell eligible.
@@ -309,13 +304,17 @@ A Student Athlete is a student who was on the official team roster on or after t
 ## SQL for Term Based Groups
 
 ```sql
---This query will pull current data from the current term (use student_term_level_version to pull snapshot data)
+--This query will pull current data from the current term (use student_term_level_version to pull snapshot data and version_desc equals 'Census' or 'End of Term')
 SELECT a.student_id,
        b.college_abbrv,
        b.college_desc,
        b.department_id,
        b.department_desc,
-       a.primary_program_id,
+       a.primary_program_id AS program_id,
+       a.primary_program_desc AS program_desc,
+       a.primary_concentration_id AS concentration_id,
+       a.primary_concentration_desc AS concentration_desc,
+       a.primary_degree_id AS degree_id,
        a.primary_degree_desc AS degree_desc,
        b.major_id,
        b.major_desc,
@@ -326,14 +325,19 @@ SELECT a.student_id,
            WHEN a.student_type_code = 'H' THEN TRUE
            ELSE FALSE
         END AS is_high_school,
-       a.level_id,
-       a.level_desc,
-       a.primary_level_class_id,
-       a.primary_level_class_desc,
+       a.level_id AS student_level_id,
+       a.level_desc AS student_level_desc,
+       a.primary_level_class_id AS class_level_id,
+       a.primary_level_class_desc AS class_level_desc,
        a.full_time_part_time_code AS course_load,
-       a.residency_code, 
-       a.residency_code_desc,
-       a.residency_in_state_desc,
+       a.residency_code AS tuition_residency_code, 
+       a.residency_code_desc AS tuition_residency_desc,
+       a.residency_in_state_code AS state_residency_code,
+       a.residency_in_state_desc AS state_residency_desc,
+       CASE
+           WHEN a.student_type_code = 'H' THEN TRUE
+           ELSE FALSE
+        END AS is_high_school,
        CASE
            WHEN a.student_type_code = 'P' THEN TRUE
            ELSE FALSE
@@ -347,27 +351,29 @@ SELECT a.student_id,
            ELSE 'new'
        END AS overall_cumulative_gpa_band,
         CASE
-           WHEN a.overall_institutional_gpa < 2.0 THEN '0_to_1.999'
-           WHEN a.overall_institutional_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
-           WHEN a.overall_institutional_gpa BETWEEN 2.5 AND 2.999 THEN '2.5_to_2.999'
-           WHEN a.overall_institutional_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
+           WHEN a.institutional_term_gpa < 2.0 THEN '0_to_1.999'
+           WHEN a.institutional_term_gpa BETWEEN 2.0 AND 2.499 THEN '2_to_2.499'
+           WHEN a.institutional_term_gpa BETWEEN 2.5 AND 2.999 THEN '2.5_to_2.999'
+           WHEN a.institutional_term_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
            ELSE 'new'
-        END AS overall_institutional_gpa_band,
+        END AS institutional_term_gpa,
        a.is_pell_eligible,
        a.is_pell_awarded,
        a.is_pell_awarded,
        a.is_subsidized_loan_awarded,
        a.is_athlete AS student_athlete_term
-  FROM export.student_term_level a
+  FROM export.student_term_level a --comment out this line and then uncomment the line below and the version_desc line if you want snapshot data
+  --FROM export.student_term_level_version a
   LEFT JOIN export.academic_programs b ON b.program_id = a.primary_program_id
  WHERE a.is_enrolled IS TRUE
    AND a.is_primary_level IS TRUE
-   AND a.is_current_term IS TRUE;
+   AND a.is_current_term IS TRUE
+   --AND a.version_desc = 'Census';
 ```
 
 
 # Course Based Groups
-Data in this classification can change each semester and is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table. This data is changes often. This data can be pulled as of Current, End of Term or Census.
+Data in this classification can change each day and is different each semester. It is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table. This data is changes often. This data can be pulled as of Current, End of Term or Census.
 
 ## High School Concurrent Enrollment Student
 A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. High School Concurrent Enrollment students are a subset of High School Students. If a high school student isn't a concurrent enrollment student then the student is a High School Student, Other. If the sql output is TRUE then the student is a high school concurrent enrollment student.
@@ -410,7 +416,7 @@ SELECT a.student_id,
 ```
 
 ## Distance Education Status
-Distance Education Status determines if a students courses are Distance Education All, Distance Education Some, or Distance Education None. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
+Distance Education Status determines if a students' courses are Distance Education All, Distance Education Some, or Distance Education None. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
 
 ## SQL for Distance Education Status
 
