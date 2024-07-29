@@ -1,0 +1,49 @@
+---
+title: "Cohort"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{cohort}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+A cohort is a group of students with shared characteristics that are tracked for reporting purposes. New, degree seeking students are assigned a cohort when they enter the University. They are placed in a cohort based on data in the census enrollment snapshot. There are eight cohorts students are placed in: 
+
+- Full-time, Bachelors degree seeking, Freshman
+- Full-time, Bachelors degree seeking, Transfer
+- Part-time, Bachelors degree seeking, Freshman
+- Part-time, Bachelors degree seeking, Transfer
+- Full-time, Associates degree seeking, Freshman
+- Full-time, Associates degree seeking, Transfer
+- Part-time, Associates degree seeking, Freshman
+- Part-time, Associates degree seeking, Transfer
+
+The fields used to drive the cohorts are:
+
+- Full-time part-time code - based on enrolled credits at census
+- Primary degree id - based on the degree level of the students declared program at census
+- Student Type - based the student type at census 
+
+## Cohort Creation
+A student is placed in a cohort only once, on the term when they have a student type of Freshman (F) or Transfer (T); these student types are undergraduate degree seeking students. 
+
+- Graduate students are not placed in cohorts. Only undergraduate students are placed in a cohort.
+- Non-degree seeking students are not placed in cohorts. Only degree seeking undergraduate students are placed in a cohort.
+- A student is not ever removed from or taken out of the cohort. A student could be excluded based on the exclusions flag. 
+	- Exclusion: Students who died or were totally and permanently disabled; students who left school to serve in the armed forces (or have been called up to active duty); those who left to serve with a foreign aid service of the federal government, such as the Peace Corps; and those who left to serve on official church missions.
+- If a student is readmitted, they do not get placed in a cohort again, they still have their original cohort. 
+- There are students who never get placed in a cohort. 
+	- Graduate students are not placed in a cohort. They could have a cohort if they attended while pursing a undergraduate degree but there are no cohorts for graduate students, only undergraduate students.
+	- Non-Degree Seeking students are not placed in a cohort.
+		- When a student with the student type of High School (H) attends after they graduate from high school they get a student type of Freshman (F) or Transfer (T) and would be placed in a cohort at that time.
+		- When a student with a student type of Personal Interest, Non-Degree (P) moves into a degree seeking program, they do not get placed in a cohort. They move from a student type of Personal Interest, Non-Degree (P) to Continuing Registration (C) and because they never have a student type of Freshman (F) or Transfer (T) they are never placed in a cohort.
+	- Cohorts prior to 2009 are not in Edify. If a student was placed in a cohort before 2009, they are non-cohorted or null.
+	- There are some students who never get a student type of Freshman (F) or Transfer (T) because they had an incorrect student type at Census, these students never get placed in a cohort.
+- There are a few students who had conflicts between their program and their student type at census. If the student has a student type of F or T then they are placed in a cohort even if their program shows they are a high school student.

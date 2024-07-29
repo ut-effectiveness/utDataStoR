@@ -18,11 +18,19 @@ Retention is a measure of how many students return to UT. By contrast, persisten
 
 *Persistence rate is measured by the percentage of students who return to college at any institution for their second year, while retention rate represents the percentage of students who return to the same institution.*
 
-This vignette will focus on the metrics involved in retention. The university's retention metrics can be broadly broken into two groups. Cohort retention and term-to-term retention.  
+This vignette will focus on retention rate metrics. The university's retention metrics can be broadly broken into two groups. Cohort retention and term-to-term retention.  
+
+
+|                  | Group of Students                                    | Retention Includes                                           | Retention Excludes |
+| ---------------- | ---------------------------------------------------- | ------------------------------------------------------------ | ------------------ |
+| Cohort Retention | Cohort, First-time Freshman and/or Transfer Students | Returned term indicated                              | Exclusions         |
+| Come Back Rate   | All degree seeking students                          | Returned term indicated                              | Exclusions         |
+| Return Rate      | All degree seeking students                          | Returned or completed a credential by the term indicated | Exclusions         |
+
 
 ## Cohort retention
 
-Degree seeking students are assigned a cohort when they enter the University. There are eight cohorts students are placed in 
+A cohort is a group of students with shared characteristics that are tracked for reporting purposes. New, degree seeking students are assigned a cohort when they enter the University. They are placed in a cohort based on data in the census enrollment snapshot. There are eight cohorts students are placed in:  
 
 - Full-time, Bachelors degree seeking, freshman
 - Full-time, Bachelors degree seeking, transfer
@@ -33,7 +41,7 @@ Degree seeking students are assigned a cohort when they enter the University. Th
 - Part-time, Associates degree seeking, freshman
 - Part-time, Associates degree seeking, transfer
 
-Cohort retention metrics track these cohorts as they progress toward graduation. UT has eight cohort retention metrics. The denominator for this metric is the number of student within the cohort. The numerator for the metric is the number of students from the cohort who were enrolled as of census for the term indicated.
+Cohort retention metrics track cohorts as they progress toward graduation. Cohort retention starts with a cohort of students (a group of students) and tracks if the student was enrolled (retained) as of census for the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were enrolled as of census for the return term indicated.
 
 - Fall-to-spring cohort retention rate
 - Fall-to-fall2 cohort retention rate 
@@ -80,7 +88,7 @@ LEFT JOIN export.academic_programs d
 LEFT JOIN export.student e
        ON e.student_id = a.student_id
     WHERE b.season = 'Fall'
-      AND a.cohort_desc = 'First-Time Freshman'
+      AND a.cohort_desc != 'Student Success'
       AND substr(a.cohort_start_term_id, 1, 4)::int >= (SELECT substr(term_id, 1, 4)::int - 5
                                      FROM export.term
                                      WHERE is_current_term)
@@ -90,18 +98,19 @@ LEFT JOIN export.student e
 
 ## Term-to-term
 
-Term-to-term retention tracks all students (degree seeking and non-degree seeking) from academic term to term, regardless of their assigned cohort. The denominator for this metric is the number of students enrolled in an academic term. The numerator for this metric is the number of students still enrolled in a subsequent term. 
+Term-to-term metrics include:
 
-Term-to-term retention can be calculated on a fall-to-fall basis or a fall-to-spring basis with outcomes that indicate the status of a student.
+- Comeback rate fall to spring
+- Comeback rate fall to fall
+- Return rate fall to spring
+- Return rate fall to fall
 
-Term-to-term outcomes include:
 
-  - Associates: Student completed an associates credential.
-  - Masters: Student completed a masters credential.
-  - Dropped Out: Student did not enroll for subsequent term.
-  - Stopped Out: Student temporarily withdraws from enrolling in subsequent terms.
-  - Enrolled: Student is enrolled in the subsequent term.
-  
+Comeback rate metrics track if the degree seeking students were enrolled (retained) as of census for the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of degree seeking students who do not have an exclusion flag. The denominator for the metric is the number of students from the numerator who were enrolled as of census for the return term indicated.
+
+Return rate metrics track if the degree seeking students were enrolled (retained) as of census or completed a credential by the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of degree seeking students who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who were enrolled as of census or completed a credential by the return term indicated.
+
+#to do - look at the sql  
 ```sql
    SELECT a.student_id,
           a.term_id,
