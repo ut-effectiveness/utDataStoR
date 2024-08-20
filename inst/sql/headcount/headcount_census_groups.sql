@@ -1,5 +1,6 @@
 /*Census headcount groups
 provides unit record data, to get headcount you must group and summarize
+for information about definitions for each of these groups, please see the groups vignette in utDataStoR
 
  */
 SELECT a.term_id,
@@ -33,7 +34,6 @@ SELECT a.term_id,
        b.us_citizenship_desc,
        b.is_international,
        a.is_degree_seeking,
-       a.is_subsidized_loan_awarded,
        b.is_underrepresented_minority AS is_minority,
        b.first_admit_county_desc,
        b.first_admit_state_desc,
@@ -42,7 +42,6 @@ SELECT a.term_id,
        a.residency_code_desc AS tuition_residency_desc,
        a.residency_in_state_code AS state_residency_code,
        a.residency_in_state_desc AS state_residency_desc,
-       a.residency_in_state_desc,
        CASE
            WHEN b.primary_visa_type_code = 'F1' AND b.us_citizenship_code = '2' THEN 'international'
            WHEN a.residency_in_state_code = 'I' THEN 'in_state'
@@ -79,7 +78,7 @@ SELECT a.term_id,
            WHEN a.institutional_term_gpa BETWEEN 2.5 AND 2.999 THEN '2.5_to_2.999'
            WHEN a.institutional_term_gpa BETWEEN 3.0 AND 4 THEN '3_to_4'
            ELSE 'new'
-        END AS institutional_term_gpa_band,
+           END                       AS institutional_term_gpa_band,
        CASE
            WHEN a.student_type_code = 'H' THEN TRUE
            ELSE FALSE
