@@ -1,6 +1,6 @@
 /*Census headcount groups
 provides unit record data, to get headcount you must group and summarize
-for information about definitions for each of these groups, please see the groups vignette in utDataStoR
+Definitions for each of these groups can be found in the groups vignette in utDataStoR
 
  */
 SELECT a.term_id,
