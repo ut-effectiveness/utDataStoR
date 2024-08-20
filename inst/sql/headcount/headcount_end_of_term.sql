@@ -3,7 +3,7 @@ End of Term headcount
 */
 
 SELECT a.term_desc,
-       COUNT(a.student_id) AS current_headcount
+       COUNT(a.student_id) AS eot_headcount
 FROM export.student_term_level_version a
          LEFT JOIN export.term b
                    ON a.term_id = b.term_id
