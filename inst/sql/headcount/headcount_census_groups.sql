@@ -1,7 +1,7 @@
-/*Census headcount groups
+/*
+Census headcount groups
 provides unit record data, to get headcount you must group and summarize
 Definitions for each of these groups can be found in the groups vignette in utDataStoR
-
  */
 SELECT a.term_id,
        a.term_desc,

@@ -1,5 +1,5 @@
-/*IPEDS 12 Month headcount
-
+/*
+IPEDS 12 Month headcount
  */
 
 SELECT b.academic_year_code,

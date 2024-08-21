@@ -1,5 +1,5 @@
-/* daily headcount
-
+/*
+daily headcount
 */
 
 SELECT term_id,
