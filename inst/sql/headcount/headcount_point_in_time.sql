@@ -1,5 +1,5 @@
-/* daily headcount
-
+/*
+daily headcount
 */
 
 SELECT term_id,
@@ -8,7 +8,7 @@ SELECT term_id,
        days_to_class_start,
        COUNT(DISTINCT student_id) AS headcount
 FROM export.daily_enrollment
-WHERE term_id = '202340'
-AND is_enrolled IS TRUE
+WHERE is_current_term IS TRUE -- Only pulling current term
+  AND is_enrolled IS TRUE
 GROUP BY term_id, date, days_to_class_start
 ORDER BY date DESC;
