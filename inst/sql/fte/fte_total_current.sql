@@ -2,7 +2,6 @@
 FTE Graduate, Undergraduate, and Total - Current
 Does not include any fte for CE - continuing education courses
 Current and Census use attempted_credits and End of Term uses earned_credits
-
 */
 WITH CTE_graduate_fte AS
          (SELECT a.term_id,
