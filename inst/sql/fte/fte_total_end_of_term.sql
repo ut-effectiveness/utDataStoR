@@ -1,7 +1,6 @@
 /*
-FTE Graduate, Undergraduate, and Total - End of Term
-Does not include any fte for CE - continuing education courses
-Current and Census use attempted_credits and End of Term uses earned_credits
+This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled in end of term versions of courses.
+Does not include any FTE for CE - Continuing Education courses
 */
 WITH CTE_graduate_fte AS
          (SELECT a.term_id,
@@ -22,9 +21,9 @@ WITH CTE_graduate_fte AS
           GROUP BY a.term_id)
 
 SELECT b.term_desc,
-       d.eot_undergrad_fte,
+       COALESCE(d.eot_undergrad_fte, 0) AS eot_undergrad_fte,
        COALESCE(c.eot_graduate_fte, 0) AS eot_graduate_fte,
-       ROUND(COALESCE(c.eot_graduate_fte, 0) + d.eot_undergrad_fte, 2) AS eot_total_fte
+       ROUND(COALESCE(c.eot_graduate_fte, 0) + COALESCE(d.eot_undergrad_fte, 0), 2) AS eot_total_fte
 FROM export.student_section_version a
          LEFT JOIN export.term b
                    ON a.term_id = b.term_id
