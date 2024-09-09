@@ -35,4 +35,4 @@ WHERE a.is_enrolled IS TRUE
   AND a.version_desc = 'Census'
   AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current year plus last 5 years
 GROUP BY b.term_desc, c.census_graduate_fte, d.census_undergrad_fte
-ORDER BY b.term_desc
+ORDER BY b.term_desc;

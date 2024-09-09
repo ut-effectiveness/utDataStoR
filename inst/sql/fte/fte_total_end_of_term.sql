@@ -35,4 +35,4 @@ WHERE a.is_enrolled IS TRUE
   AND a.version_desc = 'End of Term'
   AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current year plus last 5 years
 GROUP BY b.term_desc, c.eot_graduate_fte, d.eot_undergrad_fte
-ORDER BY b.term_desc
+ORDER BY b.term_desc;
