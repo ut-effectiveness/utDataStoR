@@ -1,0 +1,103 @@
+---
+title: "utMetrics"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{utmetrics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+library(utMetrics)
+```
+
+utMetrics provides the official metrics of Utah Tech University. 
+
+## Metric Names
+
+Metric names are designed to give a clear understanding of the metric.
+
+Metric names come from components of the Metric.
+
+- Season (if applicable)
+- Computation
+- by
+- Partition(s)
+- :: Segment(s) (if applicable)
+
+To see more information about metric names, see Naming Metrics Vignette
+
+### Season and Year (Term)
+
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The term code (202440) is the Fall 2024 term. Season may also be tied to the computation.
+
+Not every metric has a season, it is optional. If the metric doesn't have a season, it is usually because the season is integrated into the metric name (i.e. Fall to Fall Comeback Rate). When we refer to the Fall of 2024 semester, Fall is the season and 2024 is the year. Season is a partition and the segment refers to the term or semester name. Below are the segments for the partition of Season.
+
+- Fall (term code ending in 40)
+- Spring (term code ending in 20)
+- Summer (term code ending in 30)
+
+### Computation
+
+Metrics are organized by computations. Computations are the way the metric is computed or calculated.
+
+There are several computations:
+
+- Headcount 
+  - Census Headcount
+  - End of Term Headcount
+- Cohort Retention
+  - Fall to Fall Cohort Retention
+  - Returned 3rd Fall Cohort Retention
+  - Returned 4th Fall Cohort Retention
+- Term to Term Retention
+  - Fall to Spring Comeback Rate
+  - Fall to Fall Comeback Rate
+  - Fall to Spring Return Rate
+  - Fall to Fall Return Rate
+- Graduation Rate
+  - 150% Graduation Rate
+- Full-Time Equivalent (FTE)
+  - Census FTE
+  - End of Term FTE
+  
+To see more information about computations, see utMetrics Computations Vignette
+  
+### Partition
+
+Each metric can be displayed by partitions and segments. Partitions are a way to parse or break down a metric. In the literature, this is often referred to as disaggregating data. More than one Partition can be used in a metric.
+
+There are more than 20 partitions. Here are some common examples:
+
+- All Students
+- All Degree Seeking Students
+- Gender
+- College 
+- Cohort
+- Race Ethnicity
+- Minority
+- Student Type
+- Course Load
+
+Partitions can also be combined. All the metrics displayed below have more than one partition, this allows the metric to be displayed by more than one category.
+
+Here are some examples:
+
+- Student Type, Course Load
+- College, Gender
+- Cohort, Entering College
+- Online Program Student, College
+
+### Segments
+Each partition creates segments. Segments are the values that each partition produces. The values are typically unique to the partition. For example, the partition of Gender would create the segments of Male and Female.
+
+Segments can also be combined. All the metrics displayed below have more than one segment, this allows the metric to be displayed by more than one category.
+
+When more than one segment is present, the data is separated by a hyphen (i.e. Gender and College partitions produce segments that look like this: Male-CHASS).
