@@ -1,8 +1,13 @@
 ---
 title: "utMetrics"
-output: rmarkdown::html_vignette
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
 vignette: >
-  %\VignetteIndexEntry{utmetrics}
+  %\VignetteIndexEntry{utMetrics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
