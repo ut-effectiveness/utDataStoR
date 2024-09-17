@@ -1,0 +1,80 @@
+---
+title: Computations - utMetrics
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
+vignette: >
+  %\VignetteIndexEntry{utMetrics_computations}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+library(utMetrics)
+```
+
+```{r echo=FALSE, out.width = "55%", fig.align = "center"}
+knitr::include_graphics("mathematic-people-learning-math.jpg")
+```
+
+## Count
+
+### Headcount
+Headcount is the measure of the net unduplicated number of students enrolled at Utah Tech for a specific period of time.
+
+- Census headcount is the net unduplicated number of students enrolled as of the 15th day of instruction of an academic term. Census headcount is based on snapshot data, this headcount returns a static headcount and is used for reporting.
+- End of term headcount is the net unduplicated number of students enrolled at the end of the semester and after the high school concurrent enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
+
+#### Year
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for headcount metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data). Depending on the time of year, it may mean that there are 4 complete years of academic year data, not 5 years. 
+
+## Rate
+
+### Retention Rates
+Retention is a measure of how many students return to UT. Retention is calculated in 3 ways: cohort retention, come back rate, and return rate.
+
+- **Cohort retention** starts with a cohort of students (a group of students) and tracks if the student re-enrolls (or retains) in each semester and removes exclusions.
+- **Come back rate** looks at the degree seeking students enrolled in each semester and tracks if the student re-enrolls (or comes back) by a given semester and removes exclusions.
+- **Return rate** looks at the degree seeking students enrolled in each semester and tracks if the student re-enrolls (or returns) or completes a credential by a given semester and removes exclusions. 
+
+
+|                  | Group of Students                                    | Retention Includes                                           | Retention Excludes |
+| ---------------- | ---------------------------------------------------- | ------------------------------------------------------------ | ------------------ |
+| Cohort Retention | Cohort, First-time Freshman and/or Transfer Students | Returned the specified semester                              | Exclusions         |
+| Come Back Rate   | All degree seeking students                          | Returned the specified semester                              | Exclusions         |
+| Return Rate      | All degree seeking students                          | Returned or completed a credential by the specified semester | Exclusions         |
+
+Retention rates also look at different time periods:
+
+- Fall to Spring - Student was enrolled at Fall Census and returned the following Spring term (second semester). For example enrolled in Fall 2020, returned Spring 2021.
+- Fall to Fall - Student was enrolled at Fall Census and returned the following fall term (fall 2). For example enrolled in Fall 2020, returned Fall 2021.
+- Returned 3rd Fall - Student was enrolled at Fall Census and returned in the fall 2 years later (fall 3). For example enrolled in Fall 2020, returned Fall 2022. This is used only for cohort retention.
+- Returned 4th Fall - Student was enrolled at Fall Census and returned in the fall 3 years later (fall 4). For example enrolled in Fall 2020, returned Fall 2023. This is used only for cohort retention.
+
+#### Year
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for retention metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024). The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. If a retention metric needs 3 years to have complete data (returned 4th fall), then the metric will show the most recent complete data (Cohort retention returned 4th fall for the 2023 cohort will not be provided until Fall 2026). 
+
+### 150% Graduation Rate
+
+150% Graduation Rate tracks a cohort of students, after removing exclusions, for 6 years to see if the student earns a credential within 150% of the degree time (150% for a bachelor degree is 6 years) in a manner similar to IPEDS Graduation Rate. 
+
+#### Year
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for 150 percent graduation metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024). The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. 150% graduation rate metrics require 6 years for data to be complete. 150% graduation rate for the Fall 2023 cohort will not be provided until Fall 2029.
+
+## Sum
+
+### Student FTE - Full-time Equivalent
+Full-Time Equivalent (FTE) is the number of students the university would have if all students were attending full-time. It is calculated on student credit hours and course level. FTE for undergraduate students takes the total undergraduate student credit hours and divides it by 15 credit hours. FTE for graduate students takes the total graduate student credit hours and divides it by 10 credit hours.
+
+#### Year 
+     Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data). Depending on the time of year, it may mean that there are 4 complete years of academic year data, not 5 years.
