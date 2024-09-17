@@ -77,4 +77,4 @@ Data is reported by season (Fall, Spring, Summer) and Year. Season and Year toge
 Full-Time Equivalent (FTE) is the number of students the university would have if all students were attending full-time. It is calculated on student credit hours and course level. FTE for undergraduate students takes the total undergraduate student credit hours and divides it by 15 credit hours. FTE for graduate students takes the total graduate student credit hours and divides it by 10 credit hours.
 
 #### Year 
-     Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data). Depending on the time of year, it may mean that there are 4 complete years of academic year data, not 5 years.
+Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data). Depending on the time of year, it may mean that there are 4 complete years of academic year data, not 5 years.
