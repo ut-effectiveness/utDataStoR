@@ -7,7 +7,7 @@ output:
     #toc: yes
 
 vignette: >
-  %\VignetteIndexEntry{utMetrics_computations}
+  %\VignetteIndexEntry{utmetrics_computations}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -36,7 +36,7 @@ Headcount is the measure of the net unduplicated number of students enrolled at 
 - End of term headcount is the net unduplicated number of students enrolled at the end of the semester and after the high school concurrent enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
 
 #### Year
-Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for headcount metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data). Depending on the time of year, it may mean that there are 4 complete years of academic year data, not 5 years. 
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for headcount metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data).
 
 ## Rate
 
@@ -62,7 +62,7 @@ Retention rates also look at different time periods:
 - Returned 4th Fall - Student was enrolled at Fall Census and returned in the fall 3 years later (fall 4). For example enrolled in Fall 2020, returned Fall 2023. This is used only for cohort retention.
 
 #### Year
-Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for retention metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024). The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. If a retention metric needs 3 years to have complete data (returned 4th fall), then the metric will show the most recent complete data (Cohort retention returned 4th fall for the 2023 cohort will not be provided until Fall 2026). 
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for retention metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024) or is the term year of the term being measured. The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. If a retention metric needs 3 years to have complete data (returned 4th fall), then the metric will show the most recent complete data (Cohort retention returned 4th fall for the 2023 cohort will not be provided until Fall 2026). 
 
 ### 150% Graduation Rate
 
@@ -77,4 +77,4 @@ Data is reported by season (Fall, Spring, Summer) and Year. Season and Year toge
 Full-Time Equivalent (FTE) is the number of students the university would have if all students were attending full-time. It is calculated on student credit hours and course level. FTE for undergraduate students takes the total undergraduate student credit hours and divides it by 15 credit hours. FTE for graduate students takes the total graduate student credit hours and divides it by 10 credit hours.
 
 #### Year 
-Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data). Depending on the time of year, it may mean that there are 4 complete years of academic year data, not 5 years.
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for FTE metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each FTE metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data).
