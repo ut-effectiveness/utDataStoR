@@ -100,7 +100,7 @@ metric_list <- utMetrics::df_metric_group_full_segment %>%
   arrange(metric_group, segmented_by, segment) %>% 
   rename("Metric Group" = metric_group) %>% 
   rename("Partition" = segmented_by) %>% 
-  rename("Segement" = segment) %>% 
+  rename("Segment" = segment) %>% 
   unique()
 
 datatable(metric_list)
