@@ -27,7 +27,7 @@ library(utMetrics)
 knitr::include_graphics("metrics.avif")
 ```
 
-utMetrics provides the official metrics of Utah Tech University. 
+utMetrics provides the official metrics of Utah Tech University. These metrics can be used in both internal and external presentations regarding Utah Tech University. If you need metrics that need to come from or match USHE or IPEDS, please reach out to the Insitutional Effecitiveness office (datablaze@utahtech.edu) to receive those metrics.
 
 ## Metric Names
 
