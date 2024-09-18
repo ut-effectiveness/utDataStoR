@@ -63,3 +63,45 @@ The Metric will show the Fall to Fall Comeback Rate for CHASS (college) Minority
 
 ### Metric Name Diagram
 ![Metric Names Diagram](metric_name_diagram.png){width=75%}
+
+### List of Computations
+List of Computations
+
+```{r, echo=FALSE}
+metric_groups <- utMetrics::df_index %>% 
+  select(metric_group) %>% 
+  arrange(metric_group) %>%
+  rename("Metric Group" = metric_group) %>% 
+  unique()
+
+datatable(metric_groups)
+```
+
+### List of Computations and Partitions
+List of Computations and Partitions
+
+```{r, echo=FALSE}
+metric_partitions <- utMetrics::df_index %>% 
+  select(metric_group, segmented_by) %>% 
+  arrange(metric_group, segmented_by) %>% 
+  rename("Metric Group" = metric_group) %>% 
+  rename("Partition" = segmented_by) %>% 
+  unique()
+
+datatable(metric_partitions)
+```
+
+### List of Metrics
+List of Computations, Partitions, and Segments
+
+```{r, echo=FALSE}
+metric_list <- utMetrics::df_metric_group_full_segment %>% 
+  select(metric_group, segmented_by, segment) %>% 
+  arrange(metric_group, segmented_by, segment) %>% 
+  rename("Metric Group" = metric_group) %>% 
+  rename("Partition" = segmented_by) %>% 
+  rename("Segement" = segment) %>% 
+  unique()
+
+datatable(metric_list)
+```
