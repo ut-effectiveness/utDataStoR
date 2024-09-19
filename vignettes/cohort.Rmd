@@ -7,7 +7,7 @@ output:
     #toc: yes
 
 vignette: >
-  %\VignetteIndexEntry{Headcount}
+  %\VignetteIndexEntry{Cohort}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
