@@ -1,8 +1,13 @@
 ---
-title: "Cohort"
-output: rmarkdown::html_vignette
+title: Cohort
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
 vignette: >
-  %\VignetteIndexEntry{cohort}
+  %\VignetteIndexEntry{Cohort}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +19,21 @@ knitr::opts_chunk$set(
 )
 ```
 
-A cohort is a group of students with shared characteristics that are tracked for reporting purposes. New, degree seeking students are assigned a cohort when they enter the University. They are placed in a cohort based on data in the census enrollment snapshot. There are eight cohorts students are placed in: 
+```{r setup, echo = FALSE}
+library(utDataStoR)
+library(prettydoc)
+```
+
+
+```{r echo=FALSE, out.width = "55%", fig.align = "center"}
+#Insert an image for cohort
+
+knitr::include_graphics("cohort.png")
+```
+
+A cohort is a classification assigned to new, undergraduate degree-seeking students upon entry to the University, based on shared characteristics for reporting purposes. Cohorts are determined using census enrollment snapshot data.
+
+Students are assigned to one of eight cohorts:
 
 - Full-time, Bachelors degree seeking, Freshman
 - Full-time, Bachelors degree seeking, Transfer
@@ -25,25 +44,40 @@ A cohort is a group of students with shared characteristics that are tracked for
 - Part-time, Associates degree seeking, Freshman
 - Part-time, Associates degree seeking, Transfer
 
-The fields used to drive the cohorts are:
+## Criteria for Cohort Assignment:
 
-- Full-time part-time code - based on enrolled credits at census
-- Primary degree id - based on the degree level of the students declared program at census
-- Student Type - based the student type at census 
+Cohort assignment is driven by the following fields:
 
-## Cohort Creation
-A student is placed in a cohort only once, on the term when they have a student type of Freshman (F) or Transfer (T); these student types are undergraduate degree seeking students. 
+- Enrollment status (full-time/part-time) based on credits at census.
+- Identified as bachelors or associates degree-seeking at census.
+- Level id of Undergraduate at census.
+- Degree level (primary degree ID) of the declared program at census.
+- Student type of Freshman or Transfer at census.
 
-- Graduate students are not placed in cohorts. Only undergraduate students are placed in a cohort.
-- Non-degree seeking students are not placed in cohorts. Only degree seeking undergraduate students are placed in a cohort.
-- A student is not ever removed from or taken out of the cohort. A student could be excluded based on the exclusions flag. 
-	- Exclusion: Students who died or were totally and permanently disabled; students who left school to serve in the armed forces (or have been called up to active duty); those who left to serve with a foreign aid service of the federal government, such as the Peace Corps; and those who left to serve on official church missions.
-- If a student is readmitted, they do not get placed in a cohort again, they still have their original cohort. 
-- There are students who never get placed in a cohort. 
-	- Graduate students are not placed in a cohort. They could have a cohort if they attended while pursing a undergraduate degree but there are no cohorts for graduate students, only undergraduate students.
-	- Non-Degree Seeking students are not placed in a cohort.
-		- When a student with the student type of High School (H) attends after they graduate from high school they get a student type of Freshman (F) or Transfer (T) and would be placed in a cohort at that time.
-		- When a student with a student type of Personal Interest, Non-Degree (P) moves into a degree seeking program, they do not get placed in a cohort. They move from a student type of Personal Interest, Non-Degree (P) to Continuing Registration (C) and because they never have a student type of Freshman (F) or Transfer (T) they are never placed in a cohort.
-	- Cohorts prior to 2009 are not in Edify. If a student was placed in a cohort before 2009, they are non-cohorted or null.
-	- There are some students who never get a student type of Freshman (F) or Transfer (T) because they had an incorrect student type at Census, these students never get placed in a cohort.
-- There are a few students who had conflicts between their program and their student type at census. If the student has a student type of F or T then they are placed in a cohort even if their program shows they are a high school student.
+- Students are placed in a cohort once, during the term where they are classified as Freshman (F) or Transfer (T). These student types are undergraduate degree-seeking students. 
+
+- Once assigned, students remain in their cohort. Readmitted students retain their original cohort.
+
+- When a student with the student type of High School (H) enrolls as a degree seeking student after they graduate from high school they are assigned a student type of Freshman (F) or Transfer (T) and are placed in a cohort.
+
+## Non-Cohort Students:
+
+- Graduate students are not assigned a cohort.
+  - *While graduate students may have been part of a cohort during their undergraduate studies, no cohort assignments are made for graduate students.* 
+
+- Non degree-seeking students.
+
+- When a student with a student type of Personal Interest, Non-Degree (P) moves into a degree-seeking program, they do not get placed in a cohort. They move from a student type of Personal Interest, Non-Degree (P) to Continuing Registration (C). Because they never have a student type of Freshman (F) or Transfer (T) they are never placed in a cohort.
+
+- Cohorts prior to 2009 are not in Edify. If a student was placed in a cohort before 2009, they are non-cohorted or null.
+	
+- Students who had an incorrect student type assignment at Census that should have been a Freshman (F) or Transfer (T) are not placed in a cohort. 
+	
+## Exclusions
+
+- Exclusions apply to students who have passed away, are permanently disabled, or have left for military service, federal aid service, or official church missions.
+
+
+	
+
+		

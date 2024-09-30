@@ -1,30 +1,30 @@
 ---
-title: "Headcount"
-output: rmarkdown::html_vignette
+title: Headcount
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+
 vignette: >
-  %\VignetteIndexEntry{headcount}
+  %\VignetteIndexEntry{Headcount}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
-
 ```{r setup, echo = FALSE}
 library(utDataStoR)
+library(prettydoc)
 ```
 
-Headcount is the measure of the net unduplicated number of students enrolled at Utah Tech for a specific period of time. Headcount is used for reporting and inquiry.
+```{r echo=FALSE, out.width = "55%", fig.align = "center"}
+knitr::include_graphics("headcount.png")
+```
+
+Headcount is the unique count of students enrolled at Utah Tech University for a specific period essential for both reporting and inquiry.
 
 ## Point In Time Headcount
 
-The point in time headcount is a snapshot of current net unduplicated enrollment data for each calendar day during an academic term. 
-
-Point in time headcount data returns the academic term, date, week of the year, the number of days to official term start date, and the total headcount snapshot.
+The Point In Time Headcount offers a daily glimpse into enrollment, detailing the term, date, week number, days until term start, and the day’s total enrollment headcount.
 
 ```sql
 SELECT term_id,
@@ -33,37 +33,33 @@ SELECT term_id,
        days_to_class_start,
        COUNT(DISTINCT student_id) AS headcount
 FROM export.daily_enrollment
-WHERE term_id = '202340'
-AND is_enrolled IS TRUE
+WHERE is_current_term IS TRUE -- Only pulling current term
+  AND is_enrolled IS TRUE
 GROUP BY term_id, date, days_to_class_start
 ORDER BY date DESC;
 ```
 
 ## Current Headcount
 
-The current net unduplicated headcount is the number of students enrolled for an academic term.
-
-Current headcount can change daily for an academic term as it is active data.
-
-The current headcount may also change after the semester ends if official changes are made to student record such as withdrawal status.
+The Current Headcount reflects the live count of enrolled students for a term, which can fluctuate daily and may be adjusted post-semester for changes like withdrawals.
 
 ```sql
-   SELECT a.term_desc,
-          COUNT(a.sis_system_id) AS current_headcount
-     FROM export.student_term_level_version a
-LEFT JOIN export.term b
-       ON a.term_id = b.term_id
-    WHERE a.is_enrolled IS TRUE
-      AND a.is_primary_level IS TRUE
-      AND a.version_desc = 'Current'
-      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current term plus last 5 Years.
- GROUP BY a.term_desc
- ORDER BY a.term_desc;
-``` 
+SELECT a.term_desc,
+       COUNT(a.student_id) AS current_headcount
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled IS TRUE
+  AND a.is_primary_level IS TRUE
+  AND a.version_desc = 'Current'
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current year plus last 5 years
+GROUP BY a.term_desc
+ORDER BY a.term_desc;
+```
 
 ## Census Headcount
 
-The census headcount is the net unduplicated number of students enrolled as of the 15th day of instruction of an academic term. Census headcount is based on snapshot data, this headcount returns a static headcount and is used for reporting.
+The Census Headcount is a fixed count of students enrolled by the 15th day of the term, used for static reporting.
 
 ```sql
 ...
@@ -73,7 +69,7 @@ AND a.version_desc = 'Census' --Version description of snapshot status.
 
 ## End of Term Headcount
 
-The end of term headcount is the net unduplicated number of students enrolled at the end of the semester and after the high school concurrent enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
+The End of Term Headcount tallies students enrolled at semester’s end, including high school concurrent enrollments, providing another static figure for reporting.
 
 ```sql
 ...
@@ -83,7 +79,7 @@ AND a.version_desc = 'End of Term' --Version description of snapshot status.
 
 ## IPEDS Fall Enrollment Headcount
 
-The Fall Enrollment survey is based on a snapshot of Utah Tech's unduplicated Fall census enrollment headcount and is used for reporting annual IPEDS Fall Enrollment.
+For annual reporting, the IPEDS Fall Enrollment Headcount uses the Fall census data, while the IPEDS 12 Month Enrollment Headcount gathers year-round credit enrollment figures.
 
 ```sql
 ...
@@ -93,31 +89,31 @@ AND a.version_desc = 'Census' --Version description of snapshot status.
 
 ## IPEDS 12 Month Enrollment Headcount
 
-The purpose of the 12-month Enrollment component of IPEDS is to collect unduplicated census enrollment counts of all students enrolled for credit and instructional activity data a 12-month period. 
+The IPEDS 12 Month Enrollment Headcount aims to collect comprehensive enrollment data over a 12-month period. This includes unduplicated census counts of all students enrolled for credit, capturing the full scope of instructional activity throughout the year.
 
 ```sql
-  SELECT b.academic_year_code,
-         COUNT(DISTINCT a.sis_system_id)
-     FROM export.student_term_level_version a
-LEFT JOIN export.term b
-       ON a.term_id = b.term_id
-    WHERE a.is_enrolled = TRUE
-      AND a.is_primary_level = TRUE
-      AND a.version_desc = 'Census'
-      AND b.academic_year_code = '2022'
-      AND b.season != 'Summer'
- GROUP BY academic_year_code;
- ```
+SELECT b.academic_year_code,
+       COUNT(DISTINCT a.student_id) --unduplicated students over the course of an academic year
+FROM export.student_term_level_version a
+         LEFT JOIN export.term b
+                   ON a.term_id = b.term_id
+WHERE a.is_enrolled = TRUE
+  AND a.is_primary_level = TRUE
+  AND a.version_desc = 'Census'
+  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT = 1 -- Last academic year
+  AND b.season != 'Summer'                                       -- remove summer as per ipeds requirement
+GROUP BY academic_year_code;
+```
 
 ## USHE Headcount
 
-The USHE headcount reports unduplicated net enrollment headcount five times per fiscal year:
+The USHE Headcount provides a comprehensive view of enrollment by reporting the unduplicated net headcount five times each fiscal year:
 
-- Summer End of Term
-- Fall Census 
-- Fall End of Term
-- Spring Census
-- Spring End of Term
+-   Summer End of Term: Captures enrollment at the conclusion of the summer term.
+-   Fall Census: Records enrollment as of the 15th day of the fall term.
+-   Fall End of Term: Tallies enrollment at the end of the fall semester.
+-   Spring Census: Documents enrollment on the 15th day of the spring term.
+-   Spring End of Term: Counts enrollment at the close of the spring semester.
 
 **Census**: USHE Census Headcount is the net unduplicated number of students enrolled as of the 15th day of instruction of an academic term. Census headcount is based on snapshot data, this headcount returns a static headcount and may be modified to meet USHE reporting element criteria.
 
@@ -134,7 +130,3 @@ AND a.version_desc = 'Census' --Version description of snapshot status.
 AND a.version_desc = 'End of Term' --Version description of snapshot status.
 ...
 ```
-
-
-
-
