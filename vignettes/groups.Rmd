@@ -1,8 +1,13 @@
 ---
-title: "Groups"
-output: rmarkdown::html_vignette
+title: Groups
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
 vignette: >
-  %\VignetteIndexEntry{groups}
+  %\VignetteIndexEntry{Groups}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -16,6 +21,11 @@ knitr::opts_chunk$set(
 
 ```{r setup, echo = FALSE}
 library(utDataStoR)
+library(prettydoc)
+```
+
+```{r echo=FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("groups.jpg")
 ```
 
 Groups define the ways students are categorized. These groups can be placed in several classifications.

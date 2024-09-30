@@ -1,8 +1,13 @@
 ---
-title: "Retention"
-output: rmarkdown::html_vignette
+title: Retention
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
 vignette: >
-  %\VignetteIndexEntry{retention}
+  %\VignetteIndexEntry{Retention}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,23 +19,40 @@ knitr::opts_chunk$set(
 )
 ```
 
-Retention is a measure of how many students return to UT. By contrast, persistence is a measure of how many students continue their education at any university. The National Student Clearinghouse differentiates retention and persistence in the following way.
+```{r setup, echo = FALSE}
+library(utDataStoR)
+library(prettydoc)
+```
 
-*Persistence rate is measured by the percentage of students who return to college at any institution for their second year, while retention rate represents the percentage of students who return to the same institution.*
 
-This vignette will focus on retention rate metrics. The university's retention metrics can be broadly broken into two groups. Cohort retention and term-to-term retention.  
+```{r echo=FALSE, out.width = "40%", fig.align = "center"}
+#Insert an image for retention
+
+knitr::include_graphics("retention.png")
+```
+
+This vignette delves into the specifics of retention rate metrics, which are divided into:
+
+1. **Cohort Retention**
+   - Focuses on tracking a specific group of students, known as a cohort, across their educational journey.
+2. **Term-to-Term Retention**
+   - Examines the retention of students from one academic term to subsequent terms.
 
 
 |                  | Group of Students                                    | Retention Includes                                           | Retention Excludes |
 | ---------------- | ---------------------------------------------------- | ------------------------------------------------------------ | ------------------ |
 | Cohort Retention | Cohort, First-time Freshman and/or Transfer Students | Returned term indicated                              | Exclusions         |
-| Come Back Rate   | All degree seeking students                          | Returned term indicated                              | Exclusions         |
-| Return Rate      | All degree seeking students                          | Returned or completed a credential by the term indicated | Exclusions         |
+| Term to Term Come Back Rate   | All degree seeking students                          | Returned term indicated                              | Exclusions         |
+| Term to Term Return Rate      | All degree seeking students                          | Returned or completed a credential by the term indicated | Exclusions         |
 
 
-## Cohort retention
+## Cohort Retention
 
-A cohort is a group of students with shared characteristics that are tracked for reporting purposes. New, degree seeking students are assigned a cohort when they enter the University. They are placed in a cohort based on data in the census enrollment snapshot. There are eight cohorts students are placed in:  
+A **cohort** refers to a group of students who share common characteristics and are tracked for reporting purposes. In the context of University enrollment, cohorts play a significant role in understanding student demographics.
+
+When new degree-seeking students join the University, they are assigned to a specific cohort. This assignment is based on data extracted from the census enrollment snapshot. The snapshot captures information about student demographics, enrollment status, and other relevant factors.
+
+There are eight distinct cohorts students are categorized into based on enrollment status, degree pursuit and entry type:  
 
 - Full-time, Bachelors degree seeking, freshman
 - Full-time, Bachelors degree seeking, transfer
@@ -41,13 +63,14 @@ A cohort is a group of students with shared characteristics that are tracked for
 - Part-time, Associates degree seeking, freshman
 - Part-time, Associates degree seeking, transfer
 
-Cohort retention metrics track cohorts as they progress toward graduation. Cohort retention starts with a cohort of students (a group of students) and tracks if the student was enrolled (retained) as of census for the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were enrolled as of census for the return term indicated.
+Cohort retention metrics track the progress of student cohorts as they advance toward graduation. 
 
-- Fall-to-spring cohort retention rate
-- Fall-to-fall2 cohort retention rate 
-- Fall-to-fall3 cohort retention rate 
-- Fall-to-fall4 cohort retention rate
+The formula for calculating the cohort retention rate is as follows:
 
+- **Denominator**: The total number of students in the cohort without an exclusion flag.
+- **Numerator**: The number of students from the denominator who were enrolled as of the census date for the return term.
+
+$$ \text{Retention Rate} = \frac{\text{Number of Retained Students}}{\text{Total Number of Non-Excluded Students}} $$
 ```sql
     SELECT a.student_id,
            a.cohort_start_term_id,
@@ -95,8 +118,7 @@ LEFT JOIN export.student e
 
 ```
 
-
-## Term-to-term
+## Term to Term Retention 
 
 Term-to-term metrics include:
 
@@ -105,12 +127,12 @@ Term-to-term metrics include:
 - Return rate fall to spring
 - Return rate fall to fall
 
-
 Comeback rate metrics track if the degree seeking students were enrolled (retained) as of census for the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of degree seeking students who do not have an exclusion flag. The denominator for the metric is the number of students from the numerator who were enrolled as of census for the return term indicated.
 
 Return rate metrics track if the degree seeking students were enrolled (retained) as of census or completed a credential by the return term indicated; exclusions are removed from this metric. The denominator for this metric is the number of degree seeking students who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who were enrolled as of census or completed a credential by the return term indicated.
 
-#to do - look at the sql  
+
+
 ```sql
    SELECT a.student_id,
           a.term_id,
@@ -153,5 +175,3 @@ LEFT JOIN export.student_term_cohort f
                                      FROM export.term
                                      WHERE is_current_term)
 ```
-  
-
