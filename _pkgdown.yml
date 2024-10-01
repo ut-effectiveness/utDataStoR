@@ -1,4 +1,27 @@
 url: https://ut-effectiveness.github.io/utDataStoR/
 template:
   bootstrap: 5
-
+navbar:
+ components:
+   articles:
+    text: Articles
+    menu:
+    - text: Standard SQL Queries
+    - text: 150 Graduation Rate
+      href: articles/150_percent_graduation_rate.html
+    - text: Cohort
+      href: articles/cohort.html
+    - text: Headcount
+      href: articles/headcount.html
+    - text: Groups
+      href: articles/groups.html
+    - text: FTE
+      href: articles/fte.html
+    - text: Retention
+      href: articles/retention.html
+    - text: -------
+    - text: "Metrics"
+    - text: utMetrics
+      href: articles/utMetrics.html
+    - text: Naming Metrics
+      href: articles/naming_metrics.html
