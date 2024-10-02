@@ -3,16 +3,23 @@
  */
    SELECT a.student_id,
           a.term_id,
+          b.term_desc,
+          b.season,
+          SUBSTRING(a.term_id, 1, 4) AS year,
           a.is_returned_next_spring,
           a.is_returned_next_fall,
+          a.is_degree_seeking,
           c.primary_major_desc,
           c.primary_degree_id,
           c.primary_degree_desc,
           d.college_abbrv,
           d.college_desc,
-          e.first_name,
-          e.last_name,
           e.gender_code,
+          CASE
+           WHEN e.gender_code = 'M' THEN 'Male'
+           WHEN e.gender_code = 'F' THEN 'Female'
+           ELSE 'Unspecified'
+           END AS gender_desc,
           e.ipeds_race_ethnicity,
           e.is_veteran,
           e.is_international,
@@ -37,7 +44,8 @@ LEFT JOIN export.student e
 LEFT JOIN export.student_term_cohort f
        ON f.student_id = a.student_id
       AND f.cohort_desc IN ('First-Time Freshman', 'Transfer')
-    WHERE b.season = 'Fall'
+    WHERE a.is_enrolled_census
+      AND b.season = 'Fall'
       AND substr(a.term_id, 1, 4)::int >= (SELECT substr(term_id, 1, 4)::int - 5
                                      FROM export.term
                                      WHERE is_current_term)
