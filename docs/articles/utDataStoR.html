@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">utDataStoR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9100</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,17 +44,18 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <h6 class="dropdown-header" data-toc-skip>Standard SQL</h6>
+    <h6 class="dropdown-header" data-toc-skip>Standard SQL Queries</h6>
     <a class="dropdown-item" href="../articles/150_percent_graduation_rate.html">150 Graduation Rate</a>
     <a class="dropdown-item" href="../articles/cohort.html">Cohort</a>
     <a class="dropdown-item" href="../articles/headcount.html">Headcount</a>
     <a class="dropdown-item" href="../articles/groups.html">Groups</a>
-    <a class="dropdown-item" href="../articles/fte.html">FTE</a>
+    <a class="dropdown-item" href="../articles/full_time_equivalent.html">FTE</a>
     <a class="dropdown-item" href="../articles/retention.html">Retention</a>
     <div class="dropdown-divider"></div>
     <h6 class="dropdown-header" data-toc-skip>Metrics</h6>
     <a class="dropdown-item" href="../articles/utMetrics.html">utMetrics</a>
     <a class="dropdown-item" href="../articles/naming_metrics.html">Naming Metrics</a>
+    <a class="dropdown-item" href="../articles/computations.html">Computations</a>
   </div>
 </li>
       </ul>
@@ -90,10 +91,97 @@
 
     
     
+<p>This package is designed to provide a collection of simple,
+standardized and approved R code snippets and functions that are
+commonly used across various projects at Utah Tech University.
+utDataStoR is greatly enhanced when used in tandem with <a href="https://github.com/ut-effectiveness/utHelpR" class="external-link">utHelpR</a>
+package.</p>
+<p>Follow the steps below to get started:</p>
+<div class="section level3">
+<h3 id="loading-the-package">Loading the Package<a class="anchor" aria-label="anchor" href="#loading-the-package"></a>
+</h3>
+<p>Once installed, load the package into your R session:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dsu-effectiveness/utDataStoR" class="external-link">utDataStoR</a></span><span class="op">)</span></span></code></pre></div>
-<p>You should get started with this…</p>
-  </main>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ut-effectiveness/utHelpR" class="external-link">utHelpR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ut-effectiveness/utDataStoR" class="external-link">utDataStoR</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="using-the-functions">Using the Functions<a class="anchor" aria-label="anchor" href="#using-the-functions"></a>
+</h3>
+<p>The package includes a variety of functions that you can use in your
+projects. Here are a few examples:</p>
+</div>
+<div class="section level3">
+<h3 id="example-function-1-make_headcount_sql">Example Function 1: make_headcount_sql<a class="anchor" aria-label="anchor" href="#example-function-1-make_headcount_sql"></a>
+</h3>
+<p>First you will want to make sure you are choosing the correct sql you
+can reference documentation in the <code>Articles</code> tab. In this
+case you would want to look at <code><a href="../articles/headcount.html">vignette("headcount")</a></code></p>
+<p>Your project must have a folder called <strong>sql</strong> you can
+make one by hand or use the utHelpR package</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">utHelpR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/utHelpR/man/make_standard_folders.html" class="external-link">make_standard_folders</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example usage of a make_headcount_sql function</span></span>
+<span><span class="fu">utDataStoR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_headcount_sql.html">make_headcount_sql</a></span><span class="op">(</span><span class="st">"headcount.sql"</span>, <span class="st">"census"</span><span class="op">)</span></span></code></pre></div>
+<p>This will write the desired sql script
+(<strong>headcount.sql</strong>) to a .sql file housed in sql/
+folder</p>
+<p>you could then run the sql by using the utHelpR package</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">head_count_df</span> <span class="op">&lt;-</span> <span class="fu">utHelpR</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/utHelpR/man/get_data_from_sql_file.html" class="external-link">get_data_from_sql_file</a></span><span class="op">(</span><span class="st">"headcount.sql"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="example-function-2-display_sql_with_comments">Example Function 2: display_sql_with_comments<a class="anchor" aria-label="anchor" href="#example-function-2-display_sql_with_comments"></a>
+</h3>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Example usage of a display_sql_with_comments function</span></span>
+<span><span class="fu">utDataStoR</span><span class="fu">::</span><span class="fu"><a href="../reference/display_sql_with_comments.html">display_sql_with_comments</a></span><span class="op">(</span><span class="st">"headcount"</span>, <span class="st">"headcount_census.sql"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">#&gt; /*</span></span>
+<span><span class="co">#&gt; Census/3rd Week headcount</span></span>
+<span><span class="co">#&gt; */</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; SELECT a.term_desc,</span></span>
+<span><span class="co">#&gt;        COUNT(a.student_id) AS census_headcount</span></span>
+<span><span class="co">#&gt; FROM export.student_term_level_version a</span></span>
+<span><span class="co">#&gt;          LEFT JOIN export.term b</span></span>
+<span><span class="co">#&gt;                    ON a.term_id = b.term_id</span></span>
+<span><span class="co">#&gt; WHERE a.is_enrolled IS TRUE</span></span>
+<span><span class="co">#&gt;   AND a.is_primary_level IS TRUE</span></span>
+<span><span class="co">#&gt;   AND a.version_desc = 'Census'</span></span>
+<span><span class="co">#&gt;   AND DATE_PART('year', NOW()) - b.academic_year_code :: INT &lt;= 5 -- Current year plus last 5 years</span></span>
+<span><span class="co">#&gt; GROUP BY a.term_desc</span></span>
+<span><span class="co">#&gt; ORDER BY a.term_desc;</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h3>
+<p>Detailed documentation for each function is available on the pkgdown
+site. You can also access the documentation within R using the
+<code>?</code> help operator: <code><a href="../reference/make_headcount_sql.html">?make_headcount_sql</a></code> or
+<code><a href="../reference/display_sql_with_comments.html">?display_sql_with_comments</a></code></p>
+</div>
+<div class="section level3">
+<h3 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h3>
+<p>We welcome contributions from the Utah Tech University community! If
+you have suggestions for new functions or improvements to existing ones,
+participate in <a href="https://github.com/ut-effectiveness/utDataStoR/discussions" class="external-link">GitHub/discussion</a>
+please submit a pull request on our GitHub repository.</p>
+</div>
+<div class="section level3">
+<h3 id="getting-help">Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h3>
+<p>If you encounter any issues or have questions, please open an issue
+on <a href="https://github.com/ut-effectiveness/utDataStoR/issues" class="external-link">GitHub/issues</a>
+or contact the package maintainer at <a href="mailto:datablaze@utahtech.edu" class="email">datablaze@utahtech.edu</a>.</p>
+<hr>
+<p>Feel free to customize this guide further to better fit your specific
+needs! If you have any other questions or need additional help, just let
+me know.</p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

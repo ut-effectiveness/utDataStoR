@@ -1,6 +1,7 @@
 url: https://ut-effectiveness.github.io/utDataStoR/
 template:
   bootstrap: 5
+  bootswatch: litera
 navbar:
  components:
    articles:
@@ -16,7 +17,7 @@ navbar:
     - text: Groups
       href: articles/groups.html
     - text: FTE
-      href: articles/fte.html
+      href: articles/full_time_equivalent.html
     - text: Retention
       href: articles/retention.html
     - text: -------
@@ -25,3 +26,5 @@ navbar:
       href: articles/utMetrics.html
     - text: Naming Metrics
       href: articles/naming_metrics.html
+    - text: Computations
+      href: articles/computations.html
