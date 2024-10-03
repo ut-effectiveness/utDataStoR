@@ -3,6 +3,12 @@
  */
     SELECT a.student_id,
            a.cohort_start_term_id,
+           a.cohort_desc,
+           a.full_time_part_time_code,
+           a.cohort_degree_level_desc,
+           b.term_desc,
+           b.season,
+           SUBSTRING(b.term_id, 1, 4) AS year,
            a.is_exclusion,
            -- Second fall return rate
            a.is_returned_next_fall,
@@ -18,9 +24,12 @@
            c.primary_degree_desc,
            d.college_abbrv,
            d.college_desc,
-           e.first_name,
-           e.last_name,
            e.gender_code,
+           CASE
+           WHEN e.gender_code = 'M' THEN 'Male'
+           WHEN e.gender_code = 'F' THEN 'Female'
+           ELSE 'Unspecified'
+           END AS gender_desc,
            e.ipeds_race_ethnicity,
            e.is_veteran,
            e.is_international,
@@ -41,6 +50,4 @@ LEFT JOIN export.student e
        ON e.student_id = a.student_id
     WHERE b.season = 'Fall'
       AND a.cohort_desc = 'First-Time Freshman'
-      AND substr(a.cohort_start_term_id, 1, 4)::int >= (SELECT substr(term_id, 1, 4)::int - 5
-                                     FROM export.term
-                                     WHERE is_current_term)
+      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 8
