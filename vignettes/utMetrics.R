@@ -8,5 +8,5 @@ knitr::opts_chunk$set(
 library(utMetrics)
 
 ## ----echo=FALSE, out.width = "55%", fig.align = "center"----------------------
-knitr::include_graphics("metrics.avif")
+knitr::include_graphics("metrics.png")
 

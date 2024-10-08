@@ -1,10 +1,11 @@
 Package: utDataStoR
 Title: SQL and data sets for the Office of Institutional Effectiveness
-Version: 0.0.0.9000
+Version: 0.0.0.9100
 Authors@R: c(
-    person("Matt", "Nickodemus", email = "matt.nickodemus@utahtech.edu", role = c("aut", "cre")),
+    person("Matt", "Nickodemus", email = "matt.nickodemus@utahtech.edu", role = c("aut")),
     person("Joy", "Baule", email = "joy.baule@utahtech.edu", role = c('aut')),
-    person("Justin", "Pfeifer", email = "justin.pfeifer@utahtech.edu", role = c("aut"))
+    person("Craig", "Demke", email = "craig.demke@utahtech.edu", role = c("cre")),
+    person("Andrea", "Bringhurst", email = "andrea.bringhurst@utahtech.edu", role = c("aut"))
     )
 Description: This package contains common SQL queries and data sets used by the Office of Institutional Effectiveness at Utah Tech University.
 License: MIT + file LICENSE
@@ -24,5 +25,6 @@ Suggests:
     DT,
     prettydoc,
     tidyverse,
-    utMetrics
+    utMetrics,
+    utHelpR
 VignetteBuilder: knitr

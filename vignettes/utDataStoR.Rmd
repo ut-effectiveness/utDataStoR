@@ -1,0 +1,85 @@
+---
+title: "utDataStoR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{utDataStoR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This package is designed to provide a collection of simple, standardized and approved R code snippets and functions that are commonly used across various projects at Utah Tech University. utDataStoR is greatly enhanced when used in tandem with [utHelpR](https://github.com/ut-effectiveness/utHelpR) package.
+
+
+Follow the steps below to get started:
+
+### Loading the Package
+
+Once installed, load the package into your R session:
+
+```{r, eval=FALSE}
+library(utHelpR)
+library(utDataStoR)
+```
+
+### Using the Functions
+
+The package includes a variety of functions that you can use in your projects. Here are a few examples:
+
+### Example Function 1: make_headcount_sql
+
+First you will want to make sure you are choosing the correct sql you can reference
+documentation in the **Articles** tab. In this case you would want to look at `vignette("headcount")`
+
+Your project must have a folder called **sql** you can make one by hand or use the utHelpR package 
+```{r, eval=FALSE}
+utHelpR::make_standard_folders()
+```
+
+```{r, eval=FALSE}
+# Example usage of a make_headcount_sql function
+utDataStoR::make_headcount_sql("headcount.sql", "census")
+```
+
+This will write the desired sql script (**headcount.sql**) to a .sql file housed in sql/ folder
+
+you could then run the sql by using the utHelpR package
+
+```{r, eval=FALSE}
+head_count_df <- utHelpR::get_data_from_sql_file("headcount.sql")
+```
+
+### Example Function 2: display_sql_with_comments
+
+```{r, eval=FALSE}
+# Example usage of a display_sql_with_comments function
+utDataStoR::display_sql_with_comments("headcount", "headcount_census.sql")
+```
+
+```{r, results ='markup', echo=FALSE}
+cat(utDataStoR::display_sql_with_comments("headcount", "headcount_census.sql"))
+```
+
+### Documentation
+
+Detailed documentation for each function is available on the pkgdown site. You can also access the documentation within R using the `?` help operator:
+`?make_headcount_sql` or `?display_sql_with_comments`
+
+
+### Contributing
+
+We welcome contributions from the Utah Tech University community! If you have suggestions for new functions or improvements to existing ones, participate in [GitHub/discussion](https://github.com/ut-effectiveness/utDataStoR/discussions) please submit a pull request on our GitHub repository.
+
+### Getting Help
+
+If you encounter any issues or have questions, please open an issue on [GitHub/issues](https://github.com/ut-effectiveness/utDataStoR/issues) or contact the package maintainer at [datablaze\@utahtech.edu](mailto:datablaze@utahtech.edu){.email}.
+
+------------------------------------------------------------------------
+
+Feel free to customize this guide further to better fit your specific needs! If you have any other questions or need additional help, just let me know.
