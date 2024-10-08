@@ -1,5 +1,7 @@
 /*
  Cohort Retention
+ Uses student term cohort table as the base table. Includes students in the first-time freshman cohort in the fall semester.
+ Includes data to calculate Cohort Retention over time.
  */
     SELECT a.student_id,
            a.cohort_start_term_id,
@@ -41,13 +43,13 @@ LEFT JOIN export.term b
 LEFT JOIN export.student_term_level_version c
        ON c.student_id = a.student_id
       AND c.term_id = a.cohort_start_term_id
-      AND c.is_enrolled
-      AND c.is_primary_level
-      AND c.is_census_version
+      AND c.is_enrolled IS TRUE
+      AND c.is_primary_level IS TRUE
+      AND c.is_census_version IS TRUE
 LEFT JOIN export.academic_programs d
        ON d.program_id = c.primary_program_id
 LEFT JOIN export.student e
        ON e.student_id = a.student_id
     WHERE b.season = 'Fall'
       AND a.cohort_desc = 'First-Time Freshman'
-      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 8
+      AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 8 -- Current year plus last 8 years so that there is 5 years of data for fourth fall return rate
