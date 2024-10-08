@@ -20,11 +20,11 @@ library(prettydoc)
 knitr::include_graphics("headcount.png")
 ```
 
-Headcount is the unique count of students enrolled at Utah Tech University for a specific period essential for both reporting and inquiry.
+Headcount is the unique count of students enrolled at Utah Tech University for a specific period of time and is essential for both reporting and inquiry.
 
 ## Point In Time Headcount
 
-The Point In Time Headcount offers a daily glimpse into enrollment, detailing the term, date, week number, days until term start, and the day’s total enrollment headcount.
+The Point In Time Headcount offers a daily glimpse into enrollment, detailing the term, date, number of days until term start, and the day’s total enrollment headcount.
 
 ```sql
 SELECT term_id,
@@ -33,7 +33,8 @@ SELECT term_id,
        days_to_class_start,
        COUNT(DISTINCT student_id) AS headcount
 FROM export.daily_enrollment
-WHERE is_current_term IS TRUE -- Only pulling current term
+WHERE is_current_term IS TRUE -- is_current_term is only used when the term starts. 
+--Between registration start date and term start date, hard code term_id.
   AND is_enrolled IS TRUE
 GROUP BY term_id, date, days_to_class_start
 ORDER BY date DESC;
@@ -41,7 +42,7 @@ ORDER BY date DESC;
 
 ## Current Headcount
 
-The Current Headcount reflects the live count of enrolled students for a term, which can fluctuate daily and may be adjusted post-semester for changes like withdrawals.
+The Current Headcount reflects the live count of enrolled students for a term, which can fluctuate daily and may be adjusted post-term for changes like withdrawals.
 
 ```sql
 SELECT a.term_desc,
@@ -59,7 +60,9 @@ ORDER BY a.term_desc;
 
 ## Census Headcount
 
-The Census Headcount is a fixed count of students enrolled by the 15th day of the term, used for static reporting.
+The Census Headcount is a fixed count of students enrolled by the 15th day of instruction, used for static reporting. 
+
+The 15th day of instruction aligns with the last day of the term to drop without receiving a "W" grade and is the last day to receive a full refund.
 
 ```sql
 ...
@@ -110,9 +113,9 @@ GROUP BY academic_year_code;
 The USHE Headcount provides a comprehensive view of enrollment by reporting the unduplicated net headcount five times each fiscal year:
 
 -   Summer End of Term: Captures enrollment at the conclusion of the summer term.
--   Fall Census: Records enrollment as of the 15th day of the fall term.
+-   Fall Census: Records enrollment as of the 15th day of instruction for the fall term.
 -   Fall End of Term: Tallies enrollment at the end of the fall semester.
--   Spring Census: Documents enrollment on the 15th day of the spring term.
+-   Spring Census: Documents enrollment on the 15th day of instruction for the spring term.
 -   Spring End of Term: Counts enrollment at the close of the spring semester.
 
 **Census**: USHE Census Headcount is the net unduplicated number of students enrolled as of the 15th day of instruction of an academic term. Census headcount is based on snapshot data, this headcount returns a static headcount and may be modified to meet USHE reporting element criteria.
