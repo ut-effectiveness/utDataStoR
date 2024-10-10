@@ -2,23 +2,55 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- `devtools::build_readme()` to build the README.md --->
 
-# utDataStoR <img src="man/figures/README-ut_ie_logo.png" align="right" width="120" />
+# utDataStoR <img src="man/figures/README-ut_ie_logo.png" align="right" width="120"/>
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+
 <!-- badges: end -->
 
-The goal of utDataStoR is to centralize and document standard SQL
-queries and data sets used by analysts at Utah Tech University.
+The utDataStoR package provides a centralized repository of standardized
+SQL queries and data collections, ensuring that university analysts have
+access to the same accurate data, while also being user-friendly to
+facilitate efficient and consistent report generation. Additionally, it
+enhances security by centralizing data management, facilitates
+cross-campus initiatives by providing a unified data source for
+collaborative projects, and plays a crucial role in data governance and
+supporting the Utah Tech University’s mission by ensuring data integrity
+and compliance. Its intuitive design makes it easy to use, allowing
+analysts to quickly adopt and leverage its features without extensive
+training, and it can also accept recommendations for changes, which must
+be reviewed and approved by data governance to ensure continued
+alignment with university standards.
+
+## Deliverables
+
+- Comprehensive Vignettes: Detailed guides explaining data points,
+  metrics, and naming conventions to ensure clarity and consistency
+  across all analyses.
+
+- Centralized Repository: A secure and organized housing of standardized
+  SQL queries, providing a reliable source for all data retrieval needs.
+
+- Display Functions: R functions designed to display standardized SQL
+  queries, allowing users to easily review and understand the queries
+  being used.
+
+- Query Generation Functions: R functions that generate standardized SQL
+  queries for end users, streamlining the process of data extraction and
+  ensuring uniformity in data handling.
 
 ## Installation
 
-You can install the development version of utDataStoR from
+You can install the current version of utDataStoR from
 [GitHub](https://github.com/) with:
 
 ``` r
 install.packages("devtools")
+```
+
+``` r
 devtools::install_github("ut-effectiveness/utDataStoR", build_vignettes = TRUE)
 ```
