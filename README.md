@@ -13,7 +13,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The utDataStoR package provides a centralized repository of standardized
 SQL queries and data collections, ensuring that university analysts have
-access to the same accurate data, while also being user-friendly to
+access to the same accurate code, while also being user-friendly to
 facilitate efficient and consistent report generation. Additionally, it
 enhances security by centralizing data management, facilitates
 cross-campus initiatives by providing a unified data source for
