@@ -35,4 +35,3 @@ SELECT ( -- FTE - Undergraduate Level
                   AND    c_level = 'G'
                 ) AS FTE
         FROM    DUAL;
-
