@@ -1,6 +1,6 @@
 /*
  Cohort Retention
- Uses student term cohort table as the base table. Includes students in the first-time freshman cohort in the fall semester.
+ Uses student term cohort table as the base table. Comprises of students in the first-time freshman cohort in the fall semester.
  Includes data to calculate Cohort Retention over time.
  */
     SELECT a.student_id,
@@ -21,6 +21,7 @@
            -- Fourth fall return rate
            a.is_returned_fall_4,
            a.is_degree_completer_3,
+           --
            c.primary_major_desc,
            c.primary_degree_id,
            c.primary_degree_desc,
