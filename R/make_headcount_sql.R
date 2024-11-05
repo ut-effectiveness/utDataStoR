@@ -10,7 +10,8 @@
 #' \code{vignette("headcount", package = "utDataStoR")}
 #'
 #'
-#' @param name The name you want the SQL file to have in your sql folder.
+#' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
+#' (e.g., "your_filename.sql").
 #' @param type The type of headcount file you want. Defaults to 'current' headcount data.
 #' Other options are
 #' * 'census' -- data as of the census snapshot

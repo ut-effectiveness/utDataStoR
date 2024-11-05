@@ -2,10 +2,13 @@
 #'
 #' `create_sql_dir` will generate the path used to house the sql files based on the context parameter.
 #'
-#' @param context The context of your project.  "project", "shiny", and "sandbox"
+#' @param context The context of your project.  Options are: "project", "shiny", or "sandbox". If not specified, "project" is used by
+#' default.
+#'
 #' @export
 #'
-create_sql_dir <- function(context) {
+create_sql_dir <- function(context = "project") {
+  # Set the folder paths for different contexts
   project_path <- here::here('sql')
   shiny_path <- here::here('inst', 'sql')
   sandbox_path <- here::here('sandbox', 'sql')
@@ -25,9 +28,10 @@ create_sql_dir <- function(context) {
 #' `write_sql_files` will copy and move the sql file based on the context parameter.
 #'
 #' @param context The context of your project.  "project", "shiny", and "sandbox"
-#' @param file The name of the sql file
+#' @param file The name of the SQL file that you want to copy to a new location
 #' @param folder The name of the folder where the sql is stored
-#' @param name The name for the sql file you want to create
+#' @param name The name for the sql file you want to create. This is a string and must be provided in quotes
+#' (e.g., "your_filename.sql").
 #' @export
 #
 #write sql files to correct path
