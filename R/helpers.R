@@ -26,7 +26,7 @@ create_sql_dir <- function(context = "project") {
     dir.create(project_path, showWarnings = FALSE)
   }
 
-  warning("This function will be deprecated and is no longer supported within one year.
+  warning("This function will be deprecated and be no longer supported within one year.
     Please use the 'utHelpR::make_standard_folders()' function instead for improved functionality and support.")
 }
 
