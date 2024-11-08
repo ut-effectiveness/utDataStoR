@@ -25,6 +25,9 @@ create_sql_dir <- function(context = "project") {
   } else {
     dir.create(project_path, showWarnings = FALSE)
   }
+
+  warning("This function will be deprecated and is no longer supported within one year.
+    Please use the 'utHelpR::make_standard_folders()' function instead for improved functionality and support.")
 }
 
 #' Write SQL Files Functions
