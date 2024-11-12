@@ -43,16 +43,38 @@ A cohort is a group of students with shared characteristics that are tracked for
 - Part-time, Associates degree seeking, freshman
 - Part-time, Associates degree seeking, transfer
 
-150 percent graduation rate metrics track cohorts to graduation. 150 percent graduation rate tracks two of the eight cohorts (Full-time, Bachelors degree seeking, freshman; and Full-time, Associates degree seeking, freshman) and only looks at the Fall cohort. 150 percent graduation rate starts with a cohort of students and tracks if the student graduated with a degree in 150% of time to the degree from the cohort start date; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 150% of time for the awarded degree. This metric has a 6-year lag since 150 percent of time for a bachelors degree is 6 years. Students in the Fall 2016 cohort have until August 31, 2022 to earn a bachelor's degree.
+For information on how cohorts are created see 'vignette("cohort")'
 
-Students must earn:
+## Calculating 150% Graduation Rate
+
+Tracks two cohorts
+
+- Full-time, Bachelors degree seeking, freshman
+- Full-time, Associates degree seeking, freshman
+
+The calculation:
+
+- Starts with a cohort
+- Excludes Spring and Summer cohorts
+- Excludes Transfer cohorts
+- Excludes Part-time students
+- Removes exclusions
+
+The **denominator** for this metric is the number of students who align with the points above. 
+
+The **numerator** for the metric is the number of students from the denominator who earned a degree in 150% time for the degree awarded. 
+
+150 percent graduation rate starts with a cohort of students and tracks if the student graduated with a degree in 150% of time to the degree from the cohort start date. 
+
+This metric has a 6-year lag since 150 percent of time for a bachelors degree is 6 years. Students in the Fall 2016 cohort have through Summer of 2022 to earn a bachelor's degree.
+
+### 150% of time
+Students must earn a degree from the start date of their cohort year:
 
 - Certificate <= 29 credit hours within 1 year
 - Certificate 30 < 60 credit hours with 1 1/2 years
+- Associates within 3 years
+- Bachelors within 6 years
 
-- Graduation rate tracks a cohort of students, with exclusions removed, for 6 years to see if the student earns a credential within 150% of the degree time (150% for a bachelor degree is 6 years).
-- Is looking only at full-time students (part-time students aren't expected to graduate in 150% of time)
-- See Cohort Creation above for additional information.
-- All cohort students are degree seeking students (but not all degree seeking students are in a cohort).
-- There are a few students who had conflicts between their program and their student type at census. The students who are in GCO had a student type of F, but a program of ND-CONC (HS Concurrent Enrollment). It's using the same cohorts so the data errors still exist.
-
+### Degree Awarded
+The metric looks at the highest degree awarded to a student in 150% of time. If a student earns more than one degree, but only one of them was earned in 150% of time, only that degree will be reported. If they have more than one degree earned in 150% of time, then the highest degree awarded within 150% of time will be reported. If they have earned a degree but it was not within 150% of time, it will not be reported.
