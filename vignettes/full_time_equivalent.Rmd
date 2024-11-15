@@ -20,28 +20,15 @@ library(utDataStoR)
 library(readr)
 ```
 
-```{r echo=FALSE, out.width = "40%", fig.align = "center"}
-#Insert an image for full time equivalent
-
-knitr::include_graphics("FTE.jpg")
-```
-
-## Undergraduate FTE
-
 Full-Time Equivalent (FTE) is the number of students the university would have if all students were attending full-time. It is calculated on course level student credit hours.
 
 FTE for undergraduate students takes the total undergraduate student credit hours and divides it by 15 credit hours.
 
-## Graduate FTE
-
-FTE for graduate students takes the total graduate student credit hours and divides it by 10 credit hours.
-
-FTE at Census SQL
 ``` sql
 `r display_sql_with_comments('fte', 'fte_ug_cred_hour_census.sql')`
 ```
 
-FTE at End of Term SQL
+FTE for graduate students takes the total graduate student credit hours and divides it by 10 credit hours.
 
 ``` sql
 `r display_sql_with_comments('fte', 'fte_gr_cred_hour_census.sql')`
