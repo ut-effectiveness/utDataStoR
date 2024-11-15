@@ -20,6 +20,7 @@ library(utDataStoR)
 library(readr)
 ```
 
+
 Full-Time Equivalent (FTE) is the number of students the university would have if all students were attending full-time. It is calculated on course level student credit hours.
 
 FTE for undergraduate students takes the total undergraduate student credit hours and divides it by 15 credit hours.
