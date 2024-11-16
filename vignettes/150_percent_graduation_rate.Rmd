@@ -56,3 +56,14 @@ Students must earn:
 - All cohort students are degree seeking students (but not all degree seeking students are in a cohort).
 - There are a few students who had conflicts between their program and their student type at census. The students who are in GCO had a student type of F, but a program of ND-CONC (HS Concurrent Enrollment). It's using the same cohorts so the data errors still exist.
 
+#todo - Add description of these metrics
+grad_rate_bach_in_4years
+graduation rate bach in 6
+this is how it differs from 150% grad rate.
+```{r}
+bachelor_graduation_rate <- graduation_rate_clean %>% 
+  dplyr::mutate(ftft_bachelor = dplyr::if_else((ipeds_cohort == "Full Time First Time Freshman Bachelor") ,T,F, missing = F)) %>% 
+  filter(ipeds_cohort == "Full Time First Time Freshman Bachelor") %>% 
+  select(-all_cohort_students) %>% 
+  dplyr::mutate(all_bachelor_degree_seeking_students = "all_bachelor_degree_seeking_students")
+```
