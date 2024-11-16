@@ -51,7 +51,7 @@ The 15th day of instruction aligns with the last day of the term to drop without
 
 ## End of Term Headcount
 
-The End of Term Headcount tallies students enrolled at semester’s end, including high school concurrent enrollments, providing another static figure for reporting.
+The End of Term Headcount tallies students enrolled at semesters end, including high school concurrent enrollments, providing another static figure for reporting.
 
 ```sql
 `r display_sql_with_comments('headcount', 'headcount_end_of_term.sql')`
