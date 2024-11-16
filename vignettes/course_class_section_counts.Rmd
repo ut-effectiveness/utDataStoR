@@ -1,0 +1,34 @@
+---
+title: Course, Class, Section Counts
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+
+vignette: >
+  %\VignetteIndexEntry{course_class_section_counts}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, echo = FALSE}
+library(utDataStoR)
+library(prettydoc)
+```
+
+```{r echo=FALSE, out.width = "55%", fig.align = "center"}
+knitr::include_graphics("headcount.png")
+```
+# todo Find a picture
+
+Course, Class, and Section counts look at the course data and creates enrollment counts based on ways to group courses and sections.
+
+## Course Counts
+Is the highest level in the hierarchy. Courses are the combination of the Subject Code (or course prefix) and the course number (i.e. MATH1010). Courses may have more than one crn (course reference number) associated with it.
+
+## Class Counts
+Is the middle level in the hierarchy. Classes are adjusted sections based on cross listed courses and team taught courses. Sections with cross listings are rolled up into one class and have an adjusted enrollment that sums the parent and child sections together. Sections with team teachers are split into two or more classes (based on the number of instructors) and have an adjusted enrollment that splits the enrollment based off of the percent of workload assigned. 
+
+## Section Counts
+Is the lowest level in the hierarchy. Sections are the combination of the Subject Code (or course prefix), the course number (i.e. MATH1010), and the section number. Sections will have only 1 crn (course reference number) associated with it.
+
