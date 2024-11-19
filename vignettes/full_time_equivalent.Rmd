@@ -50,23 +50,49 @@ The End of Term FTE is a fixed sum of FTE at the semesters end, used for static 
 
 ## USHE FTE
 
-FTE is reported to USHE five times per fiscal year:
+The USHE FTE aligns with the institutional total FTE and is reported to USHE five times per fiscal year:
 
-Summer End of Term
-Fall 3rd Week Census
-Fall End of Term
-Spring 3rd Week Census
-Spring End of Term
-USHE summarizes FTE by credit hour type, residency, gender, and budget.
+Summer End of Term: Captures FTE at the conclusion of the summer term.
+Fall 3rd Week Census: Records FTE as of the 15th day of the fall term.
+Fall End of Term: Tallies FTE at the end of the fall semester.
+Spring 3rd Week Census: Documents FTE on the 15th day of the spring term.
+Spring End of Term: Counts FTE at the close of the spring semester.
+
+**Census**: USHE Census FTE is a calculation the based off of the total number of student credit hours, based on the level of the course on the 15th day of instruction of an academic term. Census FTE is based on snapshot data, this FTE returns a status FTE and may be modified to meet USHE reporting element criteria.
+
+For the sql, see Census FTE above
+
+**End of Term**: USHE End of Term FTE is a calculation the based off of the total number of student credit hours, based on the level of the course at the end of an academic term. Census FTE is based on snapshot data, this FTE returns a status FTE and may be modified to meet USHE reporting element criteria.
+
+For the sql, see End of Term FTE above
 
 ## USHE Annualized FTE
 
-USHE Annualized FTE is determined by summing the total of each undergraduate and graduate FTE from the three end-of-term snapshots for each academic term within a reporting year (e.g., Summer 2023, Fall 2023, Spring 2024 for the USHE Reporting Year 2023-24) and then dividing this total by 2.
+USHE Annualized FTE is determined by summing the total of each undergraduate and graduate FTE from the three end-of-term snapshots (see USHE FTE, and End of Term FTE above) for each academic term within a reporting year (e.g., Summer 2023, Fall 2023, Spring 2024 for the USHE Reporting Year 2023-24) and then dividing this total by 2.
 
-#todo add the sql here
+#todo put in the right sql name
+```sql
+`r display_sql_with_comments('fte', 'fte_total_end_of_term.sql')`
+```
 
 ## IPEDS 12 Month Enrollment
 
-IPEDS 12 Month Enrollment FTE is calculated by summing the number of attempted credits for undergraduate and graduate students from the three census snapshots for each academic term within a reporting year (e.g., Summer 2023, Fall 2023, Spring 2024 for the IPEDS data collection period 2023-24, reported in the 2024-25 IPEDS survey series). The undergraduate total credits attempted are divided by 30 (fifteen times two), and the graduate credits attempted are divided by 24 (twelve times two) to calculate the 12 Month Enrollment FTE by academic year. This calculation is verified in the 2024-25 data collection tutorial of the 12-Month Enrollment Component/FTE Enrollment-Credit Hours training materials provided by the Association for Institutional Research(AIR).
+IPEDS 12 Month Enrollment FTE is calculated by summing the number of attempted credits for undergraduate and graduate students from the three census snapshots (see Census FTE above) for each academic term within a reporting year (e.g., Summer 2023, Fall 2023, Spring 2024 for the IPEDS data collection period 2023-24, reported in the 2024-25 IPEDS survey series). The undergraduate total credits attempted are divided by 30 (fifteen times two), and the graduate credits attempted are divided by 24 (twelve times two) to calculate the 12 Month Enrollment FTE by academic year. This calculation is verified in the 2024-25 data collection tutorial of the 12-Month Enrollment Component/FTE Enrollment-Credit Hours training materials provided by the Association for Institutional Research(AIR).
 
-#todo add the sql here
+#todo put in the right sql name
+```sql
+`r display_sql_with_comments('fte', 'fte_total_end_of_term.sql')`
+```
+
+## Differences in USHE Annualized FTE and IPEDS 12 Month Enrollment
+
+Due to differences in computation methods and the versions (End of Term v. Census) used for each calculation, the USHE Annualized FTE and IPEDS 12-Month Enrollment FTE will not perfectly align in historical comparisons. Additionally, changes in reporting guidance for USHE and IPEDS over time make it challenging to recreate each previously reported calculation. However, a reasonable comparison can still be made using current guidance computations.
+
+The USHE Annualized FTE is based on End of Term data for each academic term included in the academic year, while the IPEDS 12-Month Enrollment FTE is based on Census data for each academic term within the same period.
+
+Although these two FTE calculations are not expected to match exactly, USHE unofficially expects to see at least a 90% alignment between the two reported FTE numbers.
+
+2023-24 Comparison:
+
+2023-24 USHE Annualized EOT FTE is 9054.
+2023-24 IPEDS 12 Month Census FTE is 9046.
