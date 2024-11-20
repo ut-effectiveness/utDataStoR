@@ -43,6 +43,8 @@ A cohort is a group of students with shared characteristics that are tracked for
 - Part-time, Associates degree seeking, freshman
 - Part-time, Associates degree seeking, transfer
 
+## 150% Graduation Rate
+
 150 percent graduation rate metrics track cohorts to graduation. 150 percent graduation rate tracks two of the eight cohorts (Full-time, Bachelors degree seeking, freshman; and Full-time, Associates degree seeking, freshman) and only looks at the Fall cohort. 150 percent graduation rate starts with a cohort of students and tracks if the student graduated with a degree in 150% of time to the degree from the cohort start date; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 150% of time for the awarded degree. This metric has a 6-year lag since 150 percent of time for a bachelors degree is 6 years. Students in the Fall 2016 cohort have until August 31, 2022 to earn a bachelor's degree.
 
 Students must earn:
@@ -56,14 +58,13 @@ Students must earn:
 - All cohort students are degree seeking students (but not all degree seeking students are in a cohort).
 - There are a few students who had conflicts between their program and their student type at census. The students who are in GCO had a student type of F, but a program of ND-CONC (HS Concurrent Enrollment). It's using the same cohorts so the data errors still exist.
 
-#todo - Add description of these metrics
-grad_rate_bach_in_4years
-graduation rate bach in 6
-this is how it differs from 150% grad rate.
-```{r}
-bachelor_graduation_rate <- graduation_rate_clean %>% 
-  dplyr::mutate(ftft_bachelor = dplyr::if_else((ipeds_cohort == "Full Time First Time Freshman Bachelor") ,T,F, missing = F)) %>% 
-  filter(ipeds_cohort == "Full Time First Time Freshman Bachelor") %>% 
-  select(-all_cohort_students) %>% 
-  dplyr::mutate(all_bachelor_degree_seeking_students = "all_bachelor_degree_seeking_students")
-```
+### Graduation Rate Bach In 4
+
+Graduation Rate Bachelor Degree in 4 years is a sub metric of 150% Graduation Rate. It is reported in the IPEDS report. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
+
+The cohort is Full-time, Bachelors degree seeking, freshman. The denominator for this metric is the number of students within the Full-time, Bachelors degree seeking, freshman cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 100% of time (within 4 years) with a Bachelors degree.
+
+### Graduation Rate Bach In 6
+Graduation Rate Bachelor Degree in 6 years is a sub metric of 150% Graduation Rate. It is reported in the IPEDS report. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
+
+The cohort is Full-time, Bachelors degree seeking, freshman. The denominator for this metric is the number of students within the Full-time, Bachelors degree seeking, freshman cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 150% of time (within 6 years) with a Bachelors degree.
