@@ -58,13 +58,14 @@ Students must earn:
 - All cohort students are degree seeking students (but not all degree seeking students are in a cohort).
 - There are a few students who had conflicts between their program and their student type at census. The students who are in GCO had a student type of F, but a program of ND-CONC (HS Concurrent Enrollment). It's using the same cohorts so the data errors still exist.
 
-### Graduation Rate Bach In 4
+### Graduation Rate Bachelor Degree In 4 Years
 
 Graduation Rate Bachelor Degree in 4 years is a sub metric of 150% Graduation Rate. It is reported in the IPEDS report. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
 
 The cohort is Full-time, Bachelors degree seeking, freshman. The denominator for this metric is the number of students within the Full-time, Bachelors degree seeking, freshman cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 100% of time (within 4 years) with a Bachelors degree.
 
-### Graduation Rate Bach In 6
+### Graduation Rate Bachelor Degree In 6 Years
+
 Graduation Rate Bachelor Degree in 6 years is a sub metric of 150% Graduation Rate. It is reported in the IPEDS report. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
 
 The cohort is Full-time, Bachelors degree seeking, freshman. The denominator for this metric is the number of students within the Full-time, Bachelors degree seeking, freshman cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 150% of time (within 6 years) with a Bachelors degree.
