@@ -9,10 +9,10 @@
 #'
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and
 #' must be provided in quotes (e.g., "your_filename.sql").
-#' @param type The type of headcount file you want. Defaults to 'current' headcount data.
+#' @param type The type of fte file you want. Defaults to 'current' fte data.
 #' Other options are
 #' * 'current' -- data as of the current snapshot
-#' * 'census_demographic' -- headcount data with demographic data, as of census snapshot
+#' * 'census_demographic' -- fte data with demographic data, as of census snapshot
 #' * 'eot' -- data as of the end of term snapshot
 #'
 #' @return A sql file in your SQL folder
@@ -32,7 +32,7 @@ make_fte_sql <- function(name, type = 'current') {
   } else {
     stop("It doesn't look like we have that type yet. ",
          "We currently support fte for the following: 'census', 'current', 'end-of-term'.",
-         "If you would like to add another query for headcount, ",
+         "If you would like to add another query for fte, ",
          "please bring this up at code review.")
   }
 
