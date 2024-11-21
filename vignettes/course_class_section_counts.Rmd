@@ -23,10 +23,10 @@ knitr::include_graphics("course.jpg")
 **Course, Class, and Section counts** analyze course data to create enrollment counts based on different groupings of courses and sections.
 
 ## Course Counts
-This is the highest level in the hierarchy. Courses are identified by a combination of the Subject Code (or course prefix) and the course number (e.g., MATH1010). A course may have multiple CRNs (course reference numbers) associated with it.
+Courses are identified by a combination of the Subject Code (or course prefix) and the course number (e.g., MATH1010). A course may have multiple CRNs (course reference numbers) associated with it, making this the highest level in the hierarchy.
 
 ## Class Counts
-This is the middle level in the hierarchy. Classes are adjusted sections that account for cross-listed and team-taught courses. Sections with cross listings are combined into one class, with an adjusted enrollment that sums the parent and child sections. For team-taught courses, sections are split into multiple classes (based on the number of instructors), with enrollment adjusted according to the percentage of workload assigned to each instructor.
+Classes are aggregated sections that account for cross-listed and team-taught courses. Cross-listed sections are merged into a single class, with adjusted enrollment that sums the class size, contact hours, credit hours, lecture hours, and other hours from both the parent and child sections. For team-taught courses, sections are divided into multiple classes based on the number of instructors, with enrollment adjusted according to each instructor's workload percentage. This represents the middle level in the hierarchy.
 
 ## Section Counts
-This is the lowest level in the hierarchy. Sections are identified by the combination of the Subject Code (or course prefix), the course number (e.g., MATH1010), and the section number. Each section has only one CRN (course reference number) associated with it.
+Sections are identified by the combination of the Subject Code (or course prefix), the course number, and the section number (e.g., MATH1010 01). Each section has only one CRN (course reference number) associated with it, making this the lowest level in the hierarchy.
