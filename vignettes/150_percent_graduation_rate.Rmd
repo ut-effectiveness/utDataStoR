@@ -43,6 +43,8 @@ A cohort is a group of students with shared characteristics that are tracked for
 - Part-time, Associates degree seeking, freshman
 - Part-time, Associates degree seeking, transfer
 
+For information on how cohorts are created see 'vignette("cohort")'
+
 ## 150% Graduation Rate
 
 150 percent graduation rate metrics track cohorts to graduation. 150 percent graduation rate tracks two of the eight cohorts (Full-time, Bachelors degree seeking, freshman; and Full-time, Associates degree seeking, freshman) and only looks at the Fall cohort. 150 percent graduation rate starts with a cohort of students and tracks if the student graduated with a degree in 150% of time to the degree from the cohort start date; exclusions are removed from this metric. The denominator for this metric is the number of students within the cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 150% of time for the awarded degree. This metric has a 6-year lag since 150 percent of time for a bachelors degree is 6 years. Students in the Fall 2016 cohort have until August 31, 2022 to earn a bachelor's degree.
