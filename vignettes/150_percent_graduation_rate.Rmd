@@ -76,6 +76,9 @@ Students must earn a degree from the start date of their cohort year:
 - Associates within 3 years
 - Bachelors within 6 years
 
+### Degree Awarded
+The metric looks at the highest degree awarded to a student in 150% of time. If a student earns more than one degree, but only one of them was earned in 150% of time, only that degree will be reported. If they have more than one degree earned in 150% of time, then the highest degree awarded within 150% of time will be reported. If they have earned a degree but it was not within 150% of time, it will not be reported.
+
 ### Graduation Rate Bachelor Degree In 4 Years
 
 Graduation Rate Bachelor Degree in 4 years is a sub metric of 150% Graduation Rate. It is reported in the IPEDS report. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
