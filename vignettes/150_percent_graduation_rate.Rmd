@@ -78,15 +78,3 @@ Students must earn a degree from the start date of their cohort year:
 
 ### Degree Awarded
 The metric looks at the highest degree awarded to a student in 150% of time. If a student earns more than one degree, but only one of them was earned in 150% of time, only that degree will be reported. If they have more than one degree earned in 150% of time, then the highest degree awarded within 150% of time will be reported. If they have earned a degree but it was not within 150% of time, it will not be reported.
-
-### Graduation Rate Bachelor Degree In 4 Years
-
-Graduation Rate Bachelor Degree in 4 years is a sub metric of 150% Graduation Rate. It is reported in the IPEDS report. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
-
-The cohort is Full-time, Bachelors degree seeking, freshman. The denominator for this metric is the number of students within the Full-time, Bachelors degree seeking, freshman cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 100% of time (within 4 years) with a Bachelors degree.
-
-### Graduation Rate Bachelor Degree In 6 Years
-
-Graduation Rate Bachelor Degree in 6 years is a sub metric of 150% Graduation Rate. It is reported in the IPEDS report. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
-
-The cohort is Full-time, Bachelors degree seeking, freshman. The denominator for this metric is the number of students within the Full-time, Bachelors degree seeking, freshman cohort who do not have an exclusion flag. The numerator for the metric is the number of students from the denominator who do not have an exclusion flag and were graduated in 150% of time (within 6 years) with a Bachelors degree.
