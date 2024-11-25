@@ -1,6 +1,6 @@
 Package: utDataStoR
 Title: SQL and data sets for the Office of Institutional Effectiveness
-Version: 1.0.0.
+Version: 1.0.0.0
 Authors@R: c(
     person("Matt", "Nickodemus", email = "matt.nickodemus@utahtech.edu", role = c("aut")),
     person("Joy", "Baule", email = "joy.baule@utahtech.edu", role = c('aut')),
