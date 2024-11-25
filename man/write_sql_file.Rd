@@ -7,14 +7,21 @@
 write_sql_file(file, folder, name, context)
 }
 \arguments{
-\item{file}{The name of the sql file}
+\item{file}{The name of the SQL file that you want to copy to a new location}
 
 \item{folder}{The name of the folder where the sql is stored}
 
-\item{name}{The name for the sql file you want to create}
+\item{name}{The name for the sql file you want to create. This is a string and must be provided in quotes
+(e.g., "your_filename.sql").}
 
 \item{context}{The context of your project.  "project", "shiny", and "sandbox"}
 }
 \description{
 \code{write_sql_files} will copy and move the sql file based on the context parameter.
+}
+\details{
+The write_sql_file function copies a specified SQL file from a source folder to a target directory,
+determined by the context (shiny, sandbox, or project). Using the \code{fs::file_copy} function,
+it places the file in the appropriate path (e.g., in the inst/sql folder for shiny, sandbox/sql for
+sandbox, or the main sql directory otherwise).
 }

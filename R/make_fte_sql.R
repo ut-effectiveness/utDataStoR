@@ -20,7 +20,6 @@
 #' @importFrom here here
 #' @importFrom fs file_copy
 #'
-#' @examples
 make_fte_sql <- function(name, type = 'current') {
 
   if (type == 'current') {

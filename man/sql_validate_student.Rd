@@ -7,11 +7,12 @@
 sql_validate_student(data_source, name, context)
 }
 \arguments{
-\item{data_source}{The server you will be full from. Edify}
+\item{data_source}{The server you will be full from. Currently, Edify.}
 
-\item{name}{The name you want the SQL file to have in your sql folder.}
+\item{name}{The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
+(e.g., "your_filename.sql").}
 
-\item{context}{The context of your project.  "project", "shiny", and "sandbox"}
+\item{context}{The context of your project.  The options are: "project", "shiny", and "sandbox". The default is "project".}
 }
 \value{
 A sql file in your SQL folder

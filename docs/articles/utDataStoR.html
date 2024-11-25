@@ -115,8 +115,9 @@ projects. Here are a few examples:</p>
 <h3 id="example-function-1-make_headcount_sql">Example Function 1: make_headcount_sql<a class="anchor" aria-label="anchor" href="#example-function-1-make_headcount_sql"></a>
 </h3>
 <p>First you will want to make sure you are choosing the correct sql you
-can reference documentation in the <code>Articles</code> tab. In this
-case you would want to look at <code><a href="../articles/headcount.html">vignette("headcount")</a></code></p>
+can reference documentation in the <strong>Articles</strong> tab. In
+this case you would want to look at
+<code><a href="../articles/headcount.html">vignette("headcount")</a></code></p>
 <p>Your project must have a folder called <strong>sql</strong> you can
 make one by hand or use the utHelpR package</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -134,24 +135,21 @@ folder</p>
 <div class="section level3">
 <h3 id="example-function-2-display_sql_with_comments">Example Function 2: display_sql_with_comments<a class="anchor" aria-label="anchor" href="#example-function-2-display_sql_with_comments"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Example usage of a display_sql_with_comments function</span></span>
-<span><span class="fu">utDataStoR</span><span class="fu">::</span><span class="fu"><a href="../reference/display_sql_with_comments.html">display_sql_with_comments</a></span><span class="op">(</span><span class="st">"headcount"</span>, <span class="st">"headcount_census.sql"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; /*</span></span>
-<span><span class="co">#&gt; Census/3rd Week headcount</span></span>
-<span><span class="co">#&gt; */</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; SELECT a.term_desc,</span></span>
-<span><span class="co">#&gt;        COUNT(a.student_id) AS census_headcount</span></span>
-<span><span class="co">#&gt; FROM export.student_term_level_version a</span></span>
-<span><span class="co">#&gt;          LEFT JOIN export.term b</span></span>
-<span><span class="co">#&gt;                    ON a.term_id = b.term_id</span></span>
-<span><span class="co">#&gt; WHERE a.is_enrolled IS TRUE</span></span>
-<span><span class="co">#&gt;   AND a.is_primary_level IS TRUE</span></span>
-<span><span class="co">#&gt;   AND a.version_desc = 'Census'</span></span>
-<span><span class="co">#&gt;   AND DATE_PART('year', NOW()) - b.academic_year_code :: INT &lt;= 5 -- Current year plus last 5 years</span></span>
-<span><span class="co">#&gt; GROUP BY a.term_desc</span></span>
-<span><span class="co">#&gt; ORDER BY a.term_desc;</span></span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">Census/3rd Week headcount</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="kw">SELECT</span> a.term_desc,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>       <span class="fu">COUNT</span>(a.student_id) <span class="kw">AS</span> census_headcount</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_desc</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.term_desc;</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>

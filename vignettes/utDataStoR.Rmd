@@ -57,13 +57,8 @@ head_count_df <- utHelpR::get_data_from_sql_file("headcount.sql")
 
 ### Example Function 2: display_sql_with_comments
 
-```{r, eval=FALSE}
-# Example usage of a display_sql_with_comments function
-utDataStoR::display_sql_with_comments("headcount", "headcount_census.sql")
-```
-
-```{r, results ='markup', echo=FALSE}
-cat(utDataStoR::display_sql_with_comments("headcount", "headcount_census.sql"))
+```sql
+`r utDataStoR::display_sql_with_comments("headcount", "headcount_census.sql")`
 ```
 
 ### Documentation

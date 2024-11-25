@@ -4,11 +4,17 @@
 \alias{create_sql_dir}
 \title{Generate Helper Functions}
 \usage{
-create_sql_dir(context)
+create_sql_dir(context = "project")
 }
 \arguments{
-\item{context}{The context of your project.  "project", "shiny", and "sandbox"}
+\item{context}{The context of your project.  Options are: "project", "shiny", or "sandbox".
+If not specified, "project" is used bydefault.}
 }
 \description{
 \code{create_sql_dir} will generate the path used to house the sql files based on the context parameter.
+}
+\details{
+The create_sql_dir function checks if a directory for SQL files exists based on the specified
+context (project, shiny, or sandbox) and creates one if it doesn't. This ensures the correct folder
+structure is set up for different project environments.
 }

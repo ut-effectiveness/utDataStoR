@@ -7,7 +7,8 @@
 make_retention_sql(name, type = "term_to_term")
 }
 \arguments{
-\item{name}{The name you want the SQL file to have in your sql folder.}
+\item{name}{The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
+(e.g., "your_filename.sql").}
 
 \item{type}{The type of retention file you want. Defaults to 'term_to_term'.
 
@@ -19,6 +20,7 @@ cohort}
 A sql file in your SQL folder
 }
 \description{
-\code{make_retention_sql} will generate the standard sql query for pulling retention
-data from Edify
+\code{make_retention_sql} will generate the standard SQL query for pulling retention
+data from Edify. This function helps in retrieving data related to student retention metrics.
+To specify the type of retention data you would like, use the \code{type} parameter.
 }

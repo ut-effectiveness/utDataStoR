@@ -2,6 +2,7 @@
 
 export(create_sql_dir)
 export(display_sql_with_comments)
+export(make_fte_sql)
 export(make_headcount_sql)
 export(make_retention_sql)
 export(sql_fte)

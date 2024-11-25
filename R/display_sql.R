@@ -12,9 +12,6 @@
 #'
 #' @return A character string containing the content of the SQL file
 #' @export
-#' @examples
-#' # Display content of an SQL file located in inst/sql/queries/my_query.sql
-#' `display_sql_with_comments("queries", "my_query.sql") `
 
 display_sql_with_comments <- function(folder, file) {
 

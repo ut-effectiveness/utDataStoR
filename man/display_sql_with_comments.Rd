@@ -7,13 +7,16 @@
 display_sql_with_comments(folder, file)
 }
 \arguments{
-\item{folder}{The name of the folder from inst containing the sql file.}
+\item{folder}{A character string specifying the folder within \code{inst/sql} where the SQL file is located.
+Must be within quotes.}
 
-\item{file}{The name of the sql file you want to display.}
+\item{file}{A character string specifying the name of the SQL file to display. Must be within quotes.}
 }
 \value{
-A sql file in your SQL folder
+A character string containing the content of the SQL file
 }
 \description{
-Display sql with comments
+This function returns the content of a specified SQL file, including any comments within
+the file. The function should used within a sql code chunk (\code{sql } ) in R markdown within single back tick.
+Please refer to the example section for better understanding.
 }
