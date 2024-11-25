@@ -1,5 +1,3 @@
-#' Generate headcount Sql
-#'
 #' `make_headcount_sql` will generate a standard sql query for pulling headcount
 #' data from Edify. This function is often used with the function [utHelpR::uth_make_outcome_count] to
 #' produce pivot tables with headcount numbers. There are several types of headcounts
@@ -8,6 +6,7 @@
 #' contact Joy Lindsay. For more details see the headcount vignette. You can bring this
 #' up by running the following code in your console.
 #' \code{vignette("headcount", package = "utDataStoR")}
+#' `r lifecycle::badge("stable")`
 #'
 #'
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes

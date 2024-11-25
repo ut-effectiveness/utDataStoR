@@ -2,7 +2,13 @@
 % Please edit documentation in R/make_fte_sql.R
 \name{make_fte_sql}
 \alias{make_fte_sql}
-\title{Generate fte sql}
+\title{\code{make_fte_sql} function will generate the standard SQL query for pulling Full-Time
+Equivalent (FTE) data from Edify.This function allows users to retrieve FTE data based on
+different available data sources. Use the \code{type} parameter to select the specific FTE data
+type. Available options are: "current", "census" and "eot" (end of term). For more details see
+the fte (full time quivalent) vignette. You can bring this up by running the following code in
+your console: \code{vignette("full_time_equivalent", package = "utDataStoR")}
+#' \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}}
 \usage{
 make_fte_sql(name, type = "current")
 }
@@ -28,4 +34,5 @@ different available data sources. Use the \code{type} parameter to select the sp
 type. Available options are: "current", "census" and "eot" (end of term). For more details see
 the fte (full time quivalent) vignette. You can bring this up by running the following code in
 your console: \code{vignette("full_time_equivalent", package = "utDataStoR")}
+#' \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }

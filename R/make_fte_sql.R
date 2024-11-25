@@ -1,11 +1,10 @@
-#' Generate fte sql
-#'
 #' `make_fte_sql` function will generate the standard SQL query for pulling Full-Time
 #' Equivalent (FTE) data from Edify.This function allows users to retrieve FTE data based on
 #' different available data sources. Use the `type` parameter to select the specific FTE data
 #' type. Available options are: "current", "census" and "eot" (end of term). For more details see
 #' the fte (full time quivalent) vignette. You can bring this up by running the following code in
 #' your console: \code{vignette("full_time_equivalent", package = "utDataStoR")}
+#' #' `r lifecycle::badge("stable")`
 #'
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and
 #' must be provided in quotes (e.g., "your_filename.sql").

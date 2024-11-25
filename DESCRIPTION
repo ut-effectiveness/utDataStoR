@@ -18,6 +18,7 @@ BugReports: https://github.com/ut-effectiveness/utDataStoR/issues
 Imports: 
     fs,
     here,
+    lifecycle,
     readr
 Suggests: 
     rmarkdown,

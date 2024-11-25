@@ -76,72 +76,109 @@
           
           <code><a href="create_sql_dir.html">create_sql_dir()</a></code> 
         </dt>
-        <dd>Generate Helper Functions</dd>
+        <dd><code>create_sql_dir</code> will generate the path used to house the sql files based on the context parameter.
+The create_sql_dir function checks if a directory for SQL files exists based on the specified
+context (project, shiny, or sandbox) and creates one if it doesn't. This ensures the correct folder
+structure is set up for different project environments.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="figures/lifecycle-stable.svg" alt="[Stable]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="display_sql_with_comments.html">display_sql_with_comments()</a></code> 
         </dt>
-        <dd>Display sql with comments</dd>
+        <dd>Display sql with comments
+This function returns the content of a specified SQL file, including any comments within
+the file. The function should used within a sql code chunk (<code>sql </code> ) in R markdown within single back tick.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="figures/lifecycle-stable.svg" alt="[Stable]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="make_fte_sql.html">make_fte_sql()</a></code> 
         </dt>
-        <dd>Generate fte sql</dd>
+        <dd><code>make_fte_sql</code> function will generate the standard SQL query for pulling Full-Time
+Equivalent (FTE) data from Edify.This function allows users to retrieve FTE data based on
+different available data sources. Use the <code>type</code> parameter to select the specific FTE data
+type. Available options are: "current", "census" and "eot" (end of term). For more details see
+the fte (full time quivalent) vignette. You can bring this up by running the following code in
+your console: <code><a href="../articles/full_time_equivalent.html">vignette("full_time_equivalent", package = "utDataStoR")</a></code>
+#' <a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="figures/lifecycle-stable.svg" alt="[Stable]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="make_headcount_sql.html">make_headcount_sql()</a></code> 
         </dt>
-        <dd>Generate headcount Sql</dd>
+        <dd><code>make_headcount_sql</code> will generate a standard sql query for pulling headcount
+data from Edify. This function is often used with the function <a href="https://rdrr.io/pkg/utHelpR/man/uth_make_outcome_count.html" class="external-link">utHelpR::uth_make_outcome_count</a> to
+produce pivot tables with headcount numbers. There are several types of headcounts
+to choose from. To specify the type of headcount you would like, use the type parameter.
+If you have questions about which version you should use in your report, please
+contact Joy Lindsay. For more details see the headcount vignette. You can bring this
+up by running the following code in your console.
+<code><a href="../articles/headcount.html">vignette("headcount", package = "utDataStoR")</a></code>
+<a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="figures/lifecycle-stable.svg" alt="[Stable]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="make_retention_sql.html">make_retention_sql()</a></code> 
         </dt>
-        <dd>Generate Retention Sql</dd>
+        <dd><code>make_retention_sql</code> will generate the standard SQL query for pulling retention
+data from Edify. This function helps in retrieving data related to student retention metrics.
+To specify the type of retention data you would like, use the <code>type</code> parameter.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="figures/lifecycle-stable.svg" alt="[Stable]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="sql_fte.html">sql_fte()</a></code> 
         </dt>
-        <dd>Generate FTE SQL</dd>
+        <dd>Generate FTE SQL
+<a href="https://lifecycle.r-lib.org/articles/stages.html#deprecated" class="external-link"><img src="figures/lifecycle-deprecated.svg" alt="[Deprecated]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="sql_validate_buildings.html">sql_validate_buildings()</a></code> 
         </dt>
         <dd><code>sql_validate_buildings</code> will generate the standard sql query for pulling Building Validations from Edify.
-Validations are done through Edify.</dd>
+Validations are done through Edify.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="sql_validate_courses.html">sql_validate_courses()</a></code> 
         </dt>
         <dd><code>sql_validate_courses</code> will generate the standard sql query for pulling Course Validations from Edify.
-Validations are done through Edify.</dd>
+Validations are done through Edify.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="sql_validate_graduation.html">sql_validate_graduation()</a></code> 
         </dt>
         <dd><code>sql_validate_graduation</code> will generate the standard sql query for pulling Graduation Validations from Edify.
-Validations are done through Edify.</dd>
+Validations are done through Edify.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="sql_validate_rooms.html">sql_validate_rooms()</a></code> 
         </dt>
         <dd><code>sql_validate_rooms</code> will generate the standard sql query for pulling Rooms Validations from Edify.
-Validations are done through Edify.</dd>
+Validations are done through Edify.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="sql_validate_student.html">sql_validate_student()</a></code> 
         </dt>
-        <dd>Generate Validation SQL</dd>
+        <dd><code>sql_validate_student</code> will generate the standard sql query for pulling Student Validations from Edify.
+Validations are done through Edify.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="sql_validate_student_courses.html">sql_validate_student_courses()</a></code> 
         </dt>
         <dd><code>sql_validate_student_courses</code> will generate the standard sql query for pulling Student Course Validations from Edify.
-Validations are done through Edify.</dd>
+Validations are done through Edify.
+<a href="https://lifecycle.r-lib.org/articles/stages.html#experimental" class="external-link"><img src="figures/lifecycle-experimental.svg" alt="[Experimental]"></a></dd>
       </dl><dl><dt>
           
           <code><a href="write_sql_file.html">write_sql_file()</a></code> 
         </dt>
-        <dd>Write SQL Files Functions</dd>
+        <dd><code>write_sql_files</code> will copy and move the sql file based on the context parameter.
+The write_sql_file function copies a specified SQL file from a source folder to a target directory,
+determined by the context (shiny, sandbox, or project). Using the <code><a href="https://fs.r-lib.org/reference/copy.html" class="external-link">fs::file_copy</a></code> function,
+it places the file in the appropriate path (e.g., in the inst/sql folder for shiny, sandbox/sql for
+sandbox, or the main sql directory otherwise).
+<a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="figures/lifecycle-stable.svg" alt="[Stable]"></a></dd>
       </dl></div>
   </main></div>
 
