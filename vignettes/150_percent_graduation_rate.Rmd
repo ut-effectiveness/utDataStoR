@@ -43,7 +43,7 @@ A cohort is a group of students with shared characteristics that are tracked for
 - Part-time, Associates degree seeking, freshman
 - Part-time, Associates degree seeking, transfer
 
-For information on how cohorts are created see 'vignette("cohort")'
+For information on how cohorts are created see `vignette("cohort")`
 
 ## Calculating 150% Graduation Rate
 
