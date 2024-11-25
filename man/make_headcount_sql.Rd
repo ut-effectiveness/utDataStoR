@@ -7,7 +7,8 @@
 make_headcount_sql(name, type = "current")
 }
 \arguments{
-\item{name}{The name you want the SQL file to have in your sql folder.}
+\item{name}{The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
+(e.g., "your_filename.sql").}
 
 \item{type}{The type of headcount file you want. Defaults to 'current' headcount data.
 Other options are

@@ -92,116 +92,302 @@
     
     
 <p><img src="FTE.jpg" width="40%" style="display: block; margin: auto;"></p>
-<div class="section level2">
-<h2 id="undergraduate-fte">Undergraduate FTE<a class="anchor" aria-label="anchor" href="#undergraduate-fte"></a>
-</h2>
 <p>Full-Time Equivalent (FTE) is the number of students the university
 would have if all students were attending full-time. It is calculated on
 course level student credit hours.</p>
 <p>FTE for undergraduate students takes the total undergraduate student
-credit hours and divides it by 15 credit hours.</p>
+credit hours (from the student section version table) and divides it by
+15 credit hours. FTE for graduate students takes the total graduate
+student credit hours (from the student section version table) and
+divides it by 10 credit hours. The total FTE is the sum of undergraduate
+and graduate FTE.</p>
+<div class="section level2">
+<h2 id="current-fte">Current FTE<a class="anchor" aria-label="anchor" href="#current-fte"></a>
+</h2>
+<p>The Current FTE reflects the live count of FTE for a term, which can
+fluctuate daily and may be adjusted post-semester for changes like
+withdrawals.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled in current versions of courses.</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">Does not include any fte for CE - Continuing Education courses</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="kw">WITH</span> CTE_graduate_fte <span class="kw">AS</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">10</span>, <span class="dv">2</span>) <span class="kw">as</span> current_graduate_fte</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Current'</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'GR'</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id),</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>     CTE_undergrad_fte <span class="kw">AS</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">15</span>, <span class="dv">2</span>) <span class="kw">as</span> current_undergrad_fte</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Current'</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'UG'</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id)</span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="kw">SELECT</span> b.term_desc,</span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>       <span class="fu">COALESCE</span>(d.current_undergrad_fte, <span class="dv">0</span>) <span class="kw">AS</span> current_undergrad_fte,</span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a>       <span class="fu">COALESCE</span>(c.current_graduate_fte, <span class="dv">0</span>) <span class="kw">AS</span> current_graduate_fte,</span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">COALESCE</span>(c.current_graduate_fte, <span class="dv">0</span>) <span class="op">+</span> <span class="fu">COALESCE</span>(d.current_undergrad_fte, <span class="dv">0</span>), <span class="dv">2</span>) <span class="kw">AS</span> current_total_fte</span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_graduate_fte c</span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> c.term_id</span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_undergrad_fte d</span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> d.term_id</span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Current'</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> b.term_desc, c.current_graduate_fte, d.current_undergrad_fte</span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> b.term_desc;</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="graduate-fte">Graduate FTE<a class="anchor" aria-label="anchor" href="#graduate-fte"></a>
+<h2 id="census-fte">Census FTE<a class="anchor" aria-label="anchor" href="#census-fte"></a>
 </h2>
-<p>FTE for graduate students takes the total graduate student credit
-hours and divides it by 10 credit hours.</p>
-<p>FTE at Census SQL</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">This SQL query calculates Full-Time Equivalent (FTE) values for graduate, </span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">undergraduate, and total students enrolled in census versions of courses.</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">Does not include any fte for CE - Continuing Education courses</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="kw">WITH</span> CTE_graduate_fte <span class="kw">AS</span></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">10</span>, <span class="dv">2</span>) <span class="kw">as</span> census_graduate_fte</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'GR'</span></span>
-<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id),</span>
-<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a>     CTE_undergrad_fte <span class="kw">AS</span></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
-<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">15</span>, <span class="dv">2</span>) <span class="kw">as</span> census_undergrad_fte</span>
-<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
-<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
-<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'UG'</span></span>
-<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id)</span>
-<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a><span class="kw">SELECT</span> b.term_desc,</span>
-<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a>       <span class="fu">COALESCE</span>(d.census_undergrad_fte, <span class="dv">0</span>) <span class="kw">AS</span> census_undergrad_fte,</span>
-<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a>       <span class="fu">COALESCE</span>(c.census_graduate_fte, <span class="dv">0</span>) <span class="kw">AS</span> census_graduate_fte,</span>
-<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">COALESCE</span>(c.census_graduate_fte, <span class="dv">0</span>) <span class="op">+</span> <span class="fu">COALESCE</span>(d.census_undergrad_fte, <span class="dv">0</span>), <span class="dv">2</span>) <span class="kw">AS</span> census_total_fte</span>
-<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a><span class="kw">FROM</span> export.student_section_version a</span>
-<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
-<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
-<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_graduate_fte c</span>
-<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> c.term_id</span>
-<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_undergrad_fte d</span>
-<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> d.term_id</span>
-<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
-<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
-<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> b.term_desc, c.census_graduate_fte, d.census_undergrad_fte</span>
-<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> b.term_desc;</span></code></pre></div>
-<p>FTE at End of Term SQL</p>
+<p>The Census FTE is a fixed sum of FTE at the 15th day of the term,
+used for static reporting.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">This SQL query calculates Full-Time Equivalent (FTE) values for graduate, </span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">undergraduate, and total students enrolled in end of term versions of courses.</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">Does not include any FTE for CE - Continuing Education courses</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="kw">WITH</span> CTE_graduate_fte <span class="kw">AS</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">10</span>, <span class="dv">2</span>) <span class="kw">as</span> eot_graduate_fte</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'GR'</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id),</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>     CTE_undergrad_fte <span class="kw">AS</span></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">15</span>, <span class="dv">2</span>) <span class="kw">as</span> eot_undergrad_fte</span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'UG'</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id)</span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="kw">SELECT</span> b.term_desc,</span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>       <span class="fu">COALESCE</span>(d.eot_undergrad_fte, <span class="dv">0</span>) <span class="kw">AS</span> eot_undergrad_fte,</span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>       <span class="fu">COALESCE</span>(c.eot_graduate_fte, <span class="dv">0</span>) <span class="kw">AS</span> eot_graduate_fte,</span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">COALESCE</span>(c.eot_graduate_fte, <span class="dv">0</span>) <span class="op">+</span> <span class="fu">COALESCE</span>(d.eot_undergrad_fte, <span class="dv">0</span>), <span class="dv">2</span>) <span class="kw">AS</span> eot_total_fte</span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="kw">FROM</span> export.student_section_version a</span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
-<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_graduate_fte c</span>
-<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> c.term_id</span>
-<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_undergrad_fte d</span>
-<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> d.term_id</span>
-<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
-<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
-<span id="cb2-39"><a href="#cb2-39" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> b.term_desc, c.eot_graduate_fte, d.eot_undergrad_fte</span>
-<span id="cb2-40"><a href="#cb2-40" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> b.term_desc;</span></code></pre></div>
-<p>FTE is reported to USHE five times per fiscal year:</p>
-<ul>
-<li>Summer End of Term</li>
-<li>Fall 3rd Week Census</li>
-<li>Fall End of Term</li>
-<li>Spring 3rd Week Census</li>
-<li>Spring End of Term</li>
-</ul>
-<p>USHE summarizes FTE by credit hour type, residency, gender, and
-budget.</p>
-<p>IPEDS calculates FTE in the 12 Month Enrollment survey based on a
-reporting calendar from July 1, 20XX - June 20YY. Utah Tech excludes
-Summer academic terms and reports Spring and Fall term census data.</p>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled in census versions of courses.</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">Does not include any fte for CE - Continuing Education courses</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="kw">WITH</span> CTE_graduate_fte <span class="kw">AS</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">10</span>, <span class="dv">2</span>) <span class="kw">as</span> census_graduate_fte</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'GR'</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id),</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>     CTE_undergrad_fte <span class="kw">AS</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">15</span>, <span class="dv">2</span>) <span class="kw">as</span> census_undergrad_fte</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'UG'</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id)</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="kw">SELECT</span> b.term_desc,</span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>       <span class="fu">COALESCE</span>(d.census_undergrad_fte, <span class="dv">0</span>) <span class="kw">AS</span> census_undergrad_fte,</span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a>       <span class="fu">COALESCE</span>(c.census_graduate_fte, <span class="dv">0</span>) <span class="kw">AS</span> census_graduate_fte,</span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">COALESCE</span>(c.census_graduate_fte, <span class="dv">0</span>) <span class="op">+</span> <span class="fu">COALESCE</span>(d.census_undergrad_fte, <span class="dv">0</span>), <span class="dv">2</span>) <span class="kw">AS</span> census_total_fte</span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_graduate_fte c</span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> c.term_id</span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_undergrad_fte d</span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> d.term_id</span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb2-37"><a href="#cb2-37" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> b.term_desc, c.census_graduate_fte, d.census_undergrad_fte</span>
+<span id="cb2-38"><a href="#cb2-38" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> b.term_desc;</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="end-of-term-fte">End of Term FTE<a class="anchor" aria-label="anchor" href="#end-of-term-fte"></a>
+</h2>
+<p>The End of Term FTE is a fixed sum of FTE at the semesters end, used
+for static reporting.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled in end of term versions of courses.</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">Does not include any FTE for CE - Continuing Education courses</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="kw">WITH</span> CTE_graduate_fte <span class="kw">AS</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">10</span>, <span class="dv">2</span>) <span class="kw">as</span> eot_graduate_fte</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'GR'</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id),</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>     CTE_undergrad_fte <span class="kw">AS</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>         (<span class="kw">SELECT</span> a.term_id,</span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>                 <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">15</span>, <span class="dv">2</span>) <span class="kw">as</span> eot_undergrad_fte</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>            <span class="kw">AND</span> a.course_level_id <span class="op">=</span> <span class="st">'UG'</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id)</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="kw">SELECT</span> b.term_desc,</span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a>       <span class="fu">COALESCE</span>(d.eot_undergrad_fte, <span class="dv">0</span>) <span class="kw">AS</span> eot_undergrad_fte,</span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a>       <span class="fu">COALESCE</span>(c.eot_graduate_fte, <span class="dv">0</span>) <span class="kw">AS</span> eot_graduate_fte,</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">COALESCE</span>(c.eot_graduate_fte, <span class="dv">0</span>) <span class="op">+</span> <span class="fu">COALESCE</span>(d.eot_undergrad_fte, <span class="dv">0</span>), <span class="dv">2</span>) <span class="kw">AS</span> eot_total_fte</span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_graduate_fte c</span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> c.term_id</span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> CTE_undergrad_fte d</span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> d.term_id</span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> b.term_desc, c.eot_graduate_fte, d.eot_undergrad_fte</span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> b.term_desc;</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="ushe-fte">USHE FTE<a class="anchor" aria-label="anchor" href="#ushe-fte"></a>
+</h2>
+<p>The USHE FTE aligns with the institutional total FTE and is reported
+to USHE five times per fiscal year:</p>
+<p>Summer End of Term: Captures FTE at the conclusion of the summer
+term. Fall 3rd Week Census: Records FTE as of the 15th day of the fall
+term. Fall End of Term: Tallies FTE at the end of the fall semester.
+Spring 3rd Week Census: Documents FTE on the 15th day of the spring
+term. Spring End of Term: Counts FTE at the close of the spring
+semester.</p>
+<p><strong>Census</strong>: USHE Census FTE is a calculation the based
+off of the total number of student credit hours, based on the level of
+the course on the 15th day of instruction of an academic term. Census
+FTE is based on snapshot data, this FTE returns a status FTE and may be
+modified to meet USHE reporting element criteria.</p>
+<p>For the sql, see Census FTE above</p>
+<p><strong>End of Term</strong>: USHE End of Term FTE is a calculation
+the based off of the total number of student credit hours, based on the
+level of the course at the end of an academic term. Census FTE is based
+on snapshot data, this FTE returns a status FTE and may be modified to
+meet USHE reporting element criteria.</p>
+<p>For the sql, see End of Term FTE above</p>
+</div>
+<div class="section level2">
+<h2 id="ushe-annualized-fte">USHE Annualized FTE<a class="anchor" aria-label="anchor" href="#ushe-annualized-fte"></a>
+</h2>
+<p>USHE Annualized FTE is determined by summing the total of each
+undergraduate and graduate FTE from the three end-of-term snapshots (see
+USHE FTE, and End of Term FTE above) for each academic term within a
+reporting year (e.g., Summer 2023, Fall 2023, Spring 2024 for the USHE
+Reporting Year 2023-24) and then dividing this total by 2.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">This SQL query calculates annualized FTE for USHE.</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">USHE uses End of Term data to calculate their annualized FTE.</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">They add the total FTE by each term (Summer, Fall, Spring) and</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">divide by 2 to get Annualized FTE.</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="kw">WITH</span> CTE_fte <span class="kw">AS</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>         (<span class="kw">SELECT</span> <span class="cf">CASE</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                     <span class="cf">WHEN</span> b.season <span class="op">=</span> <span class="st">'Summer'</span> <span class="cf">THEN</span> <span class="fu">to_char</span>(<span class="fu">CAST</span>(b.academic_year_code <span class="kw">AS</span> <span class="dt">INTEGER</span>) <span class="op">+</span> <span class="dv">1</span>, <span class="st">'FM9999'</span>) <span class="co">--format mask</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>                     <span class="cf">ELSE</span> b.academic_year_code</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>                 <span class="cf">END</span> <span class="kw">AS</span> ushe_academic_year_code,</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>                 <span class="cf">CASE</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>                     <span class="cf">WHEN</span> a.course_level_id <span class="op">=</span> <span class="st">'GR'</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>                         <span class="cf">THEN</span> <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">10</span>, <span class="dv">2</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>                         <span class="cf">ELSE</span> <span class="dv">0</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a>                 <span class="cf">END</span> <span class="kw">AS</span> eot_graduate_fte,</span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a>                 <span class="cf">CASE</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a>                     <span class="cf">WHEN</span> a.course_level_id <span class="op">=</span> <span class="st">'UG'</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a>                         <span class="cf">THEN</span> <span class="fu">ROUND</span>(<span class="fu">SUM</span>(a.attempted_credits) <span class="op">/</span> <span class="dv">15</span>, <span class="dv">2</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a>                         <span class="cf">ELSE</span> <span class="dv">0</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a>                 <span class="cf">END</span> <span class="kw">AS</span> eot_undergrad_fte</span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>          <span class="kw">FROM</span> export.student_section_version a</span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a>          <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a>          <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a>            <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a>          <span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id,</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a>                   a.course_level_id,</span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a>                   b.season,</span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>                   b.academic_year_code)</span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="kw">SELECT</span> ushe_academic_year_code,</span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">SUM</span>(eot_undergrad_fte<span class="op">/</span><span class="dv">2</span>),<span class="dv">2</span>) <span class="kw">AS</span> eot_undergrad_fte,</span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">SUM</span>(eot_graduate_fte<span class="op">/</span><span class="dv">2</span>),<span class="dv">2</span>) <span class="kw">AS</span> eot_graduate_fte,</span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>       <span class="fu">ROUND</span>(<span class="fu">SUM</span>((eot_graduate_fte <span class="op">+</span> eot_undergrad_fte)<span class="op">/</span><span class="dv">2</span>),<span class="dv">2</span>) <span class="kw">AS</span> eot_total_fte</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="kw">FROM</span> CTE_fte</span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="kw">WHERE</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> ushe_academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> ushe_academic_year_code</span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> ushe_academic_year_code;</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="ipeds-12-month-enrollment">IPEDS 12 Month Enrollment<a class="anchor" aria-label="anchor" href="#ipeds-12-month-enrollment"></a>
+</h2>
+<p>IPEDS 12 Month Enrollment FTE is calculated by summing the number of
+attempted credits for undergraduate and graduate students from the three
+census snapshots (see Census FTE above) for each academic term within a
+reporting year (e.g., Summer 2023, Fall 2023, Spring 2024 for the IPEDS
+data collection period 2023-24, reported in the 2024-25 IPEDS survey
+series). The undergraduate total credits attempted are divided by 30
+(fifteen times two), and the graduate credits attempted are divided by
+24 (twelve times two) to calculate the 12 Month Enrollment FTE by
+academic year. This calculation is verified in the 2024-25 data
+collection tutorial of the 12-Month Enrollment Component/FTE
+Enrollment-Credit Hours training materials provided by the Association
+for Institutional Research(AIR).</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">This SQL query calculates IPEDS 12 Month Enrollment FTE.</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">-- IPEDS - based on 24 UG and 30 GR And is based on Census</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">The total attempted credits for UG and GR are summed then divided</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">by 24 for Undergraduate and 30 for Graduate to create FTE for</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">each level.</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">The totals for Undergraduate FTE and Graduate FTE are added together to</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">get the 12 Month Enrollment FTE by academic year.</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="kw">WITH</span> CTE_combined_twelve_month_fte <span class="kw">AS</span> (</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>    <span class="kw">SELECT</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>        b.academic_year_code,</span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>        b.academic_year_desc,</span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>        <span class="fu">ROUND</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a>                       <span class="cf">WHEN</span> a.course_level_id <span class="op">=</span> <span class="st">'GR'</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a>                       <span class="cf">THEN</span> a.attempted_credits</span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>                       <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="op">/</span> <span class="dv">24</span>, <span class="dv">0</span>) <span class="kw">AS</span> census_graduate_twelve_month_fte,</span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>        <span class="fu">ROUND</span>(<span class="fu">SUM</span>(<span class="cf">CASE</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a>                       <span class="cf">WHEN</span> a.course_level_id <span class="op">=</span> <span class="st">'UG'</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a>                       <span class="cf">THEN</span> a.attempted_credits</span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a>                       <span class="cf">ELSE</span> <span class="dv">0</span> <span class="cf">END</span>) <span class="op">/</span> <span class="dv">30</span>, <span class="dv">0</span>) <span class="kw">AS</span> census_undergrad_twelve_month_fte</span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a>    <span class="kw">FROM</span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a>        export.student_section_version a</span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a>    <span class="kw">LEFT</span> <span class="kw">JOIN</span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a>        export.term b</span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a>           <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a>    <span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a>      <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a> <span class="kw">GROUP</span> <span class="kw">BY</span> b.academic_year_desc, b.academic_year_code</span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a>)</span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="kw">SELECT</span> a.academic_year_desc,</span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a>    a.academic_year_code,</span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a>    a.census_graduate_twelve_month_fte,</span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a>    a.census_undergrad_twelve_month_fte,</span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a>    (a.census_graduate_twelve_month_fte <span class="op">+</span> a.census_undergrad_twelve_month_fte) <span class="kw">AS</span> total_census_twelve_month_fte</span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="kw">FROM</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a>    CTE_combined_twelve_month_fte a</span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="kw">WHERE</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> a.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.academic_year_desc, a.academic_year_code, a.census_graduate_twelve_month_fte, a.census_undergrad_twelve_month_fte</span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.academic_year_desc , academic_year_code;</span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="differences-in-ushe-annualized-fte-and-ipeds-12-month-enrollment">Differences in USHE Annualized FTE and IPEDS 12 Month
+Enrollment<a class="anchor" aria-label="anchor" href="#differences-in-ushe-annualized-fte-and-ipeds-12-month-enrollment"></a>
+</h2>
+<p>Due to differences in computation methods and the versions (End of
+Term v. Census) used for each calculation, the USHE Annualized FTE and
+IPEDS 12-Month Enrollment FTE will not perfectly align in historical
+comparisons. Additionally, changes in reporting guidance for USHE and
+IPEDS over time make it challenging to recreate each previously reported
+calculation. However, a reasonable comparison can still be made using
+current guidance computations.</p>
+<p>The USHE Annualized FTE is based on End of Term data for each
+academic term included in the academic year, while the IPEDS 12-Month
+Enrollment FTE is based on Census data for each academic term within the
+same period.</p>
+<p>Although these two FTE calculations are not expected to match
+exactly, USHE unofficially expects to see at least a 90% alignment
+between the two reported FTE numbers.</p>
+<p>2023-24 Comparison:</p>
+<p>2023-24 USHE Annualized EOT FTE is 9054. 2023-24 IPEDS 12 Month
+Census FTE is 9046.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

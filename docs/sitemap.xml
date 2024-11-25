@@ -19,6 +19,9 @@
     <loc>https://ut-effectiveness.github.io/utDataStoR/articles/computations.html</loc>
   </url>
   <url>
+    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/course_class_section_counts.html</loc>
+  </url>
+  <url>
     <loc>https://ut-effectiveness.github.io/utDataStoR/articles/full_time_equivalent.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>https://ut-effectiveness.github.io/utDataStoR/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_fte_sql.html</loc>
   </url>
   <url>
     <loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_headcount_sql.html</loc>
