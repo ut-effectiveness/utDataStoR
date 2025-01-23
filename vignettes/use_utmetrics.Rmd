@@ -1,0 +1,66 @@
+---
+title: "Use utMetrics"
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
+vignette: >
+  %\VignetteIndexEntry{use_utmetrics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo=FALSE}
+library(utMetrics)
+library(tidyverse)
+library(DT)
+```
+
+```{r echo=FALSE, out.width = "55%", fig.align = "center"}
+knitr::include_graphics("use_metrics.jpeg")
+```
+
+utMetrics provides the official metrics of Utah Tech University. These metrics can be used in both internal and external presentations regarding Utah Tech University. If you need metrics that you can't find here, please reach out to the Insitutional Effecitiveness office (datablaze@utahtech.edu) to receive those metrics.
+
+## Install utMetrics
+utMetrics is a package in R. 
+For reporting install the current version of utMetrics from GitHub
+
+devtools::install_github("ut-effectiveness/utMetrics",
+                        auth_token = gitcreds::gitcreds_get()$password,
+                        force = TRUE, 
+                        build_vignettes = TRUE)
+
+
+
+the data frames available
+when to use which data frame
+define the fields in each data frame
+how to search the data frames and other vignettes to look at for more information
+give examples of code to use to pull metrics
+give examples of narrowing down the results to a specific year
+give examples of narrowing down the result to a specific segment (show the metric_segment_index and the metric_segement_season_index)
+give examples of using the metric and the metric index
+give examples using the metric_number and the metric_number_char and describe when you would use each
+give examples of the outputs
+note how to request new metrics or new partitions (examples)
+Here is some starting code:
+headcount <- utMetrics::df_metrics_indices %>%
+filter(computation == 'Census Headcount'
+& partition == 'Student Type'
+& season == 'Fall') %>%
+select(year, segment, metric_number_char) %>%
+rename(Count = metric_number_char,
+"Student Type" = segment,
+Year = year) %>%
+arrange(Year, "Student Type") %>%
+unique()
