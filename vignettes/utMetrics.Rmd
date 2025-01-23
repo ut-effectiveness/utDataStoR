@@ -21,6 +21,8 @@ knitr::opts_chunk$set(
 
 ```{r setup, echo=FALSE}
 library(utMetrics)
+library(tidyverse)
+library(DT)
 ```
 
 ```{r echo=FALSE, out.width = "55%", fig.align = "center"}
@@ -59,23 +61,15 @@ Metrics are organized by computations. The Computation is the way the metric is 
 
 There are several computations in the utMetrics package:
 
-- Headcount 
-  - Census Headcount
-  - End of Term Headcount
-- Cohort Retention
-  - Fall to Fall Cohort Retention
-  - Returned 3rd Fall Cohort Retention
-  - Returned 4th Fall Cohort Retention
-- Term to Term Retention
-  - Fall to Spring Comeback Rate
-  - Fall to Fall Comeback Rate
-  - Fall to Spring Return Rate
-  - Fall to Fall Return Rate
-- Graduation Rate
-  - 150% Graduation Rate
-- Full-Time Equivalent (FTE)
-  - Census FTE
-  - End of Term FTE
+```{r, echo=FALSE}
+computations <- utMetrics::df_metrics_indices %>%
+  select(computation) %>%
+  arrange(computation) %>% 
+  rename("Computation" = computation) %>% 
+  unique()
+
+datatable(computations)
+```
   
 To see more information about computations, see Computations Vignette
   
