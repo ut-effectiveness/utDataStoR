@@ -71,7 +71,7 @@ computations <- utMetrics::df_metrics_indices %>%
 datatable(computations)
 ```
   
-To see more information about computations, see Computations Vignette
+To see more information about computations, see 'vignette(utmetrics_computations)'
   
 ### Partition
 
