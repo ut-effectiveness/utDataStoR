@@ -26,21 +26,43 @@ library(DT)
 ```
 
 ```{r echo=FALSE, out.width = "55%", fig.align = "center"}
-knitr::include_graphics("use_metrics.jpeg")
+#knitr::include_graphics("use_metrics.jpeg")
 ```
 
-utMetrics provides the official metrics of Utah Tech University. These metrics can be used in both internal and external presentations regarding Utah Tech University. If you need metrics that you can't find here, please reach out to the Insitutional Effecitiveness office (datablaze@utahtech.edu) to receive those metrics.
+utMetrics provides the official metrics of Utah Tech University. These metrics can be used in both internal and external presentations regarding Utah Tech University. If you need metrics that you can't find here, please reach out to the Institutional Effectiveness office (datablaze@utahtech.edu) to receive those metrics.
 
-## Install utMetrics
-utMetrics is a package in R. 
-For reporting install the current version of utMetrics from GitHub
+## utMetrics Library
+```{r}
+library(utMetrics)
+```
 
-devtools::install_github("ut-effectiveness/utMetrics",
-                        auth_token = gitcreds::gitcreds_get()$password,
-                        force = TRUE, 
-                        build_vignettes = TRUE)
+## utMetrics Functionality
 
+### Data Frames
+utMetrics provides data frames with all the metrics and their values. There are two data frames available.
 
+```{r}
+df_metrics_indices <- utMetrics::df_metrics_indices
+
+datatable(df_metrics_indices)
+```
+As shown above, you can bring in a data frame and name it.
+
+#### df_metrics_indices
+df_metrics_indices contains 12 variables (columns)
+
+- metric_index - a code indicating the computation and a number indicating the partition with the code being 3 characters and the number being 4 characters with an underscore between (i.e. hcc_0001)
+- metric - the combination of season, computation, "By", partition, ":", and segment (i.e. Fall Census Headcount By All Students:all students)
+- computation - the way a metric is computated or calculated (i.e. Census Headcount)
+- partition - the way to parse or break down a metric. In the literature, this is often referred to as disaggregating data (i.e. Gender). More than one partition can be used in a metric.
+- segment - the value that each partition produces. The values are typically unique to the partition (i.e. Female).
+- year - is the calendar year of the metric
+- season - Fall, Spring, Summer
+- metric_type - the type of calculation the metric is (count, rate, sum)
+- metric_number - the metric displayed as a number (i.e. 56.2, 12200)
+- metric_number_char - the metric number but displayed as a character, with the percent sign or a comma (i.e. 56.2%, 12,200)
+- metric_segment_index - 
+- metric_segment_season_index - 
 
 the data frames available
 when to use which data frame
