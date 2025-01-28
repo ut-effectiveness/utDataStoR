@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, echo=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
 library(utMetrics)
 library(tidyverse)
 library(DT)
