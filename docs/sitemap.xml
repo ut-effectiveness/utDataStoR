@@ -1,99 +1,35 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/404.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/150_percent_graduation_rate.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/cohort.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/computations.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/course_class_section_counts.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/full_time_equivalent.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/groups.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/headcount.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/naming_metrics.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/retention.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/utDataStoR.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/articles/utMetrics.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/create_sql_dir.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/display_sql_with_comments.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_fte_sql.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_headcount_sql.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_retention_sql.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_fte.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_buildings.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_courses.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_graduation.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_rooms.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_student.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_student_courses.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/utDataStoR-package.html</loc>
-  </url>
-  <url>
-    <loc>https://ut-effectiveness.github.io/utDataStoR/reference/write_sql_file.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/404.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/LICENSE-text.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/LICENSE.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/150_percent_graduation_rate.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/cohort.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/computations.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/course_class_section_counts.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/full_time_equivalent.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/groups.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/headcount.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/index.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/naming_metrics.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/retention.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/utDataStoR.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/articles/utMetrics.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/authors.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/index.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/create_sql_dir.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/display_sql_with_comments.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/index.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_fte_sql.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_headcount_sql.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/make_retention_sql.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_fte.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_buildings.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_courses.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_graduation.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_rooms.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_student.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/sql_validate_student_courses.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/utDataStoR-package.html</loc></url>
+<url><loc>https://ut-effectiveness.github.io/utDataStoR/reference/write_sql_file.html</loc></url>
 </urlset>
+

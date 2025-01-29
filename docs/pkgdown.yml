@@ -1,5 +1,5 @@
 pandoc: '3.2'
-pkgdown: 2.0.7
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   150_percent_graduation_rate: 150_percent_graduation_rate.html
@@ -13,8 +13,7 @@ articles:
   retention: retention.html
   utDataStoR: utDataStoR.html
   utMetrics: utMetrics.html
-last_built: 2024-11-25T23:13Z
+last_built: 2025-01-29T19:48Z
 urls:
   reference: https://ut-effectiveness.github.io/utDataStoR/reference
   article: https://ut-effectiveness.github.io/utDataStoR/articles
-
