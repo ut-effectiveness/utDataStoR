@@ -98,7 +98,7 @@ SELECT a.term_id,
        a.primary_degree_desc          AS degree_desc,
        d.major_id,
        d.major_desc,
-       a.primary_level_class_id.      AS class_level_id,
+       a.primary_level_class_id       AS class_level_id,
        a.primary_level_class_desc     AS class_level_desc,
        a.is_online_program_student,
        a.is_distance_ed_some,
@@ -125,6 +125,6 @@ FROM export.student_term_level_version a
                    ON a.primary_program_id = d.program_id
 WHERE a.is_enrolled IS TRUE
   AND a.is_primary_level IS TRUE
-  AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current year plus last 5 years
+  AND DATE_PART('year', NOW()) - c.academic_year_code :: INT <= 5 -- Current year plus last 5 years
   AND a.version_desc = 'Census'
 ORDER BY a.student_id, a.term_id
