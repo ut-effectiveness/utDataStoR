@@ -62,7 +62,7 @@ SELECT a.term_id,
        a.primary_level_class_desc     AS class_level_desc,
        a.student_type_code,
        a.student_type_desc,
-       a.full_time_part_time_code     AS course_load_code,
+       a.full_time_part_time_code     AS credit_load_code,
        CASE
            WHEN a.full_time_part_time_code = 'F' THEN 'Full-time'
            WHEN a.full_time_part_time_code = 'P' THEN 'Part-time'

@@ -220,8 +220,8 @@ Student Type is a student's enrollment status or registration status for the ter
 - 3	- Readmit Graduate -  A student who has re-enrolled at the institution after stopping out for at least one term of graduate coursework (excluding  summer term).
 - 5	- Continuing Graduate - A graduate student who is re-enrolling at the institution after having attended a previous term as a graduate student.
 
-## Course Load
-Course load is the status of a student's time commitment based on how many credit hours attempted and the student's level for a given semester. The options are: 
+## Credit Load
+Credit Load is the status of a student's time commitment based on how many credit hours attempted and the student's level for a given semester. The options are: 
 
 - Full-time for Undergraduate students, 12 or more credit hours; for Graduate students 9 or more credit hours
 - Part-time for Undergraduate students, less than 12 credit hours; for Graduate students less than 9 credit hours.
