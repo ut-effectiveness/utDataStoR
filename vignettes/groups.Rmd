@@ -41,7 +41,7 @@ Gender is the biological sex on a student's birth certificate. The options are:
 - Unspecified
 
 ## IPEDS Race/Ethnicity
-IPEDS Race/Ethnicity is data reporting the student's race and ethnicity where the multiracial students are grouped into one category. There are nine options:
+IPEDS Race/Ethnicity reports the student's race and ethnicity where the multiracial students are grouped into one category. There are nine options:
 
 - Hispanic
 - American Indian/Alaskan
@@ -54,19 +54,14 @@ IPEDS Race/Ethnicity is data reporting the student's race and ethnicity where th
 - Unspecified
 
 ## Minority
-Minority students are those students who are not white, non-resident alien, or unspecified. The options are:
+Minority students are those students who are American Indian/Alaskan, Asian, Black/African American, Hawaiian/Pacific Islander, Hispanic, or Multiracial.
+It does not include those students who are white, non-resident alien, or unspecified. The options are:
 
 - Minority
 - Non-minority
 
-## BIPOC
-BIPOC students are those whose race/ethnicity is black, indigenous, or other people of color (Hispanic, Asian and multiracial). The options are:
-
-- BIPOC
-- non-BIPOC
-
-## Citizenship
-Citizenship is the student's relationship to the United States. The options are:
+## US Citizenship
+US Citizenship is the student's relationship to the United States. The options are:
 
 - 1 - US Citizen
 - 2 - Non-Res Alien-Visa or temp bas
@@ -95,17 +90,17 @@ A first generation student is a student where neither parent nor guardian has re
 ## Veteran
 A veteran is a student who has served in the armed forces or is receiving veteran benefits (includes family members receiving benefits). If the sql output is TRUE then the student is a veteran.
 
-## Student Athlete
-A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If the sql output is TRUE then the student is an athlete.
+## Athlete
+An athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If the sql output is TRUE then the student is an athlete.
 
-## First Admit Country
-First admit country is the the country listed on the students first application where they were admitted.
+## First Admit County
+First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
 
 ## First Admit State
 First admit state is the the state listed on the students first application where they were admitted. Students who were not in the US get grouped into Foreign State.
 
-## First Admit County
-First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
+## First Admit Country
+First admit country is the the country listed on the students first application where they were admitted.
 
 ## ACT Composite Score
 ACT Composite Score is the student's highest ACT composite score. The Composite score is the average of the four ACT test scores (Math, English, Reading, Science), rounded to the nearest whole number.
@@ -166,6 +161,9 @@ SELECT a.student_id,
 # Term Based Groups
 Data in this classification can change each semester and is based on information from the system for this current term such as program, student type, etc. This data is stored at the student term level, in the student_term_level table. This data changes often. This data can be pulled as of Current, End of Term or Census.
 
+## Degree Seeking Student
+A student is a degree seeking student if the students' primary program leads to a credential. This includes Associate, Bachelor, and Master's students. If the sql output is TRUE then the student is a degree seeking student.
+
 ## College
 College id/desc indicates what college a student belongs to based on the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges (abbreviation/desc). There are eight options: 
 
@@ -184,17 +182,29 @@ Department id/desc indicates what department a student belongs to based on the p
 ## Program
 Program id/desc is the students' declared program of study. Programs are assigned to a department and departments are assigned to colleges. A program code is made up of a degree id, and major id and if applicable a concentration id.
 
-## Concentration
-Concentration id/desc is a specific area of emphasis or specialization in a major chosen by a student. Not all majors have a concentration option.
-
 ## Degree
 Degree id/desc is the degree that is tied to a students' primary program of study.
 
 ## Major
 Major id/desc is the major that is tied to a students' primary program of study.
 
-## Degree Seeking Student
-A student is a degree seeking student if the students' primary program leads to a credential. This includes Associate, Bachelor, and Master's students. If the sql output is TRUE then the student is a degree seeking student.
+## Concentration/Emphasis
+Concentration id/desc is a specific area of emphasis or concentration in a major chosen by a student. Not all majors have a concentration option.
+
+## Student Level
+##todo is it student level id? has student level id and student level desc; use utmetrics as a reference - utmetrics calls it student level
+Student level is the level of the primary degree a student is pursing. The options are: Undergraduate or Graduate.
+
+## Class Level
+Class level is based on a student's overall cumulative earned credit hours. A student's class level is not the same as their year in school, it is based on credit hours. There can be sophomores in their first semester, as well as freshmen in their third year.
+
+All graduate students are reported as Graduate.
+Undergraduate students have four options, the options are: 
+
+- Freshman <30 credit hours
+- Sophomore 30-59 credit hours 
+- Junior 60-89 credit hours
+- Senior 90 or more credit hours 
 
 ## Student Type
 Student Type is a student's enrollment status or registration status for the term. The options are:
@@ -209,20 +219,6 @@ Student Type is a student's enrollment status or registration status for the ter
 - 2	- Transfer Graduate - A student entering the reporting institution at the graduate level for the first time but known to have previously attended another post secondary institution at the graduate level. The student may transfer in with or without credit. A student will be coded as a transfer graduate only once.
 - 3	- Readmit Graduate -  A student who has re-enrolled at the institution after stopping out for at least one term of graduate coursework (excluding  summer term).
 - 5	- Continuing Graduate - A graduate student who is re-enrolling at the institution after having attended a previous term as a graduate student.
-
-## Student Level
-Student level is the level of the primary degree a student is pursing. The options are: Undergraduate or Graduate.
-
-## Class Level
-Class level is based on a student's overall cumulative earned credit hours. A student's class level is not the same as their year in school, it is based on credit hours. There can be sophomores in their first semester, as well as freshmen in their third year.
-
-All graduate students are reported as Graduate.
-Undergraduate students have four options, the options are: 
-
-- Freshman <30 credit hours
-- Sophomore 30-59 credit hours 
-- Junior 60-89 credit hours
-- Senior 90 or more credit hours 
 
 ## Course Load
 Course load is the status of a student's time commitment based on how many credit hours attempted and the student's level for a given semester. The options are: 
@@ -244,11 +240,12 @@ Tuition Residency is the official status of student's residence for tuition purp
 - R - UT Resident
 - S - Surcharge for excessive credits
 
-## State Residency
-State Residency summarizes tuition residency into two categories, in-state or out-of-state. The options are:
+## Global Residency
+Global Residency is a mixture of international and tuition residency. If the student is an international student then their global residency is international. If the student is not international, then they are either in-state or out-of-state based on their tuition residency. They are in-state if their tuition residency is UT Resident, Changed from Non-Resident, American Indian Tribal Resident, Military, Out-of-State, or Housebill 102 - 2023. They are out-of-state if their tuition residency is Non-Resident of UT, Good Neighbor Tuition, Housebill 118/144 Waivers, Surcharge for excessive credits, or Undeclared. The options are:
 
-- In-state residency
-- Out-of-state residency
+- International
+- In-State
+- Out-of-State
 
 ## High School Student
 A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a high school student.
@@ -286,9 +283,17 @@ A Pell Awarded student is a student who has been awarded a Pell grant this term.
 ## Subsidized Loan Awarded
 A Subsidized Loan Awarded student is a student who has been awarded a Subsidized Loan this term. If the sql output is TRUE then the student is Subsidized Loan Awarded.
 
-## Student Athlete Term
-A Student Athlete is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If the sql output is TRUE then the student is an athlete.
+## Athlete Term
+An Athlete Term is a student who was on the official team roster on or after the first scheduled contest or date of NCAA competition that semester. If the sql output is TRUE then the student is an athlete.
 
+## Distance Ed All
+Distance Ed All students are students who are taking all of their courses through distance education. Distance education (DE) is education that uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. This would include Broadcast, Interactive Audio/Video, Online/Internet, Remote Virtual and Remote Hybrid. If the sql output is TRUE then the student is Distance Ed All.
+
+## Distance Ed Some
+Distance Ed Some students are students who are taking at least one but not all of their courses through distance education. Distance education (DE) is education that uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. This would include Broadcast, Interactive Audio/Video, Online/Internet, Remote Virtual and Remote Hybrid. If the sql output is TRUE then the student is Distance Ed Some.
+
+## Distance Ed None
+Distance Ed None students are students who are not taking any courses through distance education. Distance education (DE) is education that uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously. This would include Broadcast, Interactive Audio/Video, Online/Internet, Remote Virtual and Remote Hybrid. If the sql output is TRUE then the student is Distance Ed None.
 
 
 ## SQL for Term Based Groups
