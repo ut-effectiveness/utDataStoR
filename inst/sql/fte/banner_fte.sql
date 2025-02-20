@@ -1,13 +1,7 @@
-/*
-Banner FTE
-This SQL query calculates from Banner the Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled in courses.
-Does not include any fte for CE - Continuing Education courses
-Removes enrollments from XXX campus code
-Removes test users
-If run off of REPT, it will align with Edify
- */
-
 WITH CTE_graduate_fte AS
+    /*
+     This CTE pulls the graduate level fte for enrolled students
+     */
     (SELECT ROUND(SUM(a.sfrstcr_credit_hr)/10, 2)  AS graduate_fte, -- FTE - Graduate Level
             b.stvterm_desc,
             a.sfrstcr_term_code
@@ -22,6 +16,9 @@ WITH CTE_graduate_fte AS
      GROUP BY b.stvterm_desc, a.sfrstcr_term_code),
 
 CTE_undergrad_fte AS
+    /*
+     This CTE pulls the undergraduate level fte for enrolled students
+     */
     (SELECT ROUND(SUM(a.sfrstcr_credit_hr)/15, 2)  AS undergrad_fte,  --FTE - Undergraduate Level
             b.stvterm_desc,
             a.sfrstcr_term_code
@@ -35,7 +32,11 @@ CTE_undergrad_fte AS
                                    WHERE a1.stvrsts_incl_sect_enrl = 'Y')
      GROUP BY b.stvterm_desc, a.sfrstcr_term_code),
 
-cte_test_users AS (SELECT a.twgrrole_pidm,
+cte_test_users AS
+    /*
+     This CTE pulls test students (so they can be removed, see the where statement)
+     */
+    (SELECT a.twgrrole_pidm,
                                a.twgrrole_role
                         FROM twgrrole a
                         WHERE a.twgrrole_role = 'TESTUSER')
