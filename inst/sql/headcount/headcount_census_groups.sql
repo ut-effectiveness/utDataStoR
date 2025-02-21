@@ -1,6 +1,11 @@
 /*
-Census headcount groups
-provides unit record data, to get headcount you must group and summarize
+Headcount census groups
+Approved on
+provides unit record data, for students enrolled in census (see where a.version_desc = 'Census')
+for the most recent year plus 5 years of data (see where add DATE_Part)
+it provides student demographic and term data
+to get headcount you must group and summarize
+this query uses student_term_level_version as the base table and joins to the student_version table
 Definitions for each of these groups can be found in the groups vignette in utDataStoR
  */
 SELECT a.term_id,
