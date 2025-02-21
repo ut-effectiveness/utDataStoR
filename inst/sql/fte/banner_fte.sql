@@ -1,3 +1,12 @@
+/*
+Banner FTE
+Approved on
+This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled
+for a specific term (see where statement)
+Does not include any fte for CE - Continuing Education courses
+It excludes test students using the cte_test_users (see the where statement e.twgrrole_role IS NULL)
+*/
+
 WITH CTE_graduate_fte AS
     /*
      This CTE pulls the graduate level fte for enrolled students
@@ -55,6 +64,6 @@ FROM saturn.sfrstcr a
                    ON d.sfrstcr_term_code = a.sfrstcr_term_code
          LEFT JOIN cte_test_users e
                    ON e.twgrrole_pidm = a.sfrstcr_pidm
-WHERE a.sfrstcr_term_code = '202420'
+WHERE a.sfrstcr_term_code = '202420' -- change to desired term
 AND e.twgrrole_role IS NULL -- removes test users
 GROUP BY a.sfrstcr_term_code, b.stvterm_desc, c.graduate_fte, d.undergrad_fte;
