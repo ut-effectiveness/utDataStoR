@@ -12,7 +12,7 @@ SELECT a.term_id,
        a.term_desc,
        c.season,
        a.student_id,
-       -- Demographic Groups
+       -- Demographic Groups (student_version table)
        b.gender_code,
        CASE
            WHEN b.gender_code = 'F' THEN 'Female'
@@ -48,7 +48,7 @@ SELECT a.term_id,
        b.first_admit_state_desc,
        b.first_admit_country_desc,
        b.act_composite_score,
-       --Term Groups
+       --Term Groups (student_term_level_version table)
        a.is_degree_seeking,
        d.college_abbrv,
        d.college_id,
