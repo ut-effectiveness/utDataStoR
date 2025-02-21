@@ -20,6 +20,8 @@ navbar:
       href: articles/full_time_equivalent.html
     - text: Retention
       href: articles/retention.html
+    - text: Course Class Section
+      href: articles/course_class_section_counts.html
     - text: -------
     - text: "Metrics"
     - text: utMetrics

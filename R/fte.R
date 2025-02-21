@@ -1,4 +1,5 @@
 #' Generate FTE SQL
+#' `r lifecycle::badge("deprecated")`
 #'
 #' `sql_fte` was intended to generate the standard sql query for pulling FTE from Edify, REPT
 #' of DSCIR. We have deprecated this function and will use "make_fte_sql()" instead.

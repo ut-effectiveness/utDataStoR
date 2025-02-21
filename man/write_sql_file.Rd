@@ -2,7 +2,12 @@
 % Please edit documentation in R/helpers.R
 \name{write_sql_file}
 \alias{write_sql_file}
-\title{Write SQL Files Functions}
+\title{\code{write_sql_files} will copy and move the sql file based on the context parameter.
+The write_sql_file function copies a specified SQL file from a source folder to a target directory,
+determined by the context (shiny, sandbox, or project). Using the \code{fs::file_copy} function,
+it places the file in the appropriate path (e.g., in the inst/sql folder for shiny, sandbox/sql for
+sandbox, or the main sql directory otherwise).
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}}
 \usage{
 write_sql_file(file, folder, name, context)
 }
@@ -18,10 +23,9 @@ write_sql_file(file, folder, name, context)
 }
 \description{
 \code{write_sql_files} will copy and move the sql file based on the context parameter.
-}
-\details{
 The write_sql_file function copies a specified SQL file from a source folder to a target directory,
 determined by the context (shiny, sandbox, or project). Using the \code{fs::file_copy} function,
 it places the file in the appropriate path (e.g., in the inst/sql folder for shiny, sandbox/sql for
 sandbox, or the main sql directory otherwise).
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }

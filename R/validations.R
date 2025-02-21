@@ -1,7 +1,7 @@
-#' Generate Validation SQL
-#'
 #' `sql_validate_student` will generate the standard sql query for pulling Student Validations from Edify.
 #' Validations are done through Edify.
+#' `r lifecycle::badge("experimental")`
+#'
 #'
 #' @param data_source The server you will be full from. Currently, Edify.
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
@@ -25,6 +25,7 @@ sql_validate_student <- function(data_source, name, context) {
 
 #' `sql_validate_student_courses` will generate the standard sql query for pulling Student Course Validations from Edify.
 #' Validations are done through Edify.
+#' `r lifecycle::badge("experimental")`
 #'
 #' @param data_source The server you will be full from. Currently, Edify.
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
@@ -48,6 +49,7 @@ sql_validate_student_courses <- function(data_source, name, context) {
 
 #' `sql_validate_courses` will generate the standard sql query for pulling Course Validations from Edify.
 #' Validations are done through Edify.
+#' `r lifecycle::badge("experimental")`
 #'
 #' @param data_source The server you will be full from. Currently, Edify.
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
@@ -71,6 +73,7 @@ sql_validate_courses <- function(data_source, name, context) {
 
 #' `sql_validate_graduation` will generate the standard sql query for pulling Graduation Validations from Edify.
 #' Validations are done through Edify.
+#' `r lifecycle::badge("experimental")`
 #'
 #' @param data_source The server you will be full from. Currently, Edify.
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
@@ -94,6 +97,7 @@ sql_validate_graduation <- function(data_source, name, context) {
 
 #' `sql_validate_rooms` will generate the standard sql query for pulling Rooms Validations from Edify.
 #' Validations are done through Edify.
+#' `r lifecycle::badge("experimental")`
 #'
 #' @param data_source The server you will be full from. Currently, Edify.
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
@@ -117,6 +121,7 @@ sql_validate_rooms <- function(data_source, name, context) {
 
 #' `sql_validate_buildings` will generate the standard sql query for pulling Building Validations from Edify.
 #' Validations are done through Edify.
+#' `r lifecycle::badge("experimental")`
 #'
 #' @param data_source The server you will be full from. Currently, Edify.
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes

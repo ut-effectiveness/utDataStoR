@@ -1,8 +1,7 @@
 #' Display sql with comments
-#'
 #' This function returns the content of a specified SQL file, including any comments within
 #' the file. The function should used within a sql code chunk (```sql ``` ) in R markdown within single back tick.
-#' Please refer to the example section for better understanding.
+#' `r lifecycle::badge("stable")`
 #'
 #' @param folder A character string specifying the folder within `inst/sql` where the SQL file is located.
 #' Must be within quotes.

@@ -1,13 +1,11 @@
-#' Generate Helper Functions
-#'
 #' `create_sql_dir` will generate the path used to house the sql files based on the context parameter.
-#'
 #' The create_sql_dir function checks if a directory for SQL files exists based on the specified
 #' context (project, shiny, or sandbox) and creates one if it doesn't. This ensures the correct folder
 #' structure is set up for different project environments.
+#' `r lifecycle::badge("stable")`
 #'
 #' @param context The context of your project.  Options are: "project", "shiny", or "sandbox".
-#' If not specified, "project" is used bydefault.
+#' If not specified, "project" is used by default.
 #'
 #' @export
 #'
@@ -30,14 +28,12 @@ create_sql_dir <- function(context = "project") {
     Please use the 'utHelpR::make_standard_folders()' function instead for improved functionality and support.")
 }
 
-#' Write SQL Files Functions
-#'
 #' `write_sql_files` will copy and move the sql file based on the context parameter.
-#'
 #' The write_sql_file function copies a specified SQL file from a source folder to a target directory,
 #' determined by the context (shiny, sandbox, or project). Using the `fs::file_copy` function,
 #' it places the file in the appropriate path (e.g., in the inst/sql folder for shiny, sandbox/sql for
 #' sandbox, or the main sql directory otherwise).
+#' `r lifecycle::badge("stable")`
 #'
 #' @param context The context of your project.  "project", "shiny", and "sandbox"
 #' @param file The name of the SQL file that you want to copy to a new location
