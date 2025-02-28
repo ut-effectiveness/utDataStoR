@@ -15,3 +15,4 @@ WHERE a.is_enrolled IS TRUE
   AND a.is_primary_level IS TRUE
   AND a.version_desc = 'Census'
   AND DATE_PART('year', NOW()) - b.academic_year_code :: INT = 1 -- Last academic year
+GROUP BY academic_year_code;
