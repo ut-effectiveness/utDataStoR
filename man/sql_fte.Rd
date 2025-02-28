@@ -2,7 +2,8 @@
 % Please edit documentation in R/fte.R
 \name{sql_fte}
 \alias{sql_fte}
-\title{Generate FTE SQL}
+\title{Generate FTE SQL
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}}
 \usage{
 sql_fte(data_source = "Edify", name)
 }

@@ -1,8 +1,7 @@
-#' Generate Retention Sql
-#'
 #' `make_retention_sql` will generate the standard SQL query for pulling retention
 #' data from Edify. This function helps in retrieving data related to student retention metrics.
 #' To specify the type of retention data you would like, use the `type` parameter.
+#' `r lifecycle::badge("stable")`
 #'
 #' @param name The name you want the SQL file to have in your sql folder. This is a string and must be provided in quotes
 #' (e.g., "your_filename.sql").

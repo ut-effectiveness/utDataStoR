@@ -2,7 +2,9 @@
 % Please edit documentation in R/validations.R
 \name{sql_validate_student}
 \alias{sql_validate_student}
-\title{Generate Validation SQL}
+\title{\code{sql_validate_student} will generate the standard sql query for pulling Student Validations from Edify.
+Validations are done through Edify.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}}
 \usage{
 sql_validate_student(data_source, name, context)
 }
@@ -20,4 +22,5 @@ A sql file in your SQL folder
 \description{
 \code{sql_validate_student} will generate the standard sql query for pulling Student Validations from Edify.
 Validations are done through Edify.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }

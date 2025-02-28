@@ -2,7 +2,10 @@
 % Please edit documentation in R/make_retention_sql.R
 \name{make_retention_sql}
 \alias{make_retention_sql}
-\title{Generate Retention Sql}
+\title{\code{make_retention_sql} will generate the standard SQL query for pulling retention
+data from Edify. This function helps in retrieving data related to student retention metrics.
+To specify the type of retention data you would like, use the \code{type} parameter.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}}
 \usage{
 make_retention_sql(name, type = "term_to_term")
 }
@@ -23,4 +26,5 @@ A sql file in your SQL folder
 \code{make_retention_sql} will generate the standard SQL query for pulling retention
 data from Edify. This function helps in retrieving data related to student retention metrics.
 To specify the type of retention data you would like, use the \code{type} parameter.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }

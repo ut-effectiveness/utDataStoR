@@ -3,7 +3,8 @@
 \name{sql_validate_courses}
 \alias{sql_validate_courses}
 \title{\code{sql_validate_courses} will generate the standard sql query for pulling Course Validations from Edify.
-Validations are done through Edify.}
+Validations are done through Edify.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}}
 \usage{
 sql_validate_courses(data_source, name, context)
 }
@@ -21,4 +22,5 @@ A sql file in your SQL folder
 \description{
 \code{sql_validate_courses} will generate the standard sql query for pulling Course Validations from Edify.
 Validations are done through Edify.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }

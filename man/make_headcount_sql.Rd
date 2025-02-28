@@ -2,7 +2,15 @@
 % Please edit documentation in R/make_headcount_sql.R
 \name{make_headcount_sql}
 \alias{make_headcount_sql}
-\title{Generate headcount Sql}
+\title{\code{make_headcount_sql} will generate a standard sql query for pulling headcount
+data from Edify. This function is often used with the function \link[utHelpR:uth_make_outcome_count]{utHelpR::uth_make_outcome_count} to
+produce pivot tables with headcount numbers. There are several types of headcounts
+to choose from. To specify the type of headcount you would like, use the type parameter.
+If you have questions about which version you should use in your report, please
+contact Joy Lindsay. For more details see the headcount vignette. You can bring this
+up by running the following code in your console.
+\code{vignette("headcount", package = "utDataStoR")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}}
 \usage{
 make_headcount_sql(name, type = "current")
 }
@@ -32,4 +40,5 @@ If you have questions about which version you should use in your report, please
 contact Joy Lindsay. For more details see the headcount vignette. You can bring this
 up by running the following code in your console.
 \code{vignette("headcount", package = "utDataStoR")}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }
