@@ -5,6 +5,7 @@ This SQL query calculates Full-Time Equivalent (FTE) values for graduate, underg
 for a specific term (see where statement)
 Does not include any fte for CE - Continuing Education courses
 It excludes test students using the cte_test_users (see the where statement e.twgrrole_role IS NULL)
+This query provides the count that would equal the count that is in Edify fte_current if ran on REPT and for the same term
 */
 
 WITH CTE_graduate_fte AS
@@ -41,7 +42,7 @@ CTE_undergrad_fte AS
                                    WHERE a1.stvrsts_incl_sect_enrl = 'Y')
      GROUP BY b.stvterm_desc, a.sfrstcr_term_code),
 
-cte_test_users AS
+CTE_test_users AS
     /*
      This CTE pulls test students (so they can be removed, see the where statement)
      */
@@ -62,7 +63,7 @@ FROM saturn.sfrstcr a
                    ON c.sfrstcr_term_code = a.sfrstcr_term_code
          LEFT JOIN CTE_undergrad_fte d
                    ON d.sfrstcr_term_code = a.sfrstcr_term_code
-         LEFT JOIN cte_test_users e
+         LEFT JOIN CTE_test_users e
                    ON e.twgrrole_pidm = a.sfrstcr_pidm
 WHERE a.sfrstcr_term_code = '202420' -- change to desired term
 AND e.twgrrole_role IS NULL -- removes test users
