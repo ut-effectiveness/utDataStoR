@@ -1,6 +1,6 @@
 /*
 Edify FTE Groups
-This SQL query calculates from Banner the Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled
+This SQL query calculates the Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled
 in courses at Census over the last 5 years.
 Does not include any FTE for CE - Continuing Education courses
 This query combines two CTE's. cte_enrolled_snapshot provides student student demographic and term based data on students who were enrolled the last 5 years.
@@ -148,7 +148,7 @@ WITH cte_enrolled_snapshot AS
                  b.attempted_credits,
                  CASE
                      WHEN b.course_level_id = 'GR' THEN b.attempted_credits / 10
-                     WHEN b.course_level_id != 'GR' THEN b.attempted_credits / 15
+                     WHEN b.course_level_id = 'UG' THEN b.attempted_credits / 15
                      END AS fte,
                  b.course_level_id,
                  c.college_abbrv,
