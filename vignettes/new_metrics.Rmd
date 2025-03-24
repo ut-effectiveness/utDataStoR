@@ -13,47 +13,67 @@ knitr::opts_chunk$set(echo = TRUE)
 
 So, you think you need a new metric...
 
-Metrics have several components
+Metrics have several components:
 
-- Season
-- Computation
-- Partition
-- Segment
+- **Season**
+- **Computation**
+- **Partition**
+- **Segment**
 
-For a description and examples of these, please see `vignettes/utMetrics.Rmd`
+For a description and examples of these, please see `vignettes/utMetrics.Rmd`.
 
-New metrics require varying degrees of work. The amount of work required for each request will determine how quickly the metrics can be created. #todo Should I provide an estimate of how long each level will take? Should I discuss the IE office working on them once a month? Should I mention that the IE office will make the final determination of what level the metric is?
+New metrics require varying degrees of work. The amount of work required for each request will determine how quickly the metrics can be created.
+#todo Should I provide an estimate of how long each level will take? Should I discuss the IE office working on them once a month? Should I mention that the IE office will make the final determination of what level the metric is?
 
-- Level 1 - A new partition is needed for an existing computation
-- Level 2 - A new computation is needed for a similar computation (for example the institution has Returned 4th Fall Cohort Retention, but you want to see Returned 5th Fall Cohort Retention)
-- Level 3 - A new computation and partitions are needed
+- **Level 1**: A new partition is needed for an existing computation.
+- **Level 2**: A new computation is needed for a similar computation (e.g., the institution has Returned 4th Fall Cohort Retention, but you want to see Returned 5th Fall Cohort Retention).
+- **Level 3**: A new computation and partitions are needed.
 
 ### Requesting New Metrics
 
-To request a new metric please send a spreadsheet with the following columns to datablaze@utahtech.edu
+To request a new metric, please send a spreadsheet with the following columns to datablaze@utahtech.edu:
 
-Columns
-
-- Requested Data Point (Required) - The metric you want, you can word it in ways that makes sense to you
-- Metric (Optional) - The official metric name, in the official metric format (Season Computation by Partition::Segment); feel free to put this in if you think you know what it is
-- Computation (Optional) - The official computation name, if you know it
-- Partition (Optional) - The official partition name, if you know it
-- Segment (Optional) - The official segment name, if you know it
-- Notes (Optional) - Information you want the OIE office to know regarding the metric
-
+- **Requested Data Point (Required)**: The metric you want, worded in a way that makes sense to you.
+- **Metric (Optional)**: The official metric name, in the official metric format (Season Computation by Partition::Segment); include this if you think you know what it is.
+- **Computation (Optional)**: The official computation name, if you know it.
+- **Partition (Optional)**: The official partition name, if you know it.
+- **Segment (Optional)**: The official segment name, if you know it.
+- **Notes (Optional)**: Any additional information you want the OIE office to know regarding the metric.
 
 ## For the Analyst
-Once you get the spreadsheet from the requester, make sure it has the following columns:
 
-- Requested Data Point - Provided by the requester 
-- Metric - The official metric name, in the official metric format (Season Computation by Partition::Segment); if provided it is verified by the analyst; used to join to df_metrics_indices to provide the computation, partition, segment, year, season, value
-- Computation - The official computation name, provided by df_metrics_indices
-- Partition - The official partition name, provided by df_metrics_indices
-- Segment - The official segment name, provided by df_metrics_indices
-- Year - The year of the metric, provided by df_metrics_indices
-- Season - The season of the metric, provided by df_metrics_indices
-- Metric Value - The metric value either the metric_number or the metric_number_char, provided by df_metrics_indices
-- DRI - The directly responsible individual
-- Source - Where did the data come from, typically utMetrics
-- Issue - The name of the issue in utMetrics
-- Notes - Additional information regarding the metric provided by the requester
+### Spreadsheet
+
+Once you receive the spreadsheet from the requester, ensure it includes the following columns:
+
+- **Requested Data Point**: Provided by the requester.
+- **Metric**: The official metric name, in the official metric format (Season Computation by Partition::Segment); if provided, it is verified by the analyst and used to join to `df_metrics_indices` to provide the computation, partition, segment, year, season, value.
+- **Computation**: The official computation name, provided by `df_metrics_indices`.
+- **Partition**: The official partition name, provided by `df_metrics_indices`.
+- **Segment**: The official segment name, provided by `df_metrics_indices`.
+- **Year**: The year of the metric, provided by `df_metrics_indices`.
+- **Season**: The season of the metric, provided by `df_metrics_indices`.
+- **Metric Value**: The metric value, either the `metric_number` or the `metric_number_char`, provided by `df_metrics_indices`.
+- **DRI**: The directly responsible individual assigned by OIE.
+- **Source**: Where the data came from, typically `utMetrics`.
+- **Issue**: The name of the issue in `utMetrics`.
+- **Notes**: Additional information regarding the metric provided by the requester.
+
+### utMetrics Structure
+
+When new metrics are requested, it's important to understand how the metrics are built to determine how to meet the request.
+
+- **Partitions**: Found in `data-raw/01_build_metadata.R`. They are lists named ending with "_aggregate_cols" (e.g., `term_rate_aggregate_cols`). The partition list contributes to the `metric_index`. Each line in the list becomes the second part of the `metric_index` in the `df_metrics_indices` (e.g., `hcc_0001` - `0001` is the first line of the `headcount_aggregate_vars`). Partition lists belong to more than one metric. To find out what metrics they belong to, look at the computation structure.
+
+- **Computation Structures**: Found in `data-raw/01_build_metadata.R`. They are tibbles or dataframes ending with `_vars` (e.g., `comeback_fall_vars`). These dataframes provide:
+  - `aggregate_cols`: Partition list used.
+  - `prefix`: The first part of the `metric_index` (e.g., `hcc_001` - `hcc` is the prefix).
+  - `var_name`: The boolean variable used to calculate the metric (e.g., `is_returned_next_fall`).
+  - `dataframe_name`: The dataframe to compute the metric.
+  - `metric_group`: The computation name (e.g., `150 percent graduation rate`).
+  
+- **Computations**: Found in the 02 build steps (`data-raw/02a_build_counts.R`, `data-raw/02b_build_rates.R`, and `data-raw/02c_build_sum.R`). Determine the type of metric (count, rate, or sum) and look in the appropriate file. When bringing in SQL, the dataframe will be named ending in `_raw`. The R code following the `_raw` dataframe shapes the data to the clean dataframe used to make the metric. The final dataframe typically ends with `_clean`. Partitions can be created in both the 02 build step and the SQL.
+
+- **SQL**: Found in `inst/sql` folders as noted in the computations. The SQL that drives the computations will be noted in the 02 build steps and will end in `_raw`.
+
+- **Final Naming of Partitions**: Happens at the end of `03_export_full_segment.R`. This file goes to the `inst/csv` folders and is called `partition_list.xlsx`. If there are new partitions, this spreadsheet will need to be updated to provide a name.
