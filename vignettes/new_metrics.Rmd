@@ -1,0 +1,59 @@
+---
+title: "New Metrics"
+author: "andrea"
+date: "2025-03-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## New Metric(s)
+
+So, you think you need a new metric...
+
+Metrics have several components
+
+- Season
+- Computation
+- Partition
+- Segment
+
+For a description and examples of these, please see `vignettes/utMetrics.Rmd`
+
+New metrics require varying degrees of work. The amount of work required for each request will determine how quickly the metrics can be created. #todo Should I provide an estimate of how long each level will take? Should I discuss the IE office working on them once a month? Should I mention that the IE office will make the final determination of what level the metric is?
+
+- Level 1 - A new partition is needed for an existing computation
+- Level 2 - A new computation is needed for a similar computation (for example the institution has Returned 4th Fall Cohort Retention, but you want to see Returned 5th Fall Cohort Retention)
+- Level 3 - A new computation and partitions are needed
+
+### Requesting New Metrics
+
+To request a new metric please send a spreadsheet with the following columns to datablaze@utahtech.edu
+
+Columns
+
+- Requested Data Point (Required) - The metric you want, you can word it in ways that makes sense to you
+- Metric (Optional) - The official metric name, in the official metric format (Season Computation by Partition::Segment); feel free to put this in if you think you know what it is
+- Computation (Optional) - The official computation name, if you know it
+- Partition (Optional) - The official partition name, if you know it
+- Segment (Optional) - The official segment name, if you know it
+- Notes (Optional) - Information you want the OIE office to know regarding the metric
+
+
+## For the Analyst
+Once you get the spreadsheet from the requester, make sure it has the following columns:
+
+- Requested Data Point - Provided by the requester 
+- Metric - The official metric name, in the official metric format (Season Computation by Partition::Segment); if provided it is verified by the analyst; used to join to df_metrics_indices to provide the computation, partition, segment, year, season, value
+- Computation - The official computation name, provided by df_metrics_indices
+- Partition - The official partition name, provided by df_metrics_indices
+- Segment - The official segment name, provided by df_metrics_indices
+- Year - The year of the metric, provided by df_metrics_indices
+- Season - The season of the metric, provided by df_metrics_indices
+- Metric Value - The metric value either the metric_number or the metric_number_char, provided by df_metrics_indices
+- DRI - The directly responsible individual
+- Source - Where did the data come from, typically utMetrics
+- Issue - The name of the issue in utMetrics
+- Notes - Additional information regarding the metric provided by the requester
