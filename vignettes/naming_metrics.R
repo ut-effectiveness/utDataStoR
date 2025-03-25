@@ -4,38 +4,36 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-## ----setup, echo=FALSE--------------------------------------------------------
-library(utMetrics)
-
 ## ----message=FALSE, warning=FALSE, echo=FALSE---------------------------------
+library(utMetrics)
 library(tidyverse)
 library(DT)
 
 ## ----echo=FALSE---------------------------------------------------------------
-metric_groups <- utMetrics::df_index %>% 
-  select(metric_group) %>% 
-  arrange(metric_group) %>%
-  rename("Metric Group" = metric_group) %>% 
+computations <- utMetrics::df_metrics_indices %>%
+  select(computation) %>%
+  arrange(computation) %>% 
+  rename("Computation" = computation) %>% 
   unique()
 
-datatable(metric_groups)
+datatable(computations)
 
 ## ----echo=FALSE---------------------------------------------------------------
-metric_partitions <- utMetrics::df_index %>% 
-  select(metric_group, segmented_by) %>% 
-  arrange(metric_group, segmented_by) %>% 
-  rename("Metric Group" = metric_group) %>% 
-  rename("Partition" = segmented_by) %>% 
+partitions <- utMetrics::df_metrics_indices %>% 
+  select(computation, partition) %>% 
+  arrange(computation, partition) %>% 
+  rename("Computation" = computation) %>% 
+  rename("Partition" = partition) %>% 
   unique()
 
-datatable(metric_partitions)
+datatable(partitions)
 
 ## ----echo=FALSE---------------------------------------------------------------
-metric_list <- utMetrics::df_metric_group_full_segment %>% 
-  select(metric_group, segmented_by, segment) %>% 
-  arrange(metric_group, segmented_by, segment) %>% 
-  rename("Metric Group" = metric_group) %>% 
-  rename("Partition" = segmented_by) %>% 
+metric_list <- utMetrics::df_metrics_indices %>% 
+  select(metric, computation, partition, segment) %>% 
+  arrange(computation, partition, segment) %>% 
+  rename("Computation" = computation) %>% 
+  rename("Partition" = partition) %>% 
   rename("Segment" = segment) %>% 
   unique()
 

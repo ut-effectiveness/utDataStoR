@@ -34,6 +34,7 @@ Headcount is the measure of the net unduplicated number of students enrolled at 
 
 - Census headcount is the net unduplicated number of students enrolled as of the 15th day of instruction of an academic term. Census headcount is based on snapshot data, this headcount returns a static headcount and is used for reporting.
 - End of term headcount is the net unduplicated number of students enrolled at the end of the semester and after the high school concurrent enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
+- Enrollment Funnel Census Headcount tracks the number of students at various stages within the enrollment funnel, categorized by student type and funnel status. It provides a snapshot at Census of how many students are at each stage of expressing interest in the university.
 
 #### Year
 Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for headcount metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data).
@@ -68,8 +69,31 @@ Data is reported by season (Fall, Spring, Summer) and Year. Season and Year toge
 
 150% Graduation Rate tracks a cohort of students, after removing exclusions, for 6 years to see if the student earns a credential within 150% of the degree time (150% for a bachelor degree is 6 years) in a manner similar to IPEDS Graduation Rate. 
 
+There are two submetrics for 150% Graduation Rate:
+
+- **Graduation Rate Bachelors Degree in 4 Years** - tracks a cohort of First-time, Full-time, Bachelor degree seeking Freshman, after removing exclusions, for 6 years to see the percent of students who earned a bachelor degree within 4 years (100% of time).
+- **Graduation Rate Bachelors Degree in 6 Years** - tracks a cohort of First-time, Full-time, Bachelor degree seeking Freshman, after removing exclusions, for 6 years to see the percent of students who earned a bachelor degree within 6 years (150% of time).
+
 #### Year
 Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for 150 percent graduation metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024). The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. 150% graduation rate metrics require 6 years for data to be complete. 150% graduation rate for the Fall 2023 cohort will not be provided until Fall 2029.
+
+
+### Admissions Enrollment Funnel Rates
+
+Admissions Enrollment Funnel Rates are essential components of the university's enrollment process, providing insights into the effectiveness of various stages from initial interest to actual enrollment. They help the university understand and optimize their recruitment and admissions strategies.
+
+There are four submetrics for Admissions Enrollment Funnel Rates
+
+- **Inquiry or Prospect to Applicant Conversion Rate** Measures how well the university converts initial interest into starting applications.
+
+- **Applicant to Admit Conversion Rate** Indicates the selectivity of the admissions process by showing the percentage of completed applications and are now fully admitted..
+
+- **Admit to Committed Conversion Rate** Reflects the university's ability to persuade admitted students to commit to enrolling. These are students who have indicated their intent to enroll.
+
+- **Admit to Enrolled Conversion Rate** Shows the success in converting admitted students into enrolled students, highlighting the effectiveness of follow-up and enrollment processes.
+
+#### Year
+Data is reported by season (Fall, Spring) and Year. Season and Year together is referred to as Term.
 
 ## Sum
 

@@ -2,7 +2,10 @@
 % Please edit documentation in R/display_sql.R
 \name{display_sql_with_comments}
 \alias{display_sql_with_comments}
-\title{Display sql with comments}
+\title{Display sql with comments
+This function returns the content of a specified SQL file, including any comments within
+the file. The function should used within a sql code chunk (\code{sql } ) in R markdown within single back tick.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}}
 \usage{
 display_sql_with_comments(folder, file)
 }
@@ -16,7 +19,8 @@ Must be within quotes.}
 A character string containing the content of the SQL file
 }
 \description{
+Display sql with comments
 This function returns the content of a specified SQL file, including any comments within
 the file. The function should used within a sql code chunk (\code{sql } ) in R markdown within single back tick.
-Please refer to the example section for better understanding.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }

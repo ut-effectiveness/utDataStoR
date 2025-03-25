@@ -2,19 +2,22 @@
 % Please edit documentation in R/helpers.R
 \name{create_sql_dir}
 \alias{create_sql_dir}
-\title{Generate Helper Functions}
+\title{\code{create_sql_dir} will generate the path used to house the sql files based on the context parameter.
+The create_sql_dir function checks if a directory for SQL files exists based on the specified
+context (project, shiny, or sandbox) and creates one if it doesn't. This ensures the correct folder
+structure is set up for different project environments.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}}
 \usage{
 create_sql_dir(context = "project")
 }
 \arguments{
 \item{context}{The context of your project.  Options are: "project", "shiny", or "sandbox".
-If not specified, "project" is used bydefault.}
+If not specified, "project" is used by default.}
 }
 \description{
 \code{create_sql_dir} will generate the path used to house the sql files based on the context parameter.
-}
-\details{
 The create_sql_dir function checks if a directory for SQL files exists based on the specified
 context (project, shiny, or sandbox) and creates one if it doesn't. This ensures the correct folder
 structure is set up for different project environments.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#stable}{\figure{lifecycle-stable.svg}{options: alt='[Stable]'}}}{\strong{[Stable]}}
 }
