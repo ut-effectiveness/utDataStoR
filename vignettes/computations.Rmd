@@ -95,7 +95,6 @@ There are four submetrics for Admissions Enrollment Funnel Rates
 #### Year
 Data is reported by season (Fall, Spring) and Year. Season and Year together is referred to as Term.
 
-
 ## Sum
 
 ### Student FTE - Full-time Equivalent
