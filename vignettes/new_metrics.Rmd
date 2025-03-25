@@ -1,12 +1,22 @@
 ---
-title: "New Metrics"
-author: "andrea"
-date: "2025-03-24"
-output: html_document
+title: New Metrics - utMetrics
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
+vignette: >
+  %\VignetteIndexEntry{utmetrics_naming_metrics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 ```
 
 ## New Metric(s)
@@ -23,7 +33,6 @@ Metrics have several components:
 For a description and examples of these, please see `vignettes/utMetrics.Rmd`.
 
 New metrics require varying degrees of work. The amount of work required for each request will determine how quickly the metrics can be created.
-#todo Should I provide an estimate of how long each level will take? Should I discuss the IE office working on them once a month? Should I mention that the IE office will make the final determination of what level the metric is?
 
 - **Level 1**: A new partition is needed for an existing computation.
 - **Level 2**: A new computation is needed for a similar computation (e.g., the institution has Returned 4th Fall Cohort Retention, but you want to see Returned 5th Fall Cohort Retention).
@@ -41,8 +50,6 @@ To request a new metric, please send a spreadsheet with the following columns to
 - **Notes (Optional)**: Any additional information you want the OIE office to know regarding the metric.
 
 ## For the Analyst
-
-### Spreadsheet
 
 Once you receive the spreadsheet from the requester, ensure it includes the following columns:
 
