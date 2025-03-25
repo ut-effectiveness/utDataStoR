@@ -29,7 +29,7 @@ library(DT)
 Metric names are designed to give a clear understanding of the metric.
 Metric names are derived from components of the Metric.
 
-- Season
+- Season (if applicable)
 - Computation
 - by
 - Partition(s) (if more than one partition they will be hyphenated)
@@ -48,7 +48,7 @@ Metric names are derived from components of the Metric.
  
 ### Example 2: Fall to Fall Comeback Rate by College-Minority::CHASS-Minority
  
-- Season - Fall
+- Season - not applicable
 - Fall to Fall Comeback Rate is the Computation
 - by 
 - College-Minority - College, Minority are the Partitions (hyphenated)
@@ -71,12 +71,7 @@ computations <- utMetrics::df_metrics_indices %>%
   rename("Computation" = computation) %>% 
   unique()
 
-datatable(computations, options = list(
-  dom = 'lftip',  # 'l' adds the length-changing input control
-  columnDefs = list(
-    list(targets = 0, visible = FALSE)
-  )
-))
+datatable(computations)
 ```
 
 ### List of Computations and Partitions
@@ -90,31 +85,20 @@ partitions <- utMetrics::df_metrics_indices %>%
   rename("Partition" = partition) %>% 
   unique()
 
-datatable(partitions, options = list(
-  dom = 'lftip',  # 'l' adds the length-changing input control
-  columnDefs = list(
-    list(targets = 0, visible = FALSE)
-  )
-))
+datatable(partitions)
 ```
 
 ### List of Metrics
-List of Metrics, Computations, Partitions, and Segments
+List of Computations, Partitions, and Segments
 
 ```{r, echo=FALSE}
 metric_list <- utMetrics::df_metrics_indices %>% 
   select(metric, computation, partition, segment) %>% 
   arrange(computation, partition, segment) %>% 
-  rename("Metric" = metric) %>% 
   rename("Computation" = computation) %>% 
   rename("Partition" = partition) %>% 
   rename("Segment" = segment) %>% 
   unique()
 
-datatable(metric_list, options = list(
-  dom = 'lftip',  # 'l' adds the length-changing input control
-  columnDefs = list(
-    list(targets = 0, visible = FALSE)
-  )
-))
+datatable(metric_list)
 ```
