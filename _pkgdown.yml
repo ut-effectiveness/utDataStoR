@@ -3,30 +3,31 @@ template:
   bootstrap: 5
   bootswatch: litera
 navbar:
- components:
-   articles:
-    text: Articles
-    menu:
-    - text: Standard SQL Queries
-    - text: 150 Graduation Rate
-      href: articles/150_percent_graduation_rate.html
-    - text: Cohort
-      href: articles/cohort.html
-    - text: Headcount
-      href: articles/headcount.html
-    - text: Groups
-      href: articles/groups.html
-    - text: FTE
-      href: articles/full_time_equivalent.html
-    - text: Retention
-      href: articles/retention.html
-    - text: Course Class Section
-      href: articles/course_class_section_counts.html
-    - text: -------
-    - text: "Metrics"
-    - text: utMetrics
-      href: articles/utMetrics.html
-    - text: Naming Metrics
-      href: articles/naming_metrics.html
-    - text: Computations
-      href: articles/computations.html
+  components:
+    articles:
+      text: Articles
+      menu:
+        - text: Standard SQL Queries
+          href: articles/standard_sql_queries.html
+        - text: 150 Graduation Rate
+          href: articles/150_percent_graduation_rate.html
+        - text: Cohort
+          href: articles/cohort.html
+        - text: Headcount
+          href: articles/headcount.html
+        - text: Groups
+          href: articles/groups.html
+        - text: FTE
+          href: articles/full_time_equivalent.html
+        - text: Retention
+          href: articles/retention.html
+        - text: Course Class Section
+          href: articles/course_class_section_counts.html
+        - text: -------
+        - text: "Metrics"
+        - text: utMetrics
+          href: articles/utMetrics.html
+        - text: Naming Metrics
+          href: articles/naming_metrics.html
+        - text: Computations
+          href: articles/computations.html

@@ -25,7 +25,7 @@ library(prettydoc)
 ```
 
 
-```{r echo=FALSE, out.width = "55%", fig.align = "center"}
+```{r, message=FALSE, warning=FALSE, echo=FALSE, include=FALSE}
 #Insert an image for cohort
 
 knitr::include_graphics("cohort.png")

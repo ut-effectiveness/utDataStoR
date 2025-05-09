@@ -23,7 +23,7 @@ Follow the steps below to get started:
 
 Once installed, load the package into your R session:
 
-```{r, eval=FALSE}
+```{r, message=FALSE, warning=FALSE, echo=FALSE, include=FALSE}
 library(utHelpR)
 library(utDataStoR)
 ```
