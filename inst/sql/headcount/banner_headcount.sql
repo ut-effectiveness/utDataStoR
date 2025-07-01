@@ -1,6 +1,7 @@
 /*
 Banner Headcount query
 Approved on 20230719
+Approved on 20241204
 This query pulls enrolled students for a specific term (see where a.sfrstcr_term_code =)
 and removes any test students enrolled (see the cte query and the where b.twgrrole IS NULL)
 note that the a.sfrstcr_camp_code is not XXX or ACE
