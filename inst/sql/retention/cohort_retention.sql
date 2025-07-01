@@ -6,6 +6,7 @@
  It pulls data for the current year plus 8 years to go back far enough to pull 5 years of data for returned 4th fall.
  It only includes the 'First-time Freshman Cohort' and  only includes the Fall data to have the data align with IPEDS retention calculations.
  */
+
     SELECT a.student_id,
            a.cohort_start_term_id,
            a.cohort_desc,
