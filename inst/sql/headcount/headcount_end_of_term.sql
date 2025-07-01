@@ -1,5 +1,8 @@
 /*
 End of Term headcount
+Approved on 20241204
+provides term and count of students for the most recent year plus 5 years of data (see where add DATE_PART)
+using the end of term version table (see where a.version_desc = 'End of Term')
 */
 
 SELECT a.term_desc,
@@ -13,3 +16,4 @@ WHERE a.is_enrolled IS TRUE
   AND DATE_PART('year', NOW()) - b.academic_year_code :: INT <= 5 -- Current year plus last 5 years
 GROUP BY a.term_desc
 ORDER BY a.term_desc;
+
