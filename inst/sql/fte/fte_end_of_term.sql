@@ -1,4 +1,5 @@
-/*FTE End of Term
+/*
+FTE End of Term
 Approved on 20250115
 This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled
 for the most recent year plus 5 years of data (see where add DATE_PART)
