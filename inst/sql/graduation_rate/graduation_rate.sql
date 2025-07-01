@@ -1,6 +1,6 @@
 /*
 IPEDS Graduation Rate
-Approved on 20250414
+Approved on 20250416
 This query pulls the data needed to calculate graduation rate data over time and to provide data broken out by various demographics.
  It uses student term cohort as the base table. It is composed of students in the first-time freshman and transfer cohorts.
  It pulls data for the current year plus 10 years to go back far enough to pull 6 year graduation rate.
