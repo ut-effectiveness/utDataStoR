@@ -119,7 +119,7 @@ Data is reported by season (Fall, Spring, Summer) and Year. Season and Year toge
 Full-Time Equivalent (FTE) is the number of students the university would have if all students were attending full-time. It is calculated on student credit hours and course level. FTE for undergraduate students takes the total undergraduate student credit hours and divides it by 15 credit hours. FTE for graduate students takes the total graduate student credit hours and divides it by 10 credit hours.
 
 **Census FTE** is the FTE on the 15th day of instruction of an academic term. Census FTE is based on snapshot data, and is used for reporting.
-**End Of Term FTE** is the FTE at the end of the semester. Census FTE is based on snapshot data, and is used for reporting.
+**End Of Term FTE** is the FTE at the end of the semester. End of Term FTE is based on snapshot data, and is used for reporting.
 
 #### Year 
 Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for FTE metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each FTE metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data).
