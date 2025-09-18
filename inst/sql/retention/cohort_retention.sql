@@ -1,8 +1,12 @@
 /*
- Cohort Retention
- Uses student term cohort table as the base table. Comprises of students in the first-time freshman cohort in the fall semester.
- Includes data to calculate Cohort Retention over time.
+ Edify Cohort Retention
+ Approved on 20250204
+ This query pulls the data needed to calculate cohort retention over time and to provide data broken out by various demographics.
+ It uses the student term cohort table as the base table. It is composed of students in the first-time freshman cohort in the fall semester.
+ It pulls data for the current year plus 8 years to go back far enough to pull 5 years of data for returned 4th fall.
+ It only includes the 'First-time Freshman Cohort' and  only includes the Fall data to have the data align with IPEDS retention calculations.
  */
+
     SELECT a.student_id,
            a.cohort_start_term_id,
            a.cohort_desc,
