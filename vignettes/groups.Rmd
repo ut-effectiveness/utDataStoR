@@ -34,7 +34,7 @@ Groups define the ways students are categorized. These groups can be placed in s
 Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table. This data is doesn't change often, if ever. This data can be pulled as of Current, End of Term or Census.
 
 ## Gender
-Gender is the biological sex on a student's birth certificate. The options are:
+Gender is the biological sex on a student's birth certificate. Unspecified is used if the code is null. The options are:
 
 - Male 
 - Female
@@ -59,12 +59,6 @@ Minority students are those students who are not white, non-resident alien, or u
 - Minority
 - Non-minority
 
-## BIPOC
-BIPOC students are those whose race/ethnicity is black, indigenous, or other people of color (Hispanic, Asian and multiracial). The options are:
-
-- BIPOC
-- non-BIPOC
-
 ## Citizenship
 Citizenship is the student's relationship to the United States. The options are:
 
@@ -86,7 +80,7 @@ Age is how old a student is today (or on the day of the snapshot) based on their
 - 18-24
 - 25-34
 - 35-44
-- 44-59
+- 45-59
 - 60 plus
 
 ## First Generation Student
@@ -98,17 +92,17 @@ A veteran is a student who has served in the armed forces or is receiving vetera
 ## Student Athlete
 A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If the sql output is TRUE then the student is an athlete.
 
-## First Admit Country
-First admit country is the the country listed on the students first application where they were admitted.
+## First Admit County
+First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
 
 ## First Admit State
 First admit state is the the state listed on the students first application where they were admitted. Students who were not in the US get grouped into Foreign State.
 
-## First Admit County
-First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
+## First Admit Country
+First admit country is the the country listed on the students first application where they were admitted.
 
 ## ACT Composite Score
-ACT Composite Score is the student's highest ACT composite score. The Composite score is the average of the four ACT test scores (Math, English, Reading, Science), rounded to the nearest whole number.
+ACT Composite Score is the student's highest ACT composite score. The Composite score is the average of the four ACT test scores (Math, English, Reading, Science), rounded to the nearest whole number. Starting in Sept. 2025, the composite score is an average of three ACT test scores (Math, English, Reading), rounded to the nearest whole number. If the student has not taken the ACT then this field is null.
 
 
 ## SQL for Demographic Groups
