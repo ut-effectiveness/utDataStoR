@@ -34,11 +34,11 @@ Groups define the ways students are categorized. These groups can be placed in s
 Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table. This data is doesn't change often, if ever. This data can be pulled as of Current, End of Term or Census.
 
 ## Gender
-Gender is the biological sex on a student's birth certificate. Unspecified is used if the code is null. The options are:
+Gender is the biological sex on a student's birth certificate. Not Available is used if the code is null. The options are:
 
-- Male 
-- Female
-- Unspecified
+- M - Male 
+- F - Female
+- N - Not Available
 
 ## IPEDS Race/Ethnicity
 IPEDS Race/Ethnicity is data reporting the student's race and ethnicity where the multiracial students are grouped into one category. There are nine options:
@@ -62,13 +62,16 @@ Minority students are those students who are not white, non-resident alien, or u
 ## Citizenship
 Citizenship is the student's relationship to the United States. The options are:
 
-- 1 - US Citizen
-- 2 - Non-Res Alien-Visa or temp bas
-- 3 - Res Alien-immigrant status
-- 4 - Non-Citizen National of US
-- 5 - Non-immigrant Alien 53B-8-106
-- 6 - Deferred Action
-- 9 - Student curr defined as Other
+- 1 - US Citizen - An individual who is a citizen of the United States,
+regardless of how his/her status was acquired.
+- 2 - Non-Res Alien-Visa or temp bas - An individual who is not a citizen or national of the
+United States and who is in this country on a Visa or temporary basis and does not have the right to remain indefinitely.
+- 3 - Res Alien-immigrant status - A person who is not a citizen or national of the United States and who is in the United States and has been granted a special immigrant visa or has applied for or been granted refugee status, humanitarian parole, temporary protected status, asylum status, or permanent resident alien status. This category also includes those with Conditional Entrant Parolee, or Cuban-Haitian Entrant status.
+- 4 - Non-immigrant Alien 53B-8-106 - A person without lawful immigration status who: a) shall file an affidavit with the institution of higher education stating that the student has filed an application to
+legalize his immigration status, or will file an application as soon as he is eligible to do so, b) attended high school in the State of Utah for three or more years, c) graduated from a State of Utah high school or received the equivalent of a high school diploma from the State of Utah, and d) registers as an entering student at an institution of higher education not earlier than the fall of the 2002-2003 academic year. See HB144 (53B-8-106).
+- 5 - Non-Citizen National of US - A person from America Samoa or the Swain Islands.
+- 6 - Deferred Action - Deferred Action for Childhood Arrivals (DACA), a program that provides temporary protection from deportation and work permits to eligible undocumented immigrants.
+- 9 - Student curr defined as Other - Student is currently defined as Other. An individual who is not a citizen or national of the United States and is not in the United States (i.e. non-US student taking all courses outside of the US) should be included here.
 
 ## International Student
 An international student is a student who is from a foreign country (has a citizenship code of Non_Res Alien-Visa) and comes to the US to take classes on a temporary F-1 visa. This is a subset of Non-Resident Alien students (see IPEDS Race/Ethnicity). If the sql output is TRUE then the student is an international student. 
@@ -297,11 +300,15 @@ A Student Athlete is a student who was on the official team roster on or after t
 #missing data
 
 ## Distance Education All
+A Distance Education All student is a student who is enrolled in only distance education courses this term. Distance Education include Online, Interactive Audio/Video, Remote Virtual, Remote Hybrid. If the sql output is TRUE then the student is a distance education all student.
+##missing data
 
 ## Distance Education Some
+A Distance Education Some student is a student who is enrolled in at least one distance education course and at least one face-to-face course this term. Distance Education include Online, Interactive Audio/Video, Remote Virtual, Remote Hybrid. If the sql output is TRUE then the student is a distance education some student.
+#missing data
 
 ## Distance Education None
-
+A Distance Education None student is a student who is enrolled in non distance education courses this term. Non Distance Education courses include  If the sql output is TRUE then the student is a distance education none student.
 
 ## SQL for Term Based Groups
 
