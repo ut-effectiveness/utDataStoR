@@ -178,7 +178,7 @@ Credit load code/desc is the status of a student's time commitment based on how 
    - Graduate students - 9 or more credit hours
 - P - Part-time
    - Undergraduate students - less than 12 credit hours
-   - Graduate students less than 9 credit hours
+   - Graduate students - less than 9 credit hours
 
 ## Tuition Residency
 Tuition Residency code/desc is the official status of student's residence for tuition purposes. The options are:
