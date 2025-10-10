@@ -30,7 +30,7 @@ knitr::include_graphics("150_grad_rate.jpg")
 
 Graduation rates are a key measure of student success and institutional effectiveness. They track the percentage of students in a defined cohort who complete a degree within a specified timeframe. These timeframes are typically expressed as a percentage of the expected time to degree—such as 100%, 150%, or 200%—and vary by credential type (e.g., certificate, associate, or bachelor’s degree). Graduation rates help institutions monitor progress toward completion goals, identify equity gaps, and inform strategic planning. While internal metrics may closely mirror federal reporting standards like IPEDS, they may differ in scope, exclusions, or cohort definitions to better suit institutional needs.
 
-`r display_sql_with_comments('retention', 'cohort_retention.sql')`
+`r display_sql_with_comments('graduation_rate', 'graduation_rate.sql')`
 
 ## 150 Percent Graduation Rate
 
