@@ -100,5 +100,5 @@ Although these two FTE calculations are not expected to match exactly, USHE unof
 Banner FTE is calculated using the same logic as Current FTE, but it is based on data from the Banner system. This sql provides a live count of FTE for a term, which can fluctuate daily and may be adjusted post-semester for changes like withdrawals. For this sql to align with the Current FTE sql, the sql must be run off of the REPT instance of Banner.
 
 ```sql
-`r display_sql_with_comments('fte', 'fte_banner.sql')`
+`r display_sql_with_comments('fte', 'banner_fte.sql')`
 ```
