@@ -70,6 +70,15 @@ The formula for calculating the cohort retention rate is as follows:
 - **Denominator**: The total number of students in the cohort without an exclusion flag.
 - **Numerator**: The number of students from the denominator who were enrolled as of the census date for the return term.
 
+Cohort Retention Metrics include:
+
+- Fall to Fall (first fall to second fall)
+- Returned 3rd Fall (first fall to third fall)
+- Returned 4th Fall (first fall to fourth fall)
+- Returned 1st Spring (first fall to first spring)
+
+Note: The cohort year is the first fall, and the return terms are calculated from that fall term.
+
 $$ \text{Retention Rate} = \frac{\text{Number of Retained Students}}{\text{Total Number of Non-Excluded Students}} $$
 ```sql
 `r display_sql_with_comments('retention', 'cohort_retention.sql')`
