@@ -47,7 +47,7 @@ To see more information about metric names, see `vignette("naming_metrics")`
 
 ### Season and Year (Term)
 
-Metrics are calculated by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The term code (202440) is the term Fall 2024. Season may also be tied to the computation. Sometimes the season, is integrated into the computation name (i.e. Fall to Fall Comeback Rate), which will also have a season of Fall. To see more information about year, see Computations - utMetrics Vignette 
+Metrics are calculated by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The term code (202440) is the term Fall 2024. Season may also be tied to the computation. Sometimes the season, is integrated into the computation name (i.e. Fall to Fall Comeback Rate), which will also have a season of Fall. To see more information about year, see `vignette("computations")` 
 
 | Term | Season | Year |
 | -------: | :------: | :------ |
