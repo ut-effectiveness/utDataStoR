@@ -44,7 +44,6 @@ The Census Headcount is a fixed count of students enrolled by the 15th day of in
 
 The 15th day of instruction aligns with the last day of the term to drop without receiving a "W" grade and is the last day to receive a full refund.
 
-
 ```sql
 `r display_sql_with_comments('headcount', 'headcount_census.sql')`
 ```
@@ -88,3 +87,19 @@ For the sql, see Census Headcount above
 **End of Term**: USHE End of Term Headcount is the net unduplicated number of students enrolled at the end of the semester and after the high school concurrent enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and may be modified to meet USHE reporting element criteria.
 
 For the sql, see End of Term Headcount above
+
+## Banner Headcount
+
+The Banner Headcount is calculated using the same logic as Current Headcount, but is based on data from the Banner system. This sql provides a live count of Headcount for a term, which can fluctuate daily and may be adjusted post-term for changes like withdrawals. For this sql to align with the Current Headcount sql, the sql must be run off of the REPT instance of Banner.
+
+```sql
+`r display_sql_with_comments('headcount', 'banner_headcount.sql')`
+```
+
+### Banner Headcount Details
+
+The Banner Headcount Details uses the same logic as Banner Headcount, but provides unit record data instead of a count from the Banner system. 
+ 
+```sql
+`r display_sql_with_comments('headcount', 'banner_headcount_details.sql')`
+```

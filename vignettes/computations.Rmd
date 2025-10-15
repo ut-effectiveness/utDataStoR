@@ -32,9 +32,15 @@ knitr::include_graphics("mathematic-people-learning-math.jpg")
 ### Headcount
 Headcount is the measure of the net unduplicated number of students enrolled at Utah Tech for a specific period of time.
 
-- Census headcount is the net unduplicated number of students enrolled as of the 15th day of instruction of an academic term. Census headcount is based on snapshot data, this headcount returns a static headcount and is used for reporting.
-- End of term headcount is the net unduplicated number of students enrolled at the end of the semester and after the high school concurrent enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
-- Enrollment Funnel Census Headcount tracks the number of students at various stages within the enrollment funnel, categorized by student type and funnel status. It provides a snapshot at Census of how many students are at each stage of expressing interest in the university.
+- **Census Headcount** is the net unduplicated number of students enrolled as of the 15th day of instruction of an academic term. Census headcount is based on snapshot data, this headcount returns a static headcount and is used for reporting.
+- **End Of Term Headcount** is the net unduplicated number of students enrolled at the end of the semester and after the high school concurrent enrollment grades are entered. Based on snapshot data, this headcount returns a static headcount and is used for reporting.
+<!-- - **Enrollment Funnel Census Headcount** tracks the number of students at various stages within the enrollment funnel, categorized by student type and funnel status. It provides a snapshot at Census of how many students are at each stage of expressing interest in the university. -->
+
+### Section Count
+Sections are a combination of the Subject Code (or course prefix), the course number, and the section number (e.g., MATH1010 01). Each section has only one CRN (course reference number) associated with it, making this the lowest level in the hierarchy of courses, classes and sections.
+
+- **Census Section Count** is the count of sections as of the 15th day of instruction of an academic term. Census section count is based on snapshot data and returns a static section count used for reporting. 
+- **End Of Term Section Count** is the count of sections at the end of the semester. Based on snapshot data, this count returns a static count and is used for reporting.
 
 #### Year
 Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for headcount metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each headcount metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data).
@@ -44,9 +50,9 @@ Data is reported by season (Fall, Spring, Summer) and Year. Season and Year toge
 ### Retention Rates
 Retention is a measure of how many students return to UT. Retention is calculated in 3 ways: cohort retention, come back rate, and return rate.
 
-- **Cohort retention** starts with a cohort of students (a group of students) and tracks if the student re-enrolls (or retains) in each semester and removes exclusions.
-- **Come back rate** looks at the degree seeking students enrolled in each semester and tracks if the student re-enrolls (or comes back) by a given semester and removes exclusions.
-- **Return rate** looks at the degree seeking students enrolled in each semester and tracks if the student re-enrolls (or returns) or completes a credential by a given semester and removes exclusions. 
+- Cohort Retention starts with a cohort of students (a group of students) and tracks if the student re-enrolls (or retains) in each semester and removes exclusions.
+- Come Back Rate looks at the degree seeking students enrolled in each semester and tracks if the student re-enrolls (or comes back) by a given semester and removes exclusions.
+- Return Rate looks at the degree seeking students enrolled in each semester and tracks if the student re-enrolls (or returns) or completes a credential by a given semester and removes exclusions. 
 
 
 |                  | Group of Students                                    | Retention Includes                                           | Retention Excludes |
@@ -55,50 +61,67 @@ Retention is a measure of how many students return to UT. Retention is calculate
 | Come Back Rate   | All degree seeking students                          | Returned the specified semester                              | Exclusions         |
 | Return Rate      | All degree seeking students                          | Returned or completed a credential by the specified semester | Exclusions         |
 
-Retention rates also look at different time periods:
+#### Retention Metrics
 
-- Fall to Spring - Student was enrolled at Fall Census and returned the following Spring term (second semester). For example enrolled in Fall 2020, returned Spring 2021.
-- Fall to Fall - Student was enrolled at Fall Census and returned the following fall term (fall 2). For example enrolled in Fall 2020, returned Fall 2021.
-- Returned 3rd Fall - Student was enrolled at Fall Census and returned in the fall 2 years later (fall 3). For example enrolled in Fall 2020, returned Fall 2022. This is used only for cohort retention.
-- Returned 4th Fall - Student was enrolled at Fall Census and returned in the fall 3 years later (fall 4). For example enrolled in Fall 2020, returned Fall 2023. This is used only for cohort retention.
+There are several metrics associated with retention rates.
+__Cohort Retention__ has the following metrics:
+
+- **Fall to Fall Cohort Retention** - Student was enrolled at Fall Census in the First-time Freshman or Transfer Cohort and returned the following fall term (fall 2). For example enrolled in Fall 2020, returned Fall 2021.
+- **Returned 3rd Fall** - Student was enrolled at Fall Census in the First-time Freshman or Transfer Cohort and returned the 3rd Fall). For example enrolled in Fall 2020, returned Fall 2022.
+- **Returned 4th Fall** - Student was enrolled at Fall Census in the First-time Freshman or Transfer Cohort and returned the 4th Fall). For example enrolled in Fall 2020, returned Fall 2023.
+
+__Come Back Rate__ has the following metrics:
+
+- **Fall to Spring Come Back Rate** - Student was enrolled at Fall Census and returned the following Spring term (second semester). For example enrolled in Fall 2020, returned Spring 2021.
+- **Fall to Fall Come Back Rate** - Student was enrolled at Fall Census and returned the following fall term (fall 2). For example enrolled in Fall 2020, returned Fall 2021.
+
+__Return Rate__ has the following metrics:
+
+- **Fall to Spring Return Rate** - Student was enrolled at Fall Census and returned the following Spring term (second semester). For example enrolled in Fall 2020, returned Spring 2021.
+- **Fall to Fall Return Rate** - Student was enrolled at Fall Census and returned the following fall term (fall 2). For example enrolled in Fall 2020, returned Fall 2021.
 
 #### Year
-Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for retention metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024) or is the term year of the term being measured. The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. If a retention metric needs 3 years to have complete data (returned 4th fall), then the metric will show the most recent complete data (Cohort retention returned 4th fall for the 2023 cohort will not be provided until Fall 2026). 
+Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for retention metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024) or is the term year of the term being measured. The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. If a retention metric needs 3 years to have complete data (returned 4th fall), then the metric will show the most recent complete data (Cohort retention returned 4th fall for the 2020 cohort will not be provided until Fall 2023). 
 
-### 150% Graduation Rate
+### Graduation Rate
 
-150% Graduation Rate tracks a cohort of students, after removing exclusions, for 6 years to see if the student earns a credential within 150% of the degree time (150% for a bachelor degree is 6 years) in a manner similar to IPEDS Graduation Rate. 
+**150 Percent Graduation Rate** tracks a cohort of students (Full-time, Bachelors degree seeking, freshman & Full-time, Associates degree seeking, freshman), after removing exclusions, for 6 years to see if the student earns a credential within 150% of the degree time (150% for a bachelor degree is 6 years) in a manner similar to IPEDS Graduation Rate. 
 
-There are two submetrics for 150% Graduation Rate:
+There are two submetrics for 150 Percent Graduation Rate:
 
-- **Graduation Rate Bachelors Degree in 4 Years** - tracks a cohort of First-time, Full-time, Bachelor degree seeking Freshman, after removing exclusions, for 6 years to see the percent of students who earned a bachelor degree within 4 years (100% of time).
-- **Graduation Rate Bachelors Degree in 6 Years** - tracks a cohort of First-time, Full-time, Bachelor degree seeking Freshman, after removing exclusions, for 6 years to see the percent of students who earned a bachelor degree within 6 years (150% of time).
+- **Graduation Rate Bachelors Degree in 4 Years** - tracks the cohort of Full Time First Time Freshman Bachelor Degree Seeking students, after removing exclusions, for 6 years to see the percent of students who earned a bachelor degree within 4 years (100% of time).
+- **Graduation Rate Bachelors Degree in 6 Years** - tracks the cohort of Full Time First Time Freshman Bachelor Degree Seeking students, after removing exclusions, for 6 years to see the percent of students who earned a bachelor degree within 6 years (150% of time).
+
+**200 Percent Graduation Rate** tracks the cohort of Full Time First Time Freshman Bachelor Degree Seeking students, after removing exclusions, for 8 years to see the percent of students who earned a bachelor degree within 8 years (200% of time) in a manner similar to IPEDS Graduation Rate 200. 
 
 #### Year
 Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for 150 percent graduation metrics is the cohort year tied to the calendar year of the cohort term code (i.e. cohort term code - 202440, Fall 2024, is year 2024). The year is not the reporting year. Each retention metric has the 5 most recent years of data if it is available. 150% graduation rate metrics require 6 years for data to be complete. 150% graduation rate for the Fall 2023 cohort will not be provided until Fall 2029.
 
 
-### Admissions Enrollment Funnel Rates
+<!-- ### Admissions Enrollment Funnel Rates -->
 
-Admissions Enrollment Funnel Rates are essential components of the university's enrollment process, providing insights into the effectiveness of various stages from initial interest to actual enrollment. They help the university understand and optimize their recruitment and admissions strategies.
+<!-- Admissions Enrollment Funnel Rates are essential components of the university's enrollment process, providing insights into the effectiveness of various stages from initial interest to actual enrollment. They help the university understand and optimize their recruitment and admissions strategies. -->
 
-There are four submetrics for Admissions Enrollment Funnel Rates
+<!-- There are four submetrics for Admissions Enrollment Funnel Rates -->
 
-- **Inquiry or Prospect to Applicant Conversion Rate** Measures how well the university converts initial interest into starting applications.
+<!-- - **Inquiry or Prospect to Applicant Conversion Rate** Measures how well the university converts initial interest into starting applications. -->
 
-- **Applicant to Admit Conversion Rate** Indicates the selectivity of the admissions process by showing the percentage of completed applications and are now fully admitted..
+<!-- - **Applicant to Admit Conversion Rate** Indicates the selectivity of the admissions process by showing the percentage of completed applications and are now fully admitted.. -->
 
-- **Admit to Committed Conversion Rate** Reflects the university's ability to persuade admitted students to commit to enrolling. These are students who have indicated their intent to enroll.
+<!-- - **Admit to Committed Conversion Rate** Reflects the university's ability to persuade admitted students to commit to enrolling. These are students who have indicated their intent to enroll. -->
 
-- **Admit to Enrolled Conversion Rate** Shows the success in converting admitted students into enrolled students, highlighting the effectiveness of follow-up and enrollment processes.
+<!-- - **Admit to Enrolled Conversion Rate** Shows the success in converting admitted students into enrolled students, highlighting the effectiveness of follow-up and enrollment processes. -->
 
-#### Year
-Data is reported by season (Fall, Spring) and Year. Season and Year together is referred to as Term.
+<!-- #### Year -->
+<!-- Data is reported by season (Fall, Spring) and Year. Season and Year together is referred to as Term. Each Enrollment Funnel metric has the 5 most recent years of data if it is available. -->
 
 ## Sum
 
 ### Student FTE - Full-time Equivalent
 Full-Time Equivalent (FTE) is the number of students the university would have if all students were attending full-time. It is calculated on student credit hours and course level. FTE for undergraduate students takes the total undergraduate student credit hours and divides it by 15 credit hours. FTE for graduate students takes the total graduate student credit hours and divides it by 10 credit hours.
+
+**Census FTE** is the FTE on the 15th day of instruction of an academic term. Census FTE is based on snapshot data, and is used for reporting.
+**End Of Term FTE** is the FTE at the end of the semester. End of Term FTE is based on snapshot data, and is used for reporting.
 
 #### Year 
 Data is reported by season (Fall, Spring, Summer) and Year. Season and Year together is referred to as Term. The year in the table and graph for FTE metrics is the calendar year of the term code (i.e. term code - 202440, Fall 2024, is year 2024). Each FTE metric has the 5 most recent years of data if it is available (Summer census does not have 5 years of data).

@@ -31,21 +31,21 @@ FTE for undergraduate students takes the total undergraduate student credit hour
 The Current FTE reflects the live count of FTE for a term, which can fluctuate daily and may be adjusted post-semester for changes like withdrawals.
 
 ```sql
-`r display_sql_with_comments('fte', 'fte_total_current.sql')`
+`r display_sql_with_comments('fte', 'fte_current.sql')`
 ```
 
 ## Census FTE
 The Census FTE is a fixed sum of FTE at the 15th day of the term, used for static reporting.
 
 ```sql
-`r display_sql_with_comments('fte', 'fte_total_census.sql')`
+`r display_sql_with_comments('fte', 'fte_census.sql')`
 ```
 
 ## End of Term FTE
 The End of Term FTE is a fixed sum of FTE at the semesters end, used for static reporting.
 
 ```sql
-`r display_sql_with_comments('fte', 'fte_total_end_of_term.sql')`
+`r display_sql_with_comments('fte', 'fte_end_of_term.sql')`
 ```
 
 ## USHE FTE
@@ -82,7 +82,7 @@ IPEDS 12 Month Enrollment FTE is calculated by summing the number of attempted c
 `r display_sql_with_comments('fte', 'fte_ipeds_12_month.sql')`
 ```
 
-## Differences in USHE Annualized FTE and IPEDS 12 Month Enrollment
+### Differences in USHE Annualized FTE and IPEDS 12 Month Enrollment
 
 Due to differences in computation methods and the versions (End of Term v. Census) used for each calculation, the USHE Annualized FTE and IPEDS 12-Month Enrollment FTE will not perfectly align in historical comparisons. Additionally, changes in reporting guidance for USHE and IPEDS over time make it challenging to recreate each previously reported calculation. However, a reasonable comparison can still be made using current guidance computations.
 
@@ -94,3 +94,11 @@ Although these two FTE calculations are not expected to match exactly, USHE unof
 
 2023-24 USHE Annualized EOT FTE is 9054.
 2023-24 IPEDS 12 Month Census FTE is 9046.
+
+## Banner FTE
+
+Banner FTE is calculated using the same logic as Current FTE, but it is based on data from the Banner system. This sql provides a live count of FTE for a term, which can fluctuate daily and may be adjusted post-semester for changes like withdrawals. For this sql to align with the Current FTE sql, the sql must be run off of the REPT instance of Banner.
+
+```sql
+`r display_sql_with_comments('fte', 'banner_fte.sql')`
+```

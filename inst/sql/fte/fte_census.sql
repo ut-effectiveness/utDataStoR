@@ -1,7 +1,12 @@
 /*
-This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled in census versions of courses.
+FTE Census
+Approved on 20250115
+This SQL query calculates Full-Time Equivalent (FTE) values for graduate, undergraduate, and total students enrolled
+for the most recent year plus 5 years of data (see where add DATE_PART)
+in census versions of courses (see where a.version_desc =)
 Does not include any fte for CE - Continuing Education courses
 */
+
 WITH CTE_graduate_fte AS
          (SELECT a.term_id,
                  ROUND(SUM(a.attempted_credits) / 10, 2) as census_graduate_fte

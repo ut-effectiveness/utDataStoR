@@ -1,8 +1,12 @@
 /*
- Term to term retention
- Uses student term outcome as the base table. Includes students enrolled as of census.
- Includes data to calculate Term to Term Retention (both Come Back rate and Return rate).
+ Term to Term Retention
+ Approved on 20250204
+ This query pulls the data needed to calculate term to retention over time (both Come Back rate and Return rate) and to provide data broken out by various demographics.
+ It uses student term outcome as the base table. Includes students enrolled as of census.
+ It is composed of students in the first-time freshman and transfer cohort in the fall semester.
+ It pulls data for the current year plus 5 years.
  */
+
    SELECT a.student_id,
           a.term_id,
           b.term_desc,

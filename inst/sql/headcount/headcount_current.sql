@@ -1,5 +1,8 @@
 /*
 Current headcount
+Approved on 20241204
+provides term and count of students for the most recent year plus 5 years of data (see where add DATE_PART)
+using the current version table (see where a.version_desc = 'Current')
 */
 
 SELECT a.term_desc,

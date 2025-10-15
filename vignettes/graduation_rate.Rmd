@@ -1,0 +1,149 @@
+---
+title: Graduation Rate
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
+vignette: >
+  %\VignetteIndexEntry{Graduation_Rate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo = FALSE}
+library(utDataStoR)
+library(prettydoc)
+```
+
+```{r echo=FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("150_grad_rate.jpg")
+```
+
+Graduation rates are a key measure of student success and institutional effectiveness. They represent the percentage of students in a defined cohort who complete a degree within a specified timeframe. These timeframes are expressed as a percentage of the expected time to degree—such as 100%, 150%, or 200%—and vary by credential type (e.g., certificate, associate, or bachelor’s degree).
+
+Graduation rates help institutions monitor progress toward completion goals, identify equity gaps, and inform strategic planning. While internal metrics often mirror federal reporting standards like IPEDS, they may differ in scope, exclusions, or cohort definitions to better suit institutional needs.
+
+## Cohort
+
+A cohort is a group of students with shared characteristics tracked for reporting purposes. New, degree-seeking students are assigned a cohort when they enter the University, based on census enrollment data. Students fall into one of eight cohorts:
+
+-   Full-time, Bachelors degree seeking, freshman
+-   Full-time, Bachelors degree seeking, transfer
+-   Part-time, Bachelors degree seeking, freshman
+-   Part-time, Bachelors degree seeking, transfer
+-   Full-time, Associates degree seeking, freshman
+-   Full-time, Associates degree seeking, transfer
+-   Part-time, Associates degree seeking, freshman
+-   Part-time, Associates degree seeking, transfer
+
+For information on how cohorts are created: see `vignette("cohort")`
+
+## 150 Percent Graduation Rate
+
+**Definition:**
+150 Percent Graduation Rate measures the percentage of a cohort of students who graduate within 150% of the expected time for their awarded degree. This metric is designed to approximate the IPEDS graduation rate but does not include all nuances of the official IPEDS calculation.
+
+### Calculation
+
+Tracks two cohorts:
+
+-   Full-time, Bachelors degree seeking, freshman
+-   Full-time, Associates degree seeking, freshman
+
+**Steps:**
+
+- Start with the cohort
+- Exclude Spring and Summer cohorts
+- Exclude transfer cohorts
+- Exclude part-time students
+- Remove exclusions
+
+**Denominator:** Number of students meeting the criteria above.
+
+**Numerator:** Number of those students who earned a degree within 150% of time for the degree awarded.
+
+This metric has a 6-year lag for bachelor’s degrees (150% of 4 years = 6 years). For example, students in the Fall 2016 cohort have through Summer 2022 to earn a bachelor’s degree.
+
+### 150% of Time
+
+Students must earn a degree from the start date of their cohort year:
+
+-   Certificate \<= 29 credit hours: within 1 year
+-   Certificate 30-59 credit hours: within 1.5 years
+-   Associate: within 3 years
+-   Bachelor: within 6 years
+
+### Degree Awarded
+
+The metric reports the highest degree earned within 150% of time. If multiple degrees are earned, only the highest within the timeframe is counted. Degrees earned outside the window are excluded.
+
+### Graduation Rate Bachelor Degree in 4 Years
+
+Graduation Rate Bachelor Degree in 4 years is a sub-metric of the 150% Graduation Rate. It is reported in the IPEDS survey. This metric is designed to approximate the IPEDS graduation rate but does not include all nuances of the official IPEDS calculation.
+
+**Cohort:** Full-time, Bachelors degree seeking, freshman  
+
+**Denominator:** Number of students in the cohort without an exclusion flag.
+
+**Numerator:** Number of those students who graduated in 100% of time (within 4 years) with a Bachelors degree.
+
+### Graduation Rate Bachelor Degree in 6 Years
+
+Graduation Rate Bachelor Degree in 6 years is another sub-metric of the 150% Graduation Rate. It is also reported in the IPEDS survey and approximates the official calculation.
+
+**Cohort:** Full-time, Bachelors degree seeking, freshman  
+
+**Denominator:** Number of students in the cohort without an exclusion flag.
+
+**Numerator:** Number of those students who graduated in 150% of time (within 6 years) with a Bachelors degree.
+
+## 200 Percent Graduation Rate
+
+**Definition:**
+200 Percent Graduation Rate measures the percentage of students in a cohort who graduate within 200% of the expected time to degree. This metric provides insight into extended completion timelines and is useful for understanding outcomes for students who face barriers to timely graduation.
+
+Like the 150% metric, this is part of the standard IPEDS Graduation Rate survey.
+
+### Calculation
+
+Tracks one cohort:
+
+-   Full-time, Bachelors degree seeking, freshman
+
+**Steps:**
+
+- Start with the cohort
+- Exclude Spring and Summer cohorts
+- Exclude transfer cohorts
+- Exclude part-time students
+- Exclude associates cohorts
+- Remove exclusions
+
+**Denominator:** Number of students meeting the criteria above.
+
+**Numerator:** Number of those students who earned a degree within 200% of time for the degree awarded.
+
+This metric has an 8-year lag for bachelor’s degrees (200% of 4 years = 8 years). For example, students in the Fall 2016 cohort have through Summer 2024 to earn a bachelor’s degree.
+
+### 200% of Time
+
+-   Bachelor: 8 years
+
+### Degree Awarded
+
+The metric reports the highest degree earned within 200% of time. If multiple degrees are earned, only the highest within the timeframe is counted. Degrees earned outside the window are excluded.
+
+## SQL for Graduation Rate
+
+```sql
+`r display_sql_with_comments('graduation_rate', 'graduation_rate.sql')`
+```
