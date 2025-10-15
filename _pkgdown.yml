@@ -8,7 +8,6 @@ navbar:
       text: Articles
       menu:
         - text: Standard SQL Queries
-          href: articles/standard_sql_queries.html
         - text: Graduation Rate
           href: articles/graduation_rate.html
         - text: Cohort
