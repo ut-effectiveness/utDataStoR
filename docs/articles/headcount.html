@@ -88,19 +88,28 @@ reporting and inquiry.</p>
 detailing the term, date, number of days until term start, and the day’s
 total enrollment headcount.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">/*</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">daily headcount</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="kw">SELECT</span> term_id,</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>       <span class="dt">date</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>       date_part(<span class="st">'week'</span>, <span class="dt">date</span>) <span class="op">-</span> <span class="dv">11</span> <span class="kw">AS</span> week,</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>       days_to_class_start,</span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> student_id) <span class="kw">AS</span> headcount</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="kw">FROM</span> export.daily_enrollment</span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="kw">WHERE</span> is_current_term <span class="kw">IS</span> <span class="kw">TRUE</span> <span class="co">-- Only pulling current term</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>  <span class="kw">AND</span> is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> term_id, <span class="dt">date</span>, days_to_class_start</span>
-<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">date</span> <span class="kw">DESC</span>;</span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">daily point in time headcount</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">Approved on 20250305</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">This query pulls the daily headcount (enrolled students) for the current term</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">(see where is_current_term IS TRUE)</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">The query also provides the date, the week</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">(calculates the interval between each date and the earliest registration start date, converts this interval to seconds, converts the difference from seconds to week),</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">and the days to the start of class</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">(zero is the first day of class, negative days are before class starts, positive counts are after class starts)</span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="kw">SELECT</span> a.term_id,</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>       <span class="dt">date</span>,</span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a>       <span class="fu">CEIL</span>(<span class="fu">EXTRACT</span>(EPOCH <span class="kw">FROM</span> AGE(<span class="dt">date</span>, <span class="fu">MIN</span>(b.registration_start_date) <span class="kw">OVER</span> ())) <span class="op">/</span> (<span class="dv">7</span> <span class="op">*</span> <span class="dv">24</span> <span class="op">*</span> <span class="dv">60</span> <span class="op">*</span> <span class="dv">60</span>)) <span class="kw">AS</span> week_number,</span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>       a.days_to_class_start,</span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> a.student_id) <span class="kw">AS</span> headcount</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a><span class="kw">FROM</span> export.daily_enrollment a</span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="kw">WHERE</span> a.is_current_term <span class="kw">IS</span> <span class="kw">TRUE</span> <span class="co">-- Only pulling current term</span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a>  <span class="kw">AND</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_id, <span class="dt">date</span>, a.days_to_class_start, b.registration_start_date</span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> <span class="dt">date</span> <span class="kw">DESC</span>;</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="current-headcount">Current Headcount<a class="anchor" aria-label="anchor" href="#current-headcount"></a>
@@ -110,19 +119,22 @@ for a term, which can fluctuate daily and may be adjusted post-term for
 changes like withdrawals.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">/*</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">Current headcount</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="kw">SELECT</span> a.term_desc,</span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>       <span class="fu">COUNT</span>(a.student_id) <span class="kw">AS</span> current_headcount</span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Current'</span></span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_desc</span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.term_desc;</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">Approved on 20241204</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">provides term and count of students for the most recent year plus 5 years of data (see where add DATE_PART)</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">using the current version table (see where a.version_desc = 'Current')</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="kw">SELECT</span> a.term_desc,</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>       <span class="fu">COUNT</span>(a.student_id) <span class="kw">AS</span> current_headcount</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Current'</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_desc</span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.term_desc;</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="census-headcount">Census Headcount<a class="anchor" aria-label="anchor" href="#census-headcount"></a>
@@ -134,19 +146,23 @@ drop without receiving a “W” grade and is the last day to receive a full
 refund.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">/*</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">Census/3rd Week headcount</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="kw">SELECT</span> a.term_desc,</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>       <span class="fu">COUNT</span>(a.student_id) <span class="kw">AS</span> census_headcount</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_desc</span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.term_desc;</span></code></pre></div>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">Approved on 20241204</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">provides term and count of students for the most recent year plus 5 years of data (see where add DATE_Part)</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">using the census version table (see where a.version_desc = 'Census')</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="kw">SELECT</span> a.term_desc,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>       <span class="fu">COUNT</span>(a.student_id) <span class="kw">AS</span> census_headcount</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_desc</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.term_desc;</span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="end-of-term-headcount">End of Term Headcount<a class="anchor" aria-label="anchor" href="#end-of-term-headcount"></a>
@@ -156,19 +172,23 @@ including high school concurrent enrollments, providing another static
 figure for reporting.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co">/*</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">End of Term headcount</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">*/</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="kw">SELECT</span> a.term_desc,</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>       <span class="fu">COUNT</span>(a.student_id) <span class="kw">AS</span> eot_headcount</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_desc</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.term_desc;</span></code></pre></div>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">Approved on 20241204</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">provides term and count of students for the most recent year plus 5 years of data (see where add DATE_PART)</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">using the end of term version table (see where a.version_desc = 'End of Term')</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">*/</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="kw">SELECT</span> a.term_desc,</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>       <span class="fu">COUNT</span>(a.student_id) <span class="kw">AS</span> eot_headcount</span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'End of Term'</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">&lt;=</span> <span class="dv">5</span> <span class="co">-- Current year plus last 5 years</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.term_desc</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="kw">ORDER</span> <span class="kw">BY</span> a.term_desc;</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="ipeds-fall-enrollment-headcount">IPEDS Fall Enrollment Headcount<a class="anchor" aria-label="anchor" href="#ipeds-fall-enrollment-headcount"></a>
@@ -187,19 +207,22 @@ census counts of all students enrolled for credit, capturing the full
 scope of instructional activity throughout the year.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">/*</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">IPEDS 12 Month headcount</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="kw">SELECT</span> b.academic_year_code,</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> a.student_id) <span class="co">--unduplicated students over the course of an academic year</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="op">=</span> <span class="kw">TRUE</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="op">=</span> <span class="kw">TRUE</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">=</span> <span class="dv">1</span> <span class="co">-- Last academic year</span></span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  <span class="kw">AND</span> b.season <span class="op">!=</span> <span class="st">'Summer'</span>                                       <span class="co">-- remove summer as per ipeds requirement</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> academic_year_code;</span></code></pre></div>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">Approved on 20250305</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">This query pulls an unduplicated count of enrolled students for the last academic year</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">(this query is typically run in the fall for the previous academic year)</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">using the census version table (see where a.version_desc = 'Census')</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="kw">SELECT</span> b.academic_year_code,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>       <span class="fu">COUNT</span>(<span class="kw">DISTINCT</span> a.student_id) <span class="co">--unduplicated students over the course of an academic year</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="kw">FROM</span> export.student_term_level_version a</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>         <span class="kw">LEFT</span> <span class="kw">JOIN</span> export.term b</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>                   <span class="kw">ON</span> a.term_id <span class="op">=</span> b.term_id</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="kw">WHERE</span> a.is_enrolled <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  <span class="kw">AND</span> a.is_primary_level <span class="kw">IS</span> <span class="kw">TRUE</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="kw">AND</span> a.version_desc <span class="op">=</span> <span class="st">'Census'</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>  <span class="kw">AND</span> DATE_PART(<span class="st">'year'</span>, NOW()) <span class="op">-</span> b.academic_year_code :: <span class="dt">INT</span> <span class="op">=</span> <span class="dv">1</span> <span class="co">-- Last academic year</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> academic_year_code;</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="ushe-headcount">USHE Headcount<a class="anchor" aria-label="anchor" href="#ushe-headcount"></a>
@@ -232,6 +255,79 @@ snapshot data, this headcount returns a static headcount and may be
 modified to meet USHE reporting element criteria.</p>
 <p>For the sql, see End of Term Headcount above</p>
 </div>
+<div class="section level2">
+<h2 id="banner-headcount">Banner Headcount<a class="anchor" aria-label="anchor" href="#banner-headcount"></a>
+</h2>
+<p>The Banner Headcount is calculated using the same logic as Current
+Headcount, but is based on data from the Banner system. This sql
+provides a live count of Headcount for a term, which can fluctuate daily
+and may be adjusted post-term for changes like withdrawals. For this sql
+to align with the Current Headcount sql, the sql must be run off of the
+REPT instance of Banner.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">Banner Headcount query</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">Approved on 20230719</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">Approved on 20241204</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">This query pulls enrolled students for a specific term (see where a.sfrstcr_term_code =)</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">and removes any test students enrolled (see the cte query and the where b.twgrrole IS NULL)</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co">note that the a.sfrstcr_camp_code is not XXX or ACE</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">this query provides an unduplicated count of enrolled students by term</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">this query is the equivalent of Edify headcount current if ran on REPT and for the same term</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="kw">WITH</span> basic_headcount <span class="kw">AS</span> (<span class="kw">SELECT</span> <span class="kw">DISTINCT</span> a.sfrstcr_term_code,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>                                         a.sfrstcr_pidm</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                         <span class="kw">FROM</span> saturn.sfrstcr a</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>                         <span class="kw">WHERE</span> a.sfrstcr_rsts_code <span class="kw">IN</span> (<span class="kw">SELECT</span> a1.stvrsts_code</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>                                                       <span class="kw">FROM</span> saturn.stvrsts a1</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>                                                       <span class="kw">WHERE</span> a1.stvrsts_incl_sect_enrl <span class="op">=</span> <span class="st">'Y'</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>                           <span class="kw">AND</span> (a.sfrstcr_camp_code <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="st">'XXX'</span>, <span class="st">'ACE'</span>))),</span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>     cte_test_users <span class="kw">AS</span> (<span class="kw">SELECT</span> a.twgrrole_pidm,</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>                               a.twgrrole_role</span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>                        <span class="kw">FROM</span> twgrrole a</span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>                        <span class="kw">WHERE</span> a.twgrrole_role <span class="op">=</span> <span class="st">'TESTUSER'</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="kw">SELECT</span> a.sfrstcr_term_code,</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>      <span class="fu">COUNT</span>(a.sfrstcr_pidm)</span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="kw">FROM</span> basic_headcount a</span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> cte_test_users b <span class="kw">ON</span> b.twgrrole_pidm <span class="op">=</span> a.sfrstcr_pidm</span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="kw">WHERE</span> a.sfrstcr_term_code <span class="op">=</span> <span class="st">'202440'</span> <span class="co">-- change to desired term</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="kw">AND</span> b.twgrrole_role <span class="kw">IS</span> <span class="kw">NULL</span> <span class="co">-- removes test users</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="kw">GROUP</span> <span class="kw">BY</span> a.sfrstcr_term_code;</span></code></pre></div>
+<div class="section level3">
+<h3 id="banner-headcount-details">Banner Headcount Details<a class="anchor" aria-label="anchor" href="#banner-headcount-details"></a>
+</h3>
+<p>The Banner Headcount Details uses the same logic as Banner Headcount,
+but provides unit record data instead of a count from the Banner
+system.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sql"><code class="sourceCode sql"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">/*</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">Banner Headcount Details query</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">Approved on 20241204</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">This query pulls enrolled students (pidm) for a specific term (see where a.sfrstcr_term_code =)</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">and removes any test students enrolled (see the cte query and the where b.twgrrole IS NULL)</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">note that the a.sfrstcr_camp_code is not XXX or ACE</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">this query provides a term_code and pidm</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">this query provided the student id that would equal the count that is in Edify headcount current if ran on REPT and for the same term</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="kw">WITH</span> basic_headcount <span class="kw">AS</span> (<span class="kw">SELECT</span> <span class="kw">DISTINCT</span> a.sfrstcr_term_code,</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>                                         a.sfrstcr_pidm</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>                         <span class="kw">FROM</span> saturn.sfrstcr a</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>                         <span class="kw">WHERE</span> a.sfrstcr_rsts_code <span class="kw">IN</span> (<span class="kw">SELECT</span> a1.stvrsts_code</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>                                                       <span class="kw">FROM</span> saturn.stvrsts a1</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>                                                       <span class="kw">WHERE</span> a1.stvrsts_incl_sect_enrl <span class="op">=</span> <span class="st">'Y'</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>                           <span class="kw">AND</span> (a.sfrstcr_camp_code <span class="kw">NOT</span> <span class="kw">IN</span> (<span class="st">'XXX'</span>, <span class="st">'ACE'</span>))),</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>     cte_test_users <span class="kw">AS</span> (<span class="kw">SELECT</span> a.twgrrole_pidm,</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>                               a.twgrrole_role</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>                        <span class="kw">FROM</span> twgrrole a</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>                        <span class="kw">WHERE</span> a.twgrrole_role <span class="op">=</span> <span class="st">'TESTUSER'</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="kw">SELECT</span> a.sfrstcr_term_code,</span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a>       a.sfrstcr_pidm</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="kw">FROM</span> basic_headcount a</span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a><span class="kw">LEFT</span> <span class="kw">JOIN</span> cte_test_users b <span class="kw">ON</span> b.twgrrole_pidm <span class="op">=</span> a.sfrstcr_pidm</span>
+<span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a><span class="kw">WHERE</span> a.sfrstcr_term_code <span class="op">=</span> <span class="st">'202440'</span> <span class="co">-- change to desired term</span></span>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="kw">AND</span> b.twgrrole_role <span class="kw">IS</span> <span class="kw">NULL</span>;  <span class="co">-- removes test users</span></span></code></pre></div>
+</div>
+</div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
@@ -243,7 +339,7 @@ modified to meet USHE reporting element criteria.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>

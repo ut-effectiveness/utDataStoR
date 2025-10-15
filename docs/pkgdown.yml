@@ -1,5 +1,5 @@
-pandoc: '3.2'
-pkgdown: 2.1.1
+pandoc: 3.6.3
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   150_percent_graduation_rate: 150_percent_graduation_rate.html
@@ -7,13 +7,14 @@ articles:
   computations: computations.html
   course_class_section_counts: course_class_section_counts.html
   full_time_equivalent: full_time_equivalent.html
+  graduation_rate: graduation_rate.html
   groups: groups.html
   headcount: headcount.html
   naming_metrics: naming_metrics.html
   retention: retention.html
   utDataStoR: utDataStoR.html
   utMetrics: utMetrics.html
-last_built: 2025-05-09T21:43Z
+last_built: 2025-10-15T16:04Z
 urls:
   reference: https://ut-effectiveness.github.io/utDataStoR/reference
   article: https://ut-effectiveness.github.io/utDataStoR/articles
