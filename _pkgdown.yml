@@ -9,8 +9,8 @@ navbar:
       menu:
         - text: Standard SQL Queries
           href: articles/standard_sql_queries.html
-        - text: 150 Graduation Rate
-          href: articles/150_percent_graduation_rate.html
+        - text: Graduation Rate
+          href: articles/graduation_rate.html
         - text: Cohort
           href: articles/cohort.html
         - text: Headcount
