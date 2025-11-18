@@ -4,7 +4,7 @@ This SQL query calculates IPEDS 12 Month Enrollment FTE.
 -- IPEDS - based on 24 UG and 30 GR And is based on Census
 
 The total attempted credits for UG and GR are summed then divided
-by 24 for Undergraduate and 30 for Graduate to create FTE for
+by 30 for Undergraduate and 24 for Graduate to create FTE for
 each level.
 
 The totals for Undergraduate FTE and Graduate FTE are added together to
