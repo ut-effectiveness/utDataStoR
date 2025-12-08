@@ -1,0 +1,213 @@
+---
+title: Faculty Workload
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
+vignette: >
+  %\VignetteIndexEntry{faculty_workload}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo = FALSE}
+library(utDataStoR)
+library(prettydoc)
+```
+
+```{r echo=FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("faculty.png")
+```
+
+This vignette introduces a proposed set of faculty workload metrics designed to support **consistent and transparent reporting** across academic terms. These metrics focus on **instructional contributions** by faculty, categorized by **role** and **contract type**. They aim to inform workload equity discussions, resource planning, and institutional reporting.
+
+---
+
+## Metrics
+
+The following metrics are included:
+
+1. **Fall Percent of Faculty by Instructional Role::Full-Time Contract**
+
+*Proportion of faculty teaching in the fall term who are employed under full-time contracts.*
+
+ 
+2. **Fall Percent of Credit Hours by Instructional Role::Full-Time Contract**
+
+*Percentage of total student credit hours taught by full-time faculty.*
+
+
+3. **Fall Percent of Credit Hours by Instructional Role::Part-Time Instructor**
+
+*Instructional contribution of part-time instructors based on credit hour delivery.*
+
+ 
+4. **Fall Percent of Credit Hours by Instructional Role::Overload**
+
+*Share of credit hours taught by faculty in an overload capacity.*
+
+Each metric includes a **formal definition** and **R code** for computation to ensure reproducibility.
+
+---
+
+## Data Foundation
+
+The metrics are derived from a unified workload dataset that combines **instructional** and **non-instructional activities** for each instructor during a given term. This dataset distinguishes between:
+
+-   **Student Credit Hours (SCH):** Credit value of a course from the student perspective.
+
+-   **Instructional Credit Hours (ICH):** Instructor’s share of teaching responsibility based on their percentage of responsibility.
+
+### SQL Logic
+
+The query below merges instructional and non-instructional workload sources using a `UNION`, standardizing fields across both. For instructional records, ICH is calculated as:
+
+Non-instructional records retain workload hours but have zero values for credit hours and teaching metrics.
+
+``` sql
+/* This query provides a unified view of faculty workload by combining both
+instructional and non-instructional activities for each instructor during a given term.
+It distinguishes between student-facing metrics and instructor-facing metrics by
+introducing two types of credit hours: student credit hours, which reflect the
+credit value of a course from the student perspective, and instructional credit
+hours, which represent the instructor’s share of teaching responsibility based
+on their percentage of responsibility for the course.
+
+The query uses a UNION to merge data from instructional and non-instructional
+workload sources, standardizing fields across both. For instructional records, it
+calculates instructional credit hours using the
+formula credit_hours_adjusted × (percentage_of_responsibility_adjusted / 100.0),
+while student credit hours are taken directly from the course’s credit value.
+Non-instructional records are included with zero values for credit hours
+and teaching metrics, but retain workload hours for general and
+university-level assignments. The result is a comprehensive dataset
+that supports accurate reporting and analysis of faculty effort across roles,
+departments, and colleges. */
+
+WITH cte_college_abbrv AS (
+    SELECT college_id,
+           college_abbrv
+    FROM export.academic_programs
+)
+
+SELECT a.term_id,
+       a.employee_id,
+       c.first_name || ' ' || c.last_name AS instructor_name,
+       a.non_instructional_type_code || '-' || a.non_instructional_type_desc AS CRS_NIST,
+       0 AS class_size,
+       0 AS student_credit_hours,
+       0 AS instructional_credit_hours,
+       0 AS percent_of_responsibility,
+       contract_type_code,
+       contract_type_desc,
+       CASE
+           WHEN substr(a.position,1,3) IN ('FAC', 'FPT') THEN 'Full-Time Faculty'
+           WHEN substr(a.position,1,3) = 'GOL' THEN 'Overload'
+           ELSE 'Part-Time Instructor (PTI)'
+       END AS instructional_role,
+       b.college_abbrv,
+       a.college_code || ' - ' || a.college_desc AS college,
+       a.department_code || ' - ' || a.department_desc AS department,
+       0 AS instructional_workload,
+       CASE
+           WHEN a.non_instructional_type_code NOT IN ('ATH','FACS','FSEC','FSEN','FYE','HON','URC1','URC2')
+           THEN a.non_instructional_workload
+           ELSE 0
+       END AS non_instructional_workload,
+       CASE
+           WHEN a.non_instructional_type_code IN ('ATH','FACS','FSEC','FSEN','FYE','HON','URC1','URC2')
+           THEN a.non_instructional_workload
+           ELSE 0
+       END AS university_workload
+FROM export.non_instructional_workload a
+LEFT JOIN cte_college_abbrv b ON b.college_id = a.college_code
+LEFT JOIN export.employee c ON a.employee_id = c.employee_id
+WHERE a.non_instructional_workload > 0
+
+UNION
+SELECT term_id,
+       instructor_employee_id AS employee_id,
+       instructor_first_name || ' ' || instructor_last_name AS instructor_name,
+       subject_code || '-' || course_number AS CRS_NIST,
+       round(class_size_adjusted,2) AS class_size,
+       round(credit_hours_adjusted,2) AS student_credit_hours,
+       round(credit_hours_adjusted * (percentage_of_responsibility_adjusted / 100.0), 2) AS instructional_credit_hours,
+       round(percentage_of_responsibility_adjusted,2) AS percent_of_responsibility,
+       contract_type_code,
+       contract_type_desc,
+       CASE
+           WHEN substr(position,1,3) IN ('FAC', 'FPT') THEN 'Full-Time Faculty'
+           WHEN substr(position,1,3) = 'GOL' THEN 'Overload'
+           ELSE 'Part-Time Instructor (PTI)'
+       END AS instructional_role,
+       course_college_abbrv AS college_abbrv,
+       course_college_id || ' - ' || course_college_desc AS college,
+       course_department_id || ' - ' || course_department_desc AS department,
+       instructional_workload AS instructional_workload,
+       0 AS non_instructional_workload,
+       0 AS university_workload
+FROM export.instructional_section_workload
+WHERE is_primary_section = TRUE
+ORDER BY term_id, employee_id, instructional_role;
+```
+
+## Five-Year Fall Term History
+
+To analyze trends, we created a five-year history of **instructional role**, **total SCH**, **total ICH**, and their respective percentages.
+
+```
+five_year_history <- workload_history %>%
+  filter(term_id %in% c('202040', '202140', '202240', '202340', '202440')) %>%
+  select(term_id, instructional_role, student_credit_hours, instructional_credit_hours) %>%
+  mutate(
+    term_label = case_when(
+      term_id == '202040' ~ "Fall 2020",
+      term_id == '202140' ~ "Fall 2021",
+      term_id == '202240' ~ "Fall 2022",
+      term_id == '202340' ~ "Fall 2023",
+      term_id == '202440' ~ "Fall 2024",
+      TRUE ~ term_id
+    )
+  ) %>%
+  group_by(term_label, instructional_role) %>%
+  summarise(
+    total_student_credit_hours = sum(student_credit_hours, na.rm = TRUE),
+    total_instructional_credit_hours = sum(instructional_credit_hours, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  group_by(term_label) %>%
+  mutate(
+    percent_of_total_student_credit_hours = total_student_credit_hours / sum(total_student_credit_hours, na.rm = TRUE),
+    percent_of_total_instructional_credit_hours = total_instructional_credit_hours / sum(total_instructional_credit_hours, na.rm = TRUE),
+    student_percent_label = scales::percent(percent_of_total_student_credit_hours, accuracy = 0.1),
+    instructional_percent_label = scales::percent(percent_of_total_instructional_credit_hours, accuracy = 0.1)
+  ) %>%
+  ungroup()
+```
+
+## Metrics Derived
+
+From this dataframe, we compute:
+
+-   **Percent Metrics**
+
+- Fall Percent of Instructional Credit Hours by Role (Full-Time, PTI, Overload)
+- Fall Percent of Student Credit Hours by Role (Full-Time, PTI, Overload)
+
+-   **Count Metrics**
+
+- Fall Count of Instructional Credit Hours by Instructional Role::Full-Time Contract
+- Fall Count of Instructional Credit Hours by Instructional Role::Part-Time Instructor (PTI)
+- Fall Count of Instructional Credit Hours by Instructional Role::Overload
+- Fall Count of Student Credit Hours by Instructional Role::Full-Time Contract
+- Fall Count of Student Credit Hours by Instructional Role::Part-Time Instructor (PTI)
+- Fall Count of Student Credit Hours by Instructional Role::Overload
