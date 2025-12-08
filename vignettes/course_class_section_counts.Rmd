@@ -30,3 +30,9 @@ Classes are aggregated sections that account for cross-listed and team-taught co
 
 ## Section Counts
 Sections are identified by the combination of the Subject Code (or course prefix), the course number, and the section number (e.g., MATH1010 01). Each section has only one CRN (course reference number) associated with it, making this the lowest level in the hierarchy.
+
+The section counts sql is used to calculate the Census Section Count metric and the End of Term Section Count metric. This allows for detailed analysis of enrollment at the section level by various partitions (dimensions) such as college, department, course level, instructional method, etc..
+
+```sql
+`r display_sql_with_comments('course', 'section_counts.sql')`
+```
