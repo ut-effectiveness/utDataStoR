@@ -1,0 +1,97 @@
+---
+title: "Publish utDataStoR"
+author: "andrea"
+date: "2025-12-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## How to Republish the `utDataStoR` R Package to the GitHub "pkgdown" Site (RStudio Workflow)
+
+These steps guide you through updating the [`ut-effectiveness/utDataStoR`](https://github.com/ut-effectiveness/utDataStoR) pkgdown site using only RStudio.
+
+### Prerequisites
+
+- You have push access to the `ut-effectiveness/utDataStoR` repository.
+- R and RStudio are installed.
+- R packages required: `pkgdown`, `devtools` (and any other package dependencies).
+
+---
+
+### Step 1: Open or Pull the Latest Version of the Project in RStudio
+
+- Open RStudio.
+- Use **File > Open Project** to open your local copy of `utDataStoR`.
+- To update to the latest version, use the **Git** tab and click **Pull** to fetch any new changes.
+
+---
+
+### Step 2: Install Package Dependencies
+
+In the **Console** pane at the bottom of RStudio, run:
+
+```r
+install.packages(c("devtools", "pkgdown"))
+devtools::install_deps(dependencies = TRUE)
+```
+
+---
+
+### Step 3: Build the "pkgdown" Site
+
+In the Console, run:
+
+```r
+pkgdown::build_site()
+```
+
+This will regenerate the documentation website in the `docs/` folder.
+
+---
+
+### Step 4: Review Your Changes
+
+- Use the **Files** pane to explore the new/updated files in the `docs/` directory.
+
+---
+
+### Step 5: Commit and Push Changes from RStudio
+
+1. Go to the **Git** tab in RStudio.
+2. Stage the changes by ticking the box next to modified files (especially any changes in `docs/`).
+3. Write a commit message (e.g., "Update pkgdown site").
+4. Click **Commit**.
+5. Click **Push** to upload your changes to GitHub.
+
+---
+
+### Step 6: Verify GitHub Pages Is Set Up
+
+- Visit your repository on GitHub: https://github.com/ut-effectiveness/utDataStoR
+- Go to **Settings > Pages**
+- Ensure that Pages is set to build from the `/docs` folder on your default branch.
+
+---
+
+### Step 7: View the Updated Site
+
+After a few minutes, check your updated site at:
+`https://ut-effectiveness.github.io/utDataStoR/`
+
+---
+
+### Troubleshooting
+
+- If the documentation does not update, double-check that you have committed and pushed the contents of the `docs/` folder.
+- Ensure `pkgdown::build_site()` runs without errors (consider resolving any missing dependencies).
+- If you see a 404 or blank site, re-check your repository's GitHub Pages settings.
+
+---
+
+### References
+
+- [pkgdown documentation](https://pkgdown.r-lib.org/)
+- [GitHub Pages documentation](https://docs.github.com/en/pages)
