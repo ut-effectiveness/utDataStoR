@@ -31,7 +31,7 @@ knitr::include_graphics("groups.jpg")
 Groups define the ways students are categorized. These groups can be placed in several classifications.
 
 # Demographic Groups
-Data in this classification is collected from the student at the time of their application for admission. This data is stored at the student level, in the student table. This data is doesn't change often, if ever. This data can be pulled as of Current, End of Term or Census.
+Data in this classification is collected from students during their application for admission. It is stored at the student level in the student table and typically remains unchanged over time. This data can be retrieved as of Current, End of Term, or Census. Demographic data generally remains stable and rarely changes.
 
 ## Gender
 Gender is the biological sex on a student's birth certificate. Not Available is used if the code is null. The options are:
@@ -50,7 +50,7 @@ IPEDS Race/Ethnicity is data reporting the student's race and ethnicity where th
 - Hawaiian/Pacific Islander
 - White
 - Multiracial
-- Non-Resident Alien (for those with visa's)
+- Non-Resident Alien (Non-U.S. Citizen on Visa)
 - Unspecified
 
 ## Minority
@@ -66,7 +66,7 @@ Citizenship is the student's relationship to the United States. The options are:
 - 2 - Non-Res Alien-Visa or temp bas - An individual who is not a citizen or national of the United States and who is in this country on a Visa or temporary basis and does not have the right to remain indefinitely.
 - 3 - Res Alien-immigrant status - A person who is not a citizen or national of the United States and who is in the United States and has been granted a special immigrant visa or has applied for or been granted refugee status, humanitarian parole, temporary protected status, asylum status, or permanent resident alien status. This category also includes those with Conditional Entrant Parolee, or Cuban-Haitian Entrant status.
 - 4 - Non-immigrant Alien 53B-8-106 - A person without lawful immigration status who: a) shall file an affidavit with the institution of higher education stating that the student has filed an application to legalize his immigration status, or will file an application as soon as he is eligible to do so, b) attended high school in the State of Utah for three or more years, c) graduated from a State of Utah high school or received the equivalent of a high school diploma from the State of Utah, and d) registers as an entering student at an institution of higher education not earlier than the fall of the 2002-2003 academic year. See HB144 (53B-8-106).
-- 5 - Non-Citizen National of US - A person from America Samoa or the Swain Islands.
+- 5 - Non-Citizen National of US - A person from American Samoa or the Swain Islands.
 - 6 - Deferred Action - Deferred Action for Childhood Arrivals (DACA), a program that provides temporary protection from deportation and work permits to eligible undocumented immigrants.
 - 9 - Student curr defined as Other - Student is currently defined as Other. An individual who is not a citizen or national of the United States and is not in the United States (i.e. non-US student taking all courses outside of the US) should be included here.
 
@@ -93,10 +93,10 @@ A veteran is a student who has served in the armed forces or is receiving vetera
 A student athlete is a student who was EVER on the official team roster on or after the first scheduled contest or date of NCAA competition. If the sql output is TRUE then the student is an athlete.
 
 ## First Admit County
-First admit county is the the county listed on the student first application where they were admitted. Students who were not from Utah get grouped into Out of state, in US; or Out of state, out of US.
+First admit county refers to the county listed on a student’s initial application at the time they were admitted. Students whose first admit county is outside Utah are grouped into one of two categories: Out of state, in US; or Out of state, out of US.
 
 ## First Admit State
-First admit state is the the state listed on the students first application where they were admitted. Students who were not in the US get grouped into Foreign State.
+First admit state refers to the state listed on a student’s initial application at the time they were admitted. Students who were not in the US get grouped into Foreign State.
 
 ## First Admit Country
 First admit country is the the country listed on the students first application where they were admitted.
@@ -109,7 +109,7 @@ ACT Composite Score is the student's highest ACT composite score. The Composite 
 Data in this classification can change each semester and is based on information from the system for this current term such as program, student type, etc. This data is stored at the student term level, in the student_term_level table. This data changes often. This data can be pulled as of Current, End of Term or Census.
 
 ## Degree Seeking Student
-A student is a degree seeking student if the students' primary program leads to a credential. This includes Associate, Bachelor, and Master's students. If the sql output is TRUE then the student is a degree seeking student.
+A student is a degree seeking student if the student's primary program leads to a credential. This includes Associate, Bachelor, and Master's students. If the sql output is TRUE then the student is a degree seeking student.
 
 ## College
 College abbrv/id and desc indicates what college a student belongs to based on the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges (abbreviation/desc). There are eight options: 
@@ -127,19 +127,19 @@ College abbrv/id and desc indicates what college a student belongs to based on t
 Department desc indicates what department a student belongs to based on the primary program the student has declared. Programs are assigned to a department and departments are assigned to colleges.
 
 ## Program
-Program id/desc is the students' declared program of study. Programs are assigned to a department and departments are assigned to colleges. A program code is typically made up of a degree id, and major id and if applicable a concentration id.
+Program id/desc is the student's declared program of study. Programs are assigned to a department and departments are assigned to colleges. A program code is typically made up of a degree id, and major id and if applicable a concentration id.
 
 ## Degree
-Degree id/desc is the degree that is tied to a students' primary program of study.
+Degree id/desc is the degree that is tied to a student's primary program of study.
 
 ## Major
-Major id/desc is the major that is tied to a students' primary program of study.
+Major id/desc is the major that is tied to a student's primary program of study.
 
 ## Concentration
 Concentration id/desc is a specific area of emphasis or specialization in a major chosen by a student. Not all majors have a concentration option, this field may be null.
 
 ## Student Level
-Student level id/desc is the level of the primary degree a student is pursing. The options are: 
+Student level id/desc is the level of the primary degree a student is pursuing. The options are: 
 
 - UG - Undergraduate
 - GR - Graduate
@@ -202,13 +202,13 @@ Global Residency summarizes tuition residency into three categories while also i
 - Out-of-State
 
 ## High School Student
-A High School Student is a student is who is taking a course at Utah Tech University while still attending high school. High school is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a high school student.
+High School Student refers to a student who is taking a course at Utah Tech University while still enrolled in high school. High school students are classified as a subset of Non-Degree-Seeking students. If the sql output returns TRUE, the student is identified as a high school student.
 
 ## Non-Matriculated
-A non-matriculated student is a non-degree-seeking student who is enrolled to per sue personal interests, not a credential. Non-matriculated is a subset of Non-degree-seeking. If the sql output is TRUE then the student is a non-matriculated student.
+A non-matriculated student is a non-degree-seeking student who is enrolled to pursue personal interests rather than a credential. Non-matriculated students are a subset of Non-Degree-Seeking. If the sql output returns TRUE, the student is classified as non-matriculated.
 
 ## Online Program Student
-An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). If the sql output is TRUE then the student is an online program student. This data has was not available in the snapshot until Fall 2023 (202340).
+An Online Program Student is a student who is paying online tuition because they are in an online only program (the program can only be completed online). If the sql output is TRUE then the student is an online program student. This data is not available in the snapshot until Fall 2023 (202340).
 
 ## Overall Cumulative GPA Band
 Overall Cumulative GPA Band displays a student's Overall (both institutional and transfer) Cumulative (across all semesters) GPA. Best used at End of Term. Reported as a grouping: 
@@ -278,7 +278,7 @@ If the sql output is TRUE then the student is a distance education none student.
 
 
 # Course Based Groups
-Data in this classification can change each day and is different each semester. It is based on courses the student is enrolled in. This data is stored at the student term section level, in the student_term_section table. This data is changes often. This data can be pulled as of Current, End of Term or Census.
+Data in this classification can change daily and varies by semester. It is based on the courses in which a student is enrolled and is stored at the student term section level in the student_term_section table. Because enrollment can change frequently, this data is highly dynamic. It can be retrieved as of Current, End of Term, or Census.
 
 ## High School Concurrent Enrollment Student
 A High School Concurrent Enrollment student is a high school student enrolled in at least one funded concurrent enrollment class. High School Concurrent Enrollment students are a subset of High School Students. If a high school student isn't a concurrent enrollment student then the student is a High School Student, Other. If the sql output is TRUE then the student is a high school concurrent enrollment student.
@@ -321,7 +321,7 @@ SELECT a.student_id,
 ```
 
 ## Distance Education Status
-Distance Education Status determines if a students' courses are Distance Education All, Distance Education Some, or Distance Education None. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
+Distance Education Status determines if a student's courses are Distance Education All, Distance Education Some, or Distance Education None. A distance education course uses one or more types of technology to deliver instruction to students who are separated from the instructor and to support regular and substantive interaction between the students and the instructor synchronously or asynchronously.
 
 ## SQL for Distance Education Status
 

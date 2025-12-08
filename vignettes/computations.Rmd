@@ -69,6 +69,7 @@ __Cohort Retention__ has the following metrics:
 - **Fall to Fall Cohort Retention** - Student was enrolled at Fall Census in the First-time Freshman or Transfer Cohort and returned the following fall term (fall 2). For example enrolled in Fall 2020, returned Fall 2021.
 - **Returned 3rd Fall** - Student was enrolled at Fall Census in the First-time Freshman or Transfer Cohort and returned the 3rd Fall). For example enrolled in Fall 2020, returned Fall 2022.
 - **Returned 4th Fall** - Student was enrolled at Fall Census in the First-time Freshman or Transfer Cohort and returned the 4th Fall). For example enrolled in Fall 2020, returned Fall 2023.
+- **Returned 1st Spring** - Student was enrolled at Fall Census in the First-time Freshman or Transfer Cohort and returned the following Spring term (second semester). For example enrolled in Fall 2020, returned Spring 2021.
 
 __Come Back Rate__ has the following metrics:
 

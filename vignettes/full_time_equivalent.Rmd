@@ -62,7 +62,7 @@ Spring End of Term: Counts FTE at the close of the spring semester.
 
 For the sql, see Census FTE above
 
-**End of Term**: USHE End of Term FTE is a calculation the based off of the total number of student credit hours, based on the level of the course at the end of an academic term. Census FTE is based on snapshot data, this FTE returns a status FTE and may be modified to meet USHE reporting element criteria.
+**End of Term**: USHE End of Term FTE is a calculation is based off of the total number of student credit hours, based on the level of the course at the end of an academic term. End of Term FTE is based on snapshot data, this FTE returns a status FTE and may be modified to meet USHE reporting element criteria.
 
 For the sql, see End of Term FTE above
 
