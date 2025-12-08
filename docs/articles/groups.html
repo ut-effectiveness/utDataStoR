@@ -83,10 +83,11 @@ placed in several classifications.</p>
 <div class="section level2">
 <h2 id="demographic-groups">Demographic Groups<a class="anchor" aria-label="anchor" href="#demographic-groups"></a>
 </h2>
-<p>Data in this classification is collected from the student at the time
-of their application for admission. This data is stored at the student
-level, in the student table. This data is doesn’t change often, if ever.
-This data can be pulled as of Current, End of Term or Census.</p>
+<p>Data in this classification is collected from students during their
+application for admission. It is stored at the student level in the
+student table and typically remains unchanged over time. This data can
+be retrieved as of Current, End of Term, or Census. Demographic data
+generally remains stable and rarely changes.</p>
 <div class="section level3">
 <h3 id="gender">Gender<a class="anchor" aria-label="anchor" href="#gender"></a>
 </h3>
@@ -112,7 +113,7 @@ There are nine options:</p>
 <li>Hawaiian/Pacific Islander</li>
 <li>White</li>
 <li>Multiracial</li>
-<li>Non-Resident Alien (for those with visa’s)</li>
+<li>Non-Resident Alien (Non-U.S. Citizen on Visa)</li>
 <li>Unspecified</li>
 </ul>
 </div>
@@ -155,7 +156,7 @@ or received the equivalent of a high school diploma from the State of
 Utah, and d) registers as an entering student at an institution of
 higher education not earlier than the fall of the 2002-2003 academic
 year. See HB144 (53B-8-106).</li>
-<li>5 - Non-Citizen National of US - A person from America Samoa or the
+<li>5 - Non-Citizen National of US - A person from American Samoa or the
 Swain Islands.</li>
 <li>6 - Deferred Action - Deferred Action for Childhood Arrivals (DACA),
 a program that provides temporary protection from deportation and work
@@ -218,16 +219,17 @@ athlete.</p>
 <div class="section level3">
 <h3 id="first-admit-county">First Admit County<a class="anchor" aria-label="anchor" href="#first-admit-county"></a>
 </h3>
-<p>First admit county is the the county listed on the student first
-application where they were admitted. Students who were not from Utah
-get grouped into Out of state, in US; or Out of state, out of US.</p>
+<p>First admit county refers to the county listed on a student’s initial
+application at the time they were admitted. Students whose first admit
+county is outside Utah are grouped into one of two categories: Out of
+state, in US; or Out of state, out of US.</p>
 </div>
 <div class="section level3">
 <h3 id="first-admit-state">First Admit State<a class="anchor" aria-label="anchor" href="#first-admit-state"></a>
 </h3>
-<p>First admit state is the the state listed on the students first
-application where they were admitted. Students who were not in the US
-get grouped into Foreign State.</p>
+<p>First admit state refers to the state listed on a student’s initial
+application at the time they were admitted. Students who were not in the
+US get grouped into Foreign State.</p>
 </div>
 <div class="section level3">
 <h3 id="first-admit-country">First Admit Country<a class="anchor" aria-label="anchor" href="#first-admit-country"></a>
@@ -258,7 +260,7 @@ pulled as of Current, End of Term or Census.</p>
 <div class="section level3">
 <h3 id="degree-seeking-student">Degree Seeking Student<a class="anchor" aria-label="anchor" href="#degree-seeking-student"></a>
 </h3>
-<p>A student is a degree seeking student if the students’ primary
+<p>A student is a degree seeking student if the student’s primary
 program leads to a credential. This includes Associate, Bachelor, and
 Master’s students. If the sql output is TRUE then the student is a
 degree seeking student.</p>
@@ -291,7 +293,7 @@ to a department and departments are assigned to colleges.</p>
 <div class="section level3">
 <h3 id="program">Program<a class="anchor" aria-label="anchor" href="#program"></a>
 </h3>
-<p>Program id/desc is the students’ declared program of study. Programs
+<p>Program id/desc is the student’s declared program of study. Programs
 are assigned to a department and departments are assigned to colleges. A
 program code is typically made up of a degree id, and major id and if
 applicable a concentration id.</p>
@@ -299,13 +301,13 @@ applicable a concentration id.</p>
 <div class="section level3">
 <h3 id="degree">Degree<a class="anchor" aria-label="anchor" href="#degree"></a>
 </h3>
-<p>Degree id/desc is the degree that is tied to a students’ primary
+<p>Degree id/desc is the degree that is tied to a student’s primary
 program of study.</p>
 </div>
 <div class="section level3">
 <h3 id="major">Major<a class="anchor" aria-label="anchor" href="#major"></a>
 </h3>
-<p>Major id/desc is the major that is tied to a students’ primary
+<p>Major id/desc is the major that is tied to a student’s primary
 program of study.</p>
 </div>
 <div class="section level3">
@@ -319,7 +321,7 @@ concentration option, this field may be null.</p>
 <h3 id="student-level">Student Level<a class="anchor" aria-label="anchor" href="#student-level"></a>
 </h3>
 <p>Student level id/desc is the level of the primary degree a student is
-pursing. The options are:</p>
+pursuing. The options are:</p>
 <ul>
 <li>UG - Undergraduate</li>
 <li>GR - Graduate</li>
@@ -444,18 +446,19 @@ while also incorporating international status. The options are:</p>
 <div class="section level3">
 <h3 id="high-school-student">High School Student<a class="anchor" aria-label="anchor" href="#high-school-student"></a>
 </h3>
-<p>A High School Student is a student is who is taking a course at Utah
-Tech University while still attending high school. High school is a
-subset of Non-degree-seeking. If the sql output is TRUE then the student
-is a high school student.</p>
+<p>High School Student refers to a student who is taking a course at
+Utah Tech University while still enrolled in high school. High school
+students are classified as a subset of Non-Degree-Seeking students. If
+the sql output returns TRUE, the student is identified as a high school
+student.</p>
 </div>
 <div class="section level3">
 <h3 id="non-matriculated">Non-Matriculated<a class="anchor" aria-label="anchor" href="#non-matriculated"></a>
 </h3>
 <p>A non-matriculated student is a non-degree-seeking student who is
-enrolled to per sue personal interests, not a credential.
-Non-matriculated is a subset of Non-degree-seeking. If the sql output is
-TRUE then the student is a non-matriculated student.</p>
+enrolled to pursue personal interests rather than a credential.
+Non-matriculated students are a subset of Non-Degree-Seeking. If the sql
+output returns TRUE, the student is classified as non-matriculated.</p>
 </div>
 <div class="section level3">
 <h3 id="online-program-student">Online Program Student<a class="anchor" aria-label="anchor" href="#online-program-student"></a>
@@ -463,8 +466,8 @@ TRUE then the student is a non-matriculated student.</p>
 <p>An Online Program Student is a student who is paying online tuition
 because they are in an online only program (the program can only be
 completed online). If the sql output is TRUE then the student is an
-online program student. This data has was not available in the snapshot
-until Fall 2023 (202340).</p>
+online program student. This data is not available in the snapshot until
+Fall 2023 (202340).</p>
 </div>
 <div class="section level3">
 <h3 id="overall-cumulative-gpa-band">Overall Cumulative GPA Band<a class="anchor" aria-label="anchor" href="#overall-cumulative-gpa-band"></a>
@@ -713,11 +716,11 @@ none student. There is no Distance Education None data prior to Fall
 <div class="section level2">
 <h2 id="course-based-groups">Course Based Groups<a class="anchor" aria-label="anchor" href="#course-based-groups"></a>
 </h2>
-<p>Data in this classification can change each day and is different each
-semester. It is based on courses the student is enrolled in. This data
-is stored at the student term section level, in the student_term_section
-table. This data is changes often. This data can be pulled as of
-Current, End of Term or Census.</p>
+<p>Data in this classification can change daily and varies by semester.
+It is based on the courses in which a student is enrolled and is stored
+at the student term section level in the student_term_section table.
+Because enrollment can change frequently, this data is highly dynamic.
+It can be retrieved as of Current, End of Term, or Census.</p>
 <div class="section level3">
 <h3 id="high-school-concurrent-enrollment-student">High School Concurrent Enrollment Student<a class="anchor" aria-label="anchor" href="#high-school-concurrent-enrollment-student"></a>
 </h3>
@@ -767,7 +770,7 @@ the student is a high school concurrent enrollment student.</p>
 <div class="section level3">
 <h3 id="distance-education-status">Distance Education Status<a class="anchor" aria-label="anchor" href="#distance-education-status"></a>
 </h3>
-<p>Distance Education Status determines if a students’ courses are
+<p>Distance Education Status determines if a student’s courses are
 Distance Education All, Distance Education Some, or Distance Education
 None. A distance education course uses one or more types of technology
 to deliver instruction to students who are separated from the instructor
@@ -936,7 +939,7 @@ options are:</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
