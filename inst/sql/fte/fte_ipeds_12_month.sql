@@ -1,4 +1,5 @@
-/*IPEDS 12 Month Enrollment FTE
+/*
+IPEDS 12 Month Enrollment FTE
    Approved on: 20251119
    This query calculates the fte for both graduate and undergraduate students and then creates a total fte by academic
    year. Graduate FTE is calculated by summing the attempted credits for graduate students and dividing by 24,
@@ -6,6 +7,7 @@
    The final output includes academic year description, academic year code, graduate FTE, undergraduate FTE, and total
    FTE for each academic year.
  */
+
 WITH cte_grad AS (
   /* Calculate graduate FTE based on attempted credits */
   SELECT
