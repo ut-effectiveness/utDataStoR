@@ -30,34 +30,31 @@ knitr::include_graphics("faculty.png")
 
 This vignette introduces a proposed set of faculty workload metrics designed to support **consistent and transparent reporting** across academic terms. These metrics focus on **instructional contributions** by faculty, categorized by **role** and **contract type**. They aim to inform workload equity discussions, resource planning, and institutional reporting.
 
----
+------------------------------------------------------------------------
 
 ## Metrics
 
 The following metrics are included:
 
-1. **Fall Percent of Faculty by Instructional Role::Full-Time Contract**
+1.  **Fall Percent of Faculty by Instructional Role::Full-Time Contract**
 
 *Proportion of faculty teaching in the fall term who are employed under full-time contracts.*
 
- 
-2. **Fall Percent of Credit Hours by Instructional Role::Full-Time Contract**
+2.  **Fall Percent of Credit Hours by Instructional Role::Full-Time Contract**
 
 *Percentage of total student credit hours taught by full-time faculty.*
 
-
-3. **Fall Percent of Credit Hours by Instructional Role::Part-Time Instructor**
+3.  **Fall Percent of Credit Hours by Instructional Role::Part-Time Instructor**
 
 *Instructional contribution of part-time instructors based on credit hour delivery.*
 
- 
-4. **Fall Percent of Credit Hours by Instructional Role::Overload**
+4.  **Fall Percent of Credit Hours by Instructional Role::Overload**
 
 *Share of credit hours taught by faculty in an overload capacity.*
 
 Each metric includes a **formal definition** and **R code** for computation to ensure reproducibility.
 
----
+------------------------------------------------------------------------
 
 ## Data Foundation
 
@@ -164,7 +161,7 @@ ORDER BY term_id, employee_id, instructional_role;
 
 To analyze trends, we created a five-year history of **instructional role**, **total SCH**, **total ICH**, and their respective percentages.
 
-```
+```         
 five_year_history <- workload_history %>%
   filter(term_id %in% c('202040', '202140', '202240', '202340', '202440')) %>%
   select(term_id, instructional_role, student_credit_hours, instructional_credit_hours) %>%
@@ -200,14 +197,20 @@ From this dataframe, we compute:
 
 -   **Percent Metrics**
 
-- Fall Percent of Instructional Credit Hours by Role (Full-Time, PTI, Overload)
-- Fall Percent of Student Credit Hours by Role (Full-Time, PTI, Overload)
+-   Fall Percent of Instructional Credit Hours by Role (Full-Time, PTI, Overload)
+
+-   Fall Percent of Student Credit Hours by Role (Full-Time, PTI, Overload)
 
 -   **Count Metrics**
 
-- Fall Count of Instructional Credit Hours by Instructional Role::Full-Time Contract
-- Fall Count of Instructional Credit Hours by Instructional Role::Part-Time Instructor (PTI)
-- Fall Count of Instructional Credit Hours by Instructional Role::Overload
-- Fall Count of Student Credit Hours by Instructional Role::Full-Time Contract
-- Fall Count of Student Credit Hours by Instructional Role::Part-Time Instructor (PTI)
-- Fall Count of Student Credit Hours by Instructional Role::Overload
+-   Fall Count of Instructional Credit Hours by Instructional Role::Full-Time Contract
+
+-   Fall Count of Instructional Credit Hours by Instructional Role::Part-Time Instructor (PTI)
+
+-   Fall Count of Instructional Credit Hours by Instructional Role::Overload
+
+-   Fall Count of Student Credit Hours by Instructional Role::Full-Time Contract
+
+-   Fall Count of Student Credit Hours by Instructional Role::Part-Time Instructor (PTI)
+
+-   Fall Count of Student Credit Hours by Instructional Role::Overload
