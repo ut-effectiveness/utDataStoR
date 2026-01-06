@@ -6,7 +6,7 @@ output:
     highlight: vignette
     #toc: yes
 vignette: >
-  %\VignetteIndexEntry{graduation}
+  %\VignetteIndexEntry{Graduation}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -37,8 +37,6 @@ focus on **credentials awarded**, disaggregated by **award level,
 academic program**, and **student demographics**, and are intended to
 support institutional reporting, equity analyses, and longitudinal trend
 monitoring.
-
-------------------------------------------------------------------------
 
 ## Metrics
 
@@ -158,68 +156,8 @@ The query below produces a **credential‑level graduation dataset** by
 joining awarded credentials to academic program, term, and student
 demographic data.
 
-``` sql
-
-/* Graduation / Credentials Awarded
-Approved on 20250702
-
-This query provides a single row for every credential awarded.
-If a student earns more than one credential, the student will
-appear more than once. The dataset includes the current graduated
-academic year and the five prior years.
-
-The degrees_awarded table serves as the base population and is joined
-to academic_programs to provide college, department, major, CIP code,
-IPEDS award level, and derived degree type at the time of graduation.
-The term table supplies seasonal context, and the student table
-provides current demographic attributes to support equity and
-completion analyses. */
-
-SELECT a.student_id,
-       a.graduated_term_id,
-       c.season,
-       SUBSTRING(c.term_id, 1, 4) AS year,
-       a.graduation_date,
-       a.graduated_academic_year_code,
-       b.college_id               AS grad_college_id,
-       b.college_desc             AS grad_college_desc,
-       b.college_abbrv            AS grad_college_abbrv,
-       b.department_id            AS grad_department_id,
-       b.department_desc          AS grad_department_desc,
-       a.primary_program_id       AS grad_program_id,
-       a.degree_id                AS grad_degree_id,
-       CASE
-           WHEN b.ipeds_award_level_code IN ('1A', '1B', '2') THEN 'Certificate'
-           WHEN b.ipeds_award_level_code = '3' THEN 'Associate'
-           WHEN b.ipeds_award_level_code = '5' THEN 'Bachelor'
-           WHEN b.ipeds_award_level_code = '7' THEN 'Masters'
-           WHEN b.ipeds_award_level_code = '8' THEN 'Post-master''s certificate'
-           WHEN b.ipeds_award_level_code = '18' THEN 'Doctorate - Professional Practice'
-           ELSE 'error'
-       END AS graduated_degree_type,
-       b.ipeds_award_level_code,
-       b.major_id                 AS grad_major_id,
-       b.major_desc               AS grad_major_desc,
-       b.cip_code                 AS grad_cip_code,
-       a.is_highest_undergraduate_degree_awarded,
-       d.gender_code,
-       d.us_citizenship_code,
-       d.us_citizenship_desc,
-       d.is_international,
-       d.ipeds_race_ethnicity,
-       d.is_first_generation,
-       d.is_veteran,
-       d.is_athlete               AS is_athlete_ever,
-       a.is_graduated
-FROM export.degrees_awarded a
-LEFT JOIN export.academic_programs b
-       ON b.program_id = a.primary_program_id
-LEFT JOIN export.term c
-       ON c.term_id = a.graduated_term_id
-LEFT JOIN export.student d
-       ON d.student_id = a.student_id
-WHERE DATE_PART('year', NOW()) - a.graduated_academic_year_code::INT <= 5
-  AND a.degree_status_code = 'AW';
+```sql
+`r display_sql_with_comments('graduation', 'graduation.sql')`
 ```
 
 ## **Metrics Derived**
