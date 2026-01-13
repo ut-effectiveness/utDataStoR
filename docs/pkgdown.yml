@@ -7,13 +7,14 @@ articles:
   computations: computations.html
   course_class_section_counts: course_class_section_counts.html
   full_time_equivalent: full_time_equivalent.html
+  graduation_rate: graduation_rate.html
   groups: groups.html
   headcount: headcount.html
   naming_metrics: naming_metrics.html
   retention: retention.html
   utDataStoR: utDataStoR.html
   utMetrics: utMetrics.html
-last_built: 2025-02-21T17:24Z
+last_built: 2025-12-11T17:08Z
 urls:
   reference: https://ut-effectiveness.github.io/utDataStoR/reference
   article: https://ut-effectiveness.github.io/utDataStoR/articles
