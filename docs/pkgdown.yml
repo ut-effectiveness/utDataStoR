@@ -11,6 +11,7 @@ articles:
   groups: groups.html
   headcount: headcount.html
   naming_metrics: naming_metrics.html
+  publish_pkgdown: publish_pkgdown.html
   retention: retention.html
   utDataStoR: utDataStoR.html
   utMetrics: utMetrics.html

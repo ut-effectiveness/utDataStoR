@@ -28,6 +28,9 @@ library(prettydoc)
 knitr::include_graphics("150_grad_rate.jpg")
 ```
 
+**STOP**
+This is old, we are now using graduation_rate.Rmd
+
 150 Percent Graduation Rate measures the percentage of a cohort of students who graduate within 150% of time for their awarded degree. This metric is meant to mimic the IPEDS graduation rate, but does not have all of the nuance that the official IPEDS metric does.
 
 ## Cohort
