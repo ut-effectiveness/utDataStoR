@@ -1,0 +1,224 @@
+---
+title: Graduation
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+vignette: >
+  %\VignetteIndexEntry{Graduation}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo = FALSE}
+library(utDataStoR)
+library(prettydoc)
+```
+
+```{r echo=FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("graduation.jpg")
+```
+
+This vignette introduces a standardized set of **graduation and
+credential‑awarded metrics** designed to support **consistent and
+transparent reporting** of student completion outcomes. These metrics
+focus on **credentials awarded**, disaggregated by **award level,
+academic program**, and **student demographics**, and are intended to
+support institutional reporting, equity analyses, and longitudinal trend
+monitoring.
+
+## Metrics
+
+The following metrics are supported by this dataset:
+
+1.  **Total Credentials Awarded**
+
+*Count of all credentials officially awarded within the reporting
+window.*
+
+2.  **Credentials Awarded by Degree Type**
+
+*Distribution of awarded credentials by standardized degree type
+(Certificate, Associate, Bachelor’s, Master’s, Doctorate).*
+
+3.  **Credentials Awarded by College, Department, and Program**
+
+*Counts of credentials awarded, grouped by academic unit and academic
+program at the time of graduation.*
+
+4.  **Unduplicated Graduates**
+
+*Count of distinct students receiving at least one credential during the
+reporting period.*
+
+5.  **Credentials Awarded by Student Demographics**
+
+*Credential counts disaggregated by gender, race/ethnicity, minority
+status, citizenship, first‑generation status, veteran status, athlete
+participation, and age at graduation.*
+
+Each metric is derived from a **credential‑level dataset**, supporting
+both **credential‑level counts** and **student‑level aggregations**,
+depending on the reporting objective.
+
+## Data Foundation
+
+The metrics are derived from a graduation dataset anchored on the
+**Degrees Awarded** table. The dataset provides **one record per awarded
+credential**, ensuring accurate representation of completion outcomes
+when students earn multiple credentials.
+
+**Key characteristics of the dataset include**:
+
+-   **Awarded credentials only** (degree_status_code = 'AW')
+
+-   **Five‑year reporting window** Includes the current graduated
+    academic year and the five prior academic years
+
+-   **Credential‑level grain** Students may appear multiple times if
+    they earn multiple credentials
+
+-   **Academic context tied to the awarded program** Academic
+    attribution reflects the program associated with the credential
+    earned, not the student’s most recent enrollment
+
+## Academic Attributes
+
+Academic context is supplied through a join to the **Academic Programs**
+table and includes:
+
+-   **College and department** identifiers and descriptions
+-   **Academic program** and **major**
+-   **CIP code**
+-   **IPEDS award level**
+-   **Highest undergraduate degree awarded** indicator
+
+A standardized **Graduated Degree Type** is derived from the IPEDS award
+level code to support consistent aggregation:
+
+-   **Certificate**
+-   **Associate**
+-   **Bachelor**
+-   **Post-baccalaureate Certificate**
+-   **Master’s**
+-   **Post‑master’s Certificate**
+-   **Doctorate – Professional Practice**
+
+## Student Demographic Data
+
+Student demographic attributes are sourced from the **Student** table
+and reflect the student’s **current demographic record**.These
+attributes support demographic‑focused graduation analyses and
+institutional reporting.
+
+**Included demographic attributes**:
+
+-   **Gender** (code and derived description)
+-   **U.S. citizenship status and international indicator**
+-   **Race/ethnicity** (IPEDS classification)
+-   **Derived minority designation**
+-   **First‑generation status**
+-   **Veteran status**
+-   **Athlete participation** (ever)
+-   **First admit country, state, and county**
+
+## Graduation Age Bands
+
+Age at graduation is calculated using the student’s **birth date and
+graduation date**, then grouped into standardized bands:
+
+-   **Less than 18**
+-   **18 to 24**
+-   **25 to 34**
+-   **35 to 44**
+-   **45 to 59**
+-   **60 plus**
+
+These bands support population‑level analyses of traditional,
+non‑traditional, and adult learners at credential completion.
+
+------------------------------------------------------------------------
+
+## SQL Logic
+
+The query below produces a **credential‑level graduation dataset** by
+joining awarded credentials to academic program, term, and student
+demographic data.
+
+```sql
+`r display_sql_with_comments('graduation', 'graduation.sql')`
+```
+
+## **Metrics Derived**
+
+From this dataset, the following metric groupings are computed:
+
+### **Credential Counts**
+
+-   Total credentials awarded
+-   Credentials awarded by degree type
+-   Credentials awarded by college, department, program, major, and CIP code
+
+### **Graduate Counts**
+
+-   Unduplicated graduates 
+-   Highest undergraduate degree counts
+
+### **Demographic‑Focused Completion Metrics**
+
+-   Credentials awarded by race/ethnicity and minority status 
+-   Credentials awarded by gender 
+-   Credentials awarded by age at graduation 
+-   Credentials awarded by first‑generation, veteran, international, and athlete status
+
+## **Interpretation Notes**
+
+-   **Credential‑Level Grain** 
+
+Each row represents one awarded credential, not one student. Students earning multiple credentials will appear multiple times. Credential counts should not be interpreted as graduate counts unless explicitly deduplicated.
+
+-   **Unduplicated Graduate Metrics** 
+
+Graduate counts require aggregation to the student level. Failure to deduplicate by student_id may overstate results for students earning multiple credentials.
+
+-   **Current Demographic Snapshot**
+
+Demographic attributes reflect the student’s current record, not a historical snapshot at time of graduation. Updates to student data may affect historical figures.
+
+-   **Academic Attribution**
+
+Academic college, department, program, major, CIP code, and award level reflect the program associated with the awarded credential, ensuring accurate academic attribution.
+
+-   **Degree Type Classification** 
+
+Degree type is derived from IPEDS award level codes and standardized for aggregation. These categories may not fully align with institution‑specific naming conventions.
+
+-   **Five‑Year Reporting Window**
+
+The dataset includes the current graduated academic year plus the prior five academic years. Older years roll out of scope automatically.
+
+-   **Graduation Age Bands**
+
+Age bands are derived for population‑level analysis and should not be interpreted as exact ages.
+
+-   **Highest Undergraduate Degree Flag**
+
+The **is_highest_undergraduate_degree_awarded** flag identifies the highest
+undergraduate credential earned, but does not remove additional
+credentials from the dataset. Explicit filtering is required for
+highest‑degree reporting.
+
+-   **External Reporting Alignment**
+
+While suitable for IPEDS and other external reporting, final published counts may differ due to additional exclusions, cohort logic, or freeze‑date requirements applied downstream.

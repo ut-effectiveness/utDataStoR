@@ -1,0 +1,99 @@
+---
+title: Faculty Workload
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: vignette
+    #toc: yes
+
+vignette: >
+  %\VignetteIndexEntry{faculty_workload}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, echo = FALSE}
+library(utDataStoR)
+library(prettydoc)
+```
+
+```{r echo=FALSE, out.width = "50%", fig.align = "center"}
+knitr::include_graphics("faculty.png")
+```
+
+This vignette introduces a proposed set of faculty workload metrics designed to support **consistent and transparent reporting** across academic terms. These metrics focus on **instructional contributions** by faculty, categorized by **role** and **contract type**. They aim to inform workload equity discussions, resource planning, and institutional reporting.
+
+------------------------------------------------------------------------
+
+## Metrics
+
+The following metrics are included:
+
+1.  **Fall Percent of Faculty by Instructional Role::Full-Time Contract**
+
+*Proportion of faculty teaching in the fall term who are employed under full-time contracts.*
+
+2.  **Fall Percent of Credit Hours by Instructional Role::Full-Time Contract**
+
+*Percentage of total student credit hours taught by full-time faculty.*
+
+3.  **Fall Percent of Credit Hours by Instructional Role::Part-Time Instructor**
+
+*Instructional contribution of part-time instructors based on credit hour delivery.*
+
+4.  **Fall Percent of Credit Hours by Instructional Role::Overload**
+
+*Share of credit hours taught by faculty in an overload capacity.*
+
+Each metric includes a **formal definition** and **R code** for computation to ensure reproducibility.
+
+------------------------------------------------------------------------
+
+## Data Foundation
+
+The metrics are derived from a unified workload dataset that combines **instructional** and **non-instructional activities** for each instructor during a given term. This dataset distinguishes between:
+
+-   **Student Credit Hours (SCH):** Credit value of a course from the student perspective.
+
+-   **Instructional Credit Hours (ICH):** Instructor’s share of teaching responsibility based on their percentage of responsibility.
+
+### SQL Logic
+
+The query below merges instructional and non-instructional workload sources using a `UNION`, standardizing fields across both. For instructional records, ICH is calculated as:
+
+Non-instructional records retain workload hours but have zero values for credit hours and teaching metrics.
+
+```sql
+`r display_sql_with_comments('faculty_workload', 'faculty_workload.sql')`
+```
+
+## Metrics Derived
+
+From this dataframe, we compute:
+
+-   **Percent Metrics**
+
+-   Fall Percent of Instructional Credit Hours by Role (Full-Time, PTI, Overload)
+
+-   Fall Percent of Student Credit Hours by Role (Full-Time, PTI, Overload)
+
+-   **Count Metrics**
+
+-   Fall Count of Instructional Credit Hours by Instructional Role::Full-Time Contract
+
+-   Fall Count of Instructional Credit Hours by Instructional Role::Part-Time Instructor (PTI)
+
+-   Fall Count of Instructional Credit Hours by Instructional Role::Overload
+
+-   Fall Count of Student Credit Hours by Instructional Role::Full-Time Contract
+
+-   Fall Count of Student Credit Hours by Instructional Role::Part-Time Instructor (PTI)
+
+-   Fall Count of Student Credit Hours by Instructional Role::Overload
